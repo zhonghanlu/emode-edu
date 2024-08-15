@@ -1,9 +1,8 @@
 #!/bin
-
 ## service name
 SERVICE_ROOT=$(dirname $(dirname "$PWD"))
 SERVICE_DIR=$(cd $(dirname $0); pwd)
-SERVICE_NAME=emode-app
+SERVICE_NAME=emode-qzbm-app
 JAR_NAME=$SERVICE_NAME\.jar
 PID=$SERVICE_NAME\.pid
 

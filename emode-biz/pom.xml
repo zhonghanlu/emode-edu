@@ -7,7 +7,7 @@
         <version>1.6-SNAPSHOT</version>
     </parent>
 
-    <artifactId>emode-qzbm-biz</artifactId>
+    <artifactId>emode-biz</artifactId>
     <description>核心业务交互层</description>
 
     <dependencies>
