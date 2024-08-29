@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -8,13 +9,20 @@
         <version>1.6-SNAPSHOT</version>
     </parent>
 
-    <artifactId>emode-sys-file</artifactId>
-    <description>系统文件层</description>
+    <artifactId>emode-business-pc</artifactId>
+
+    <description>PC前台</description>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.mini</groupId>
-            <artifactId>emode-common</artifactId>
+            <artifactId>emode-business-pojo</artifactId>
             <version>1.6-SNAPSHOT</version>
         </dependency>
     </dependencies>
