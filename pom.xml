@@ -53,6 +53,7 @@
         <satoken.version>1.37.0</satoken.version>
         <httpclient.version>4.5.14</httpclient.version>
         <sm.crypto.version>0.3.2</sm.crypto.version>
+        <bcprov.jdk15on.version>1.70</bcprov.jdk15on.version>
         <userAgent.version>1.20</userAgent.version>
         <ip2region.version>2.6.4</ip2region.version>
         <netty.version>4.1.97.Final</netty.version>
@@ -246,6 +247,13 @@
                 <groupId>com.antherd</groupId>
                 <artifactId>sm-crypto</artifactId>
                 <version>${sm.crypto.version}</version>
+            </dependency>
+
+            <!-- bcprov-jdk15on -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${bcprov.jdk15on.version}</version>
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/eu.bitwalker/UserAgentUtils -->

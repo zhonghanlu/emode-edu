@@ -194,8 +194,9 @@ token-renew:
 security:
   # 排除路径
   excludes:
-    # 登录接口
+    # 登录注册接口
     - /sys-auth/login
+    - /sys-auth/register
     # knife4j接口文档
     - /favicon.ico
     - /error

@@ -262,7 +262,7 @@ public class SysUserBiz {
 
         AuthUserDTO authUserDTO = AuthUserStructMapper.INSTANCE.reqRegister2Dto(request);
         // 前端传入 sm2 的加密密文
-        String password = SmCryptoUtil.doSm2Decrypt(authUserDTO.getPassword());
+        String password = SmCryptoCacheUtil.doSm2Decrypt(authUserDTO.getPassword());
         // 对密码进行解密做 hash
         authUserDTO.setPassword(SmCryptoUtil.doHashValue(password));
         authUserService.insert(authUserDTO);
