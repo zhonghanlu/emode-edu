@@ -55,6 +55,7 @@
         <sm.crypto.version>0.3.2</sm.crypto.version>
         <userAgent.version>1.20</userAgent.version>
         <ip2region.version>2.6.4</ip2region.version>
+        <netty.version>4.1.97.Final</netty.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -261,6 +262,12 @@
                 <version>${ip2region.version}</version>
             </dependency>
 
+            <!-- netty all -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
