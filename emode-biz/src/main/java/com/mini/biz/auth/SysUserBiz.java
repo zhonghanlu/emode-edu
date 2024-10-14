@@ -29,8 +29,8 @@ import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.model.LoginModel;
 import com.mini.common.model.LoginUser;
 import com.mini.common.utils.LoginUtils;
-import com.mini.common.utils.SmCryptoCacheUtil;
 import com.mini.common.utils.SmCryptoUtil;
+import com.mini.common.utils.SmHutoolUtil;
 import com.mini.common.utils.TreeUtils;
 import com.mini.common.utils.http.ServletUtil;
 import com.mini.common.utils.redis.RedisUtils;
@@ -68,7 +68,7 @@ public class SysUserBiz {
     public void add(AuthUserRequest request) {
         AuthUserDTO authUserDTO = AuthUserStructMapper.INSTANCE.request2Dto(request);
         // 前端传入 sm2 的加密密文
-        String password = SmCryptoUtil.doSm2Decrypt(authUserDTO.getPassword());
+        String password = SmHutoolUtil.sm2DecryptStr(authUserDTO.getPassword());
         // 对密码进行解密做 hash
         authUserDTO.setPassword(SmCryptoUtil.doHashValue(password));
         authUserService.insert(authUserDTO);
@@ -154,7 +154,7 @@ public class SysUserBiz {
         }
 
         // 校验账户密码  sm2解密之后再进行hash，一致则为相同
-        if (ObjectUtils.notEqual(SmCryptoUtil.doHashValue(SmCryptoCacheUtil.doSm2Decrypt(request.getPassword())), authUserDTO.getPassword())) {
+        if (ObjectUtils.notEqual(SmCryptoUtil.doHashValue(SmHutoolUtil.sm2DecryptStr(request.getPassword())), authUserDTO.getPassword())) {
             SysLoginOptDTO dto = SysLoginOptDTO.builder().username(authUserDTO.getUsername())
                     .request(ServletUtil.getRequest())
                     .optType(LoginOptType.LOGIN)
@@ -262,7 +262,7 @@ public class SysUserBiz {
 
         AuthUserDTO authUserDTO = AuthUserStructMapper.INSTANCE.reqRegister2Dto(request);
         // 前端传入 sm2 的加密密文
-        String password = SmCryptoCacheUtil.doSm2Decrypt(authUserDTO.getPassword());
+        String password = SmHutoolUtil.sm2DecryptStr(authUserDTO.getPassword());
         // 对密码进行解密做 hash
         authUserDTO.setPassword(SmCryptoUtil.doHashValue(password));
         authUserService.insert(authUserDTO);
