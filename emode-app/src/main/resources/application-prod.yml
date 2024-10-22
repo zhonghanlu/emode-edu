@@ -194,6 +194,8 @@ token-renew:
 security:
   # 排除路径
   excludes:
+    # 验证码
+    - /sys-captcha/captcha-image
     # 登录注册接口
     - /sys-auth/login
     - /sys-auth/register

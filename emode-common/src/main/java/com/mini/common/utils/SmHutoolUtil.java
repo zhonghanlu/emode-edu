@@ -68,7 +68,7 @@ public class SmHutoolUtil {
 //        String decryptStr = sm2pr.decryptStr(encryptBase64, KeyType.PrivateKey);
 //        System.out.println(decryptStr);
 
-        System.out.println(sm2DecryptStr("e9dd505f20ec72269386a9150f53b8fff1c6075d6bc23c3bf51313a20767fdbcabb5ed22420db2e48f3a7ac10da9392a4984daf7422fdb35e090672ec3e0f3814b5a291a04190bd3fe3f49089507e4da50bedf77a35d4c044ba32c3a97f7332fd6f7b1f4aa47"));
+//        System.out.println(sm2DecryptStr("e9dd505f20ec72269386a9150f53b8fff1c6075d6bc23c3bf51313a20767fdbcabb5ed22420db2e48f3a7ac10da9392a4984daf7422fdb35e090672ec3e0f3814b5a291a04190bd3fe3f49089507e4da50bedf77a35d4c044ba32c3a97f7332fd6f7b1f4aa47"));
 
     }
 
