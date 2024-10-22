@@ -112,6 +112,13 @@ public class AuthPermissionServiceImpl implements IAuthPermissionService {
         return authPermissionMapper.selectPage(query, page);
     }
 
+    @Override
+    public List<AuthPermissionDTO> selectAll() {
+        LambdaQueryWrapper<AuthPermission> wrapper = Wrappers.lambdaQuery(AuthPermission.class);
+        wrapper.eq(AuthPermission::getDelFlag, Delete.NO);
+        return AuthPermissionStructMapper.INSTANCE.entityList2DtoList(authPermissionMapper.selectList(wrapper));
+    }
+
     /**
      * 获取当前节点下的子节点
      */

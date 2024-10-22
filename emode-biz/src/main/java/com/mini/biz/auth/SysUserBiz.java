@@ -2,8 +2,10 @@ package com.mini.biz.auth;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.mini.auth.mapperstruct.AuthPermissionStructMapper;
 import com.mini.auth.mapperstruct.AuthUserRoleStructMapper;
 import com.mini.auth.mapperstruct.AuthUserStructMapper;
+import com.mini.auth.model.dto.AuthPermissionDTO;
 import com.mini.auth.model.dto.AuthUserDTO;
 import com.mini.auth.model.dto.AuthUserDetailDTO;
 import com.mini.auth.model.dto.AuthUserRoleDTO;
@@ -13,14 +15,16 @@ import com.mini.auth.model.request.AuthLoginRequest;
 import com.mini.auth.model.request.AuthRegisterRequest;
 import com.mini.auth.model.request.AuthUserRequest;
 import com.mini.auth.model.request.AuthUserRoleRequest;
-import com.mini.auth.model.vo.AuthPermissionVo;
+import com.mini.auth.model.vo.AuthUserDetailRouterVo;
 import com.mini.auth.model.vo.AuthUserDetailVo;
 import com.mini.auth.model.vo.AuthUserVo;
+import com.mini.auth.service.IAuthPermissionService;
 import com.mini.auth.service.IAuthUserService;
 import com.mini.base.model.dto.SysLoginOptDTO;
 import com.mini.base.service.ISysLoginOptService;
 import com.mini.common.constant.LoginConstant;
 import com.mini.common.constant.RedisConstant;
+import com.mini.common.constant.UserConstant;
 import com.mini.common.enums.str.LoginOptType;
 import com.mini.common.enums.str.UserQueryType;
 import com.mini.common.enums.str.UserType;
@@ -37,7 +41,6 @@ import com.mini.common.utils.redis.RedisUtils;
 import com.mini.core.config.properties.CaptchaProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -60,6 +63,8 @@ public class SysUserBiz {
     private final CaptchaProperties captchaProperties;
 
     private final ISysLoginOptService asyncLoginOptService;
+
+    private final IAuthPermissionService authPermissionService;
 
     /**
      * 新增用户
@@ -104,6 +109,7 @@ public class SysUserBiz {
      * 根据查询类型查询用户详细信息
      */
     public AuthUserDetailVo getUserRolePermissionById(long id, UserQueryType type) {
+        LoginUser loginUser = LoginUtils.getLoginUser();
         AuthUserDetailDTO authUserDetailDTO = new AuthUserDetailDTO();
         switch (type) {
             case ALL:
@@ -122,10 +128,8 @@ public class SysUserBiz {
                 break;
         }
         AuthUserDetailVo authUserDetailVo = AuthUserStructMapper.INSTANCE.dtoDetail2Vo(authUserDetailDTO);
-        List<AuthPermissionVo> authPermissionVoList = authUserDetailVo.getAuthPermissionVoList();
-        if (CollectionUtils.isNotEmpty(authPermissionVoList)) {
-            authUserDetailVo.setAuthPermissionVoList(TreeUtils.build(authPermissionVoList));
-        }
+        authUserDetailVo.setPermissionList(loginUser.getMenuPermission());
+        authUserDetailVo.setRoleList(loginUser.getRolePermission());
         return authUserDetailVo;
     }
 
@@ -223,10 +227,8 @@ public class SysUserBiz {
             authUserDetailDTO = authUserService.getUserRolePermissionById(userId);
         }
         AuthUserDetailVo authUserDetailVo = AuthUserStructMapper.INSTANCE.dtoDetail2Vo(authUserDetailDTO);
-        List<AuthPermissionVo> authPermissionVoList = authUserDetailVo.getAuthPermissionVoList();
-        if (CollectionUtils.isNotEmpty(authPermissionVoList)) {
-            authUserDetailVo.setAuthPermissionVoList(TreeUtils.build(authPermissionVoList));
-        }
+        authUserDetailVo.setPermissionList(loginUser.getMenuPermission());
+        authUserDetailVo.setRoleList(loginUser.getRolePermission());
         return authUserDetailVo;
     }
 
@@ -266,5 +268,20 @@ public class SysUserBiz {
         // 对密码进行解密做 hash
         authUserDTO.setPassword(SmCryptoUtil.doHashValue(password));
         authUserService.insert(authUserDTO);
+    }
+
+    /**
+     * 获取当前登录人的路由信息
+     */
+    public List<AuthUserDetailRouterVo> getUserInfoRouter() {
+        List<AuthUserDetailRouterVo> authUserDetailRouterVoList;
+        Long userId = LoginUtils.getUserId();
+        if (UserConstant.SUPER_ADMIN_ID.equals(userId)) {
+            authUserDetailRouterVoList = AuthPermissionStructMapper.INSTANCE.dtoList2RouterVoList(authPermissionService.selectAll());
+        } else {
+            List<AuthPermissionDTO> authPermissionDTOList = authUserService.getUserPermissionById(userId).getAuthPermissionDTOList();
+            authUserDetailRouterVoList = AuthPermissionStructMapper.INSTANCE.dtoList2RouterVoList(authPermissionDTOList);
+        }
+        return TreeUtils.build(authUserDetailRouterVoList);
     }
 }

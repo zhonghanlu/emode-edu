@@ -5,7 +5,7 @@ import com.mini.common.enums.str.UserType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author zhl
@@ -47,12 +47,12 @@ public class AuthUserDetailVo {
     /**
      * 角色集合
      */
-    @Schema(title = "角色集合")
-    private List<AuthRoleVo> authRoleVoList;
+    @Schema(title = "角色权限")
+    private Set<String> roleList;
     /**
      * 权限集合
      */
-    @Schema(title = "权限集合")
-    private List<AuthPermissionVo> authPermissionVoList;
+    @Schema(title = "菜单权限")
+    private Set<String> permissionList;
 
 }
