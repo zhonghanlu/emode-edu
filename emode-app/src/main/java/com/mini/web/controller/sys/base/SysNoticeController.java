@@ -1,4 +1,4 @@
-package com.mini.web.controller.base;
+package com.mini.web.controller.sys.base;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.base.model.query.SysNoticeQuery;

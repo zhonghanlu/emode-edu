@@ -1,4 +1,4 @@
-package com.mini.web.controller.auth;
+package com.mini.web.controller.sys.auth;
 
 import com.mini.common.annotation.OptLog;
 import com.mini.common.annotation.RateLimiter;

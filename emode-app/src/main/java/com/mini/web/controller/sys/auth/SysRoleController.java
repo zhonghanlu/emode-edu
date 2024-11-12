@@ -1,4 +1,4 @@
-package com.mini.web.controller.auth;
+package com.mini.web.controller.sys.auth;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.auth.model.edit.AuthRoleRelationEdit;
@@ -57,7 +57,7 @@ public class SysRoleController {
     @OptLog
     @Operation(summary = "删除角色信息")
     @PostMapping("/del")
-    public Restful<Void> del(long id) {
+    public Restful<Void> del(Long id) {
         sysRoleBiz.del(id);
         return Restful.SUCCESS().build();
     }

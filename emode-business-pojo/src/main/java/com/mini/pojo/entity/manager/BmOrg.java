@@ -55,9 +55,9 @@ public class BmOrg extends CommonEntity {
     @Schema(name = "机构描述")
     private String orgDescribed;
     /**
-     * 机构状态
+     * 机构状态是否地图注册
      */
-    @Schema(name = "机构状态")
+    @Schema(name = "机构状态,是否地图注册")
     private YesOrNo orgStatus;
     /**
      * 机构负责人A

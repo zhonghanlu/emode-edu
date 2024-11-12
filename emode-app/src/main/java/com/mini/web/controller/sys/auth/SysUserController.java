@@ -1,4 +1,4 @@
-package com.mini.web.controller.auth;
+package com.mini.web.controller.sys.auth;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.auth.model.edit.AuthUserEdit;
@@ -69,7 +69,7 @@ public class SysUserController {
     @OptLog
     @Operation(summary = "用户详情-【废弃，暂不使用】")
     @GetMapping("/user-detail-type/{id}/{type}")
-    public Restful<AuthUserDetailVo> getUserRolePermissionById(@PathVariable("id") long id,
+    public Restful<AuthUserDetailVo> getUserRolePermissionById(@PathVariable("id") Long id,
                                                                @PathVariable("type") UserQueryType type) {
         return Restful.OBJECT(sysUserBiz.getUserRolePermissionById(id, type)).build();
     }

@@ -1,4 +1,4 @@
-package com.mini.web.controller.base;
+package com.mini.web.controller.sys.base;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.base.model.edit.SysConfigEdit;
@@ -41,7 +41,7 @@ public class SysConfigController {
     @OptLog
     @Operation(summary = "删除参数信息")
     @PostMapping("/del")
-    public Restful<Void> del(long id) {
+    public Restful<Void> del(Long id) {
         sysConfigBiz.del(id);
         return Restful.SUCCESS().build();
     }

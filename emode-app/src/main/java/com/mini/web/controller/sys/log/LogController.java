@@ -1,4 +1,4 @@
-package com.mini.web.controller.log;
+package com.mini.web.controller.sys.log;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.base.model.query.SysLoginOptQuery;

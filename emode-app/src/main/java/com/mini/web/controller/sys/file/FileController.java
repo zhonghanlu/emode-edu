@@ -1,4 +1,4 @@
-package com.mini.web.controller.file;
+package com.mini.web.controller.sys.file;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.biz.file.CommonFileBiz;
