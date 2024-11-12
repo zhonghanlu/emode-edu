@@ -50,6 +50,19 @@ public class BmOrgDTO {
      */
     @Schema(name = "机构状态")
     private YesOrNo orgStatus;
-
-
+    /**
+     * 机构负责人A
+     */
+    @Schema(name = "机构负责人A")
+    private String orgHeadA;
+    /**
+     * 机构负责人B
+     */
+    @Schema(name = "机构负责人B")
+    private String orgHeadB;
+    /**
+     * 机构营业执照
+     */
+    @Schema(name = "机构营业执照")
+    private Long orgBusinessLicense;
 }

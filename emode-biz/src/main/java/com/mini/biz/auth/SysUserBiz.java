@@ -22,6 +22,7 @@ import com.mini.auth.service.IAuthPermissionService;
 import com.mini.auth.service.IAuthUserService;
 import com.mini.base.model.dto.SysLoginOptDTO;
 import com.mini.base.service.ISysLoginOptService;
+import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.constant.LoginConstant;
 import com.mini.common.constant.RedisConstant;
 import com.mini.common.constant.UserConstant;
@@ -139,13 +140,13 @@ public class SysUserBiz {
     public LoginModel login(AuthLoginRequest request) {
 
         if (UserType.MINI.equals(request.getUserType())) {
-            throw new EModeServiceException("请键入PC端类型");
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "请键入PC端类型");
         }
 
         // 校验验证码
         if (captchaProperties.isEnabled()) {
             if (Objects.isNull(request.getUuid()) || StringUtils.isBlank(request.getCode())) {
-                throw new EModeServiceException("验证码不能为空");
+                throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "验证码不能为空");
             }
             checkCaptcha(request.getCode(), request.getUuid());
         }
@@ -154,7 +155,7 @@ public class SysUserBiz {
         AuthUserDTO authUserDTO = authUserService.getUserByUsernameAndUserType(request.getUsername(), request.getUserType());
 
         if (Objects.isNull(authUserDTO)) {
-            throw new EModeServiceException("当前登录用户不存在本系统，请先前往注册");
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "当前登录用户不存在本系统，请先前往注册");
         }
 
         // 校验账户密码  sm2解密之后再进行hash，一致则为相同
@@ -166,7 +167,7 @@ public class SysUserBiz {
                     .optMsg(LoginConstant.ACCOUNT_PASSWORD_ERROR)
                     .build();
             asyncLoginOptService.addLoginOptInfo(dto);
-            throw new EModeServiceException("密码错误");
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "密码错误");
         }
 
         // 执行登录逻辑
@@ -206,10 +207,10 @@ public class SysUserBiz {
                 Objects.nonNull(RedisUtils.getCacheObject(redisKey)) ? RedisUtils.getCacheObject(redisKey) : ""
         );
         if (StringUtils.isBlank(cacheCode)) {
-            throw new EModeServiceException("验证码已失效");
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "验证码已失效");
         }
         if (ObjectUtils.notEqual(cacheCode, code)) {
-            throw new EModeServiceException("验证码有误");
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "验证码有误");
         }
     }
 
@@ -259,7 +260,7 @@ public class SysUserBiz {
     public void register(AuthRegisterRequest request) {
 
         if (UserType.MINI.equals(request.getUserType())) {
-            throw new EModeServiceException("暂不支持小程序注册");
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "暂不支持小程序注册");
         }
 
         AuthUserDTO authUserDTO = AuthUserStructMapper.INSTANCE.reqRegister2Dto(request);

@@ -1,7 +1,7 @@
-package com.mini.pc.mapper;
+package com.mini.manager.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mini.pc.entity.BmOrg;
+import com.mini.pojo.entity.manager.BmOrg;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

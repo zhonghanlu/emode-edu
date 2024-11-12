@@ -16,6 +16,7 @@ import com.mini.auth.model.dto.AuthUserDetailDTO;
 import com.mini.auth.model.dto.AuthUserRoleDTO;
 import com.mini.auth.model.query.AuthUserQuery;
 import com.mini.auth.service.IAuthUserService;
+import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.constant.LastSql;
 import com.mini.common.enums.number.Delete;
 import com.mini.common.enums.str.UserType;
@@ -58,14 +59,14 @@ public class AuthUserServiceImpl implements IAuthUserService {
         authUser.setId(IDGenerator.next());
         int b = authUserMapper.insert(authUser);
         if (b <= 0) {
-            throw new EModeServiceException("插入失败");
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "插入失败");
         }
     }
 
     @Override
     public void del(long id) {
         if (id <= 0) {
-            throw new EModeServiceException("参数id有误，id:" + id);
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "参数id有误，id:" + id);
         }
 
         checkUserExist(id);
@@ -77,7 +78,7 @@ public class AuthUserServiceImpl implements IAuthUserService {
         int b1 = authUserMapper.update(updateWrapper);
 
         if (b1 <= 0) {
-            throw new EModeServiceException("刪除错误");
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "刪除错误");
         }
     }
 
@@ -86,7 +87,7 @@ public class AuthUserServiceImpl implements IAuthUserService {
         AuthUser authUser = AuthUserStructMapper.INSTANCE.dto2Entity(dto);
         Long id = authUser.getId();
         if (Objects.isNull(id) || id <= 0) {
-            throw new EModeServiceException("参数id有误，id:" + id);
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "参数id有误，id:" + id);
         }
 
         checkUserExist(id);
@@ -94,7 +95,7 @@ public class AuthUserServiceImpl implements IAuthUserService {
         int b1 = authUserMapper.updateById(authUser);
 
         if (b1 <= 0) {
-            throw new EModeServiceException("更新错误");
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "更新错误");
         }
     }
 
@@ -115,7 +116,7 @@ public class AuthUserServiceImpl implements IAuthUserService {
         // 检查修改用户是否存在
         AuthUser authUser = CommonMybatisUtil.getById(userId, authUserMapper);
         if (Objects.isNull(authUser)) {
-            throw new EModeServiceException("当前修改用户信息不存在");
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "当前修改用户信息不存在");
         }
 
         // 入库,检测之前的角色数据，删除，插入新的
@@ -133,7 +134,7 @@ public class AuthUserServiceImpl implements IAuthUserService {
                     .set(AuthUserRole::getDelFlag, Delete.YES);
             int b = authUserRoleMapper.update(wrapper2);
             if (b <= 0) {
-                throw new EModeServiceException("角色用户关联失败");
+                throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "角色用户关联失败");
             }
         }
 
@@ -144,7 +145,7 @@ public class AuthUserServiceImpl implements IAuthUserService {
             int b1 = authUserRoleMapper.batchInsert(authUserRoleList1);
 
             if (b1 <= 0) {
-                throw new EModeServiceException("角色用户关联插入失败");
+                throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "角色用户关联插入失败");
             }
         }
     }
@@ -212,7 +213,7 @@ public class AuthUserServiceImpl implements IAuthUserService {
     private void checkUserExist(long id) {
         boolean b = CommonMybatisUtil.isExistById(id, authUserMapper);
         if (!b) {
-            throw new EModeServiceException("用户不存在,id:" + id);
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "用户不存在,id:" + id);
         }
     }
 
@@ -228,7 +229,7 @@ public class AuthUserServiceImpl implements IAuthUserService {
             authRoleList = authRoleMapper.selectList(wrapper);
 
             if (authRoleList.size() != roleIdList.size()) {
-                throw new EModeServiceException("当前角色id部分不存在");
+                throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前角色id部分不存在");
             }
         }
         return authRoleList;
@@ -264,7 +265,7 @@ public class AuthUserServiceImpl implements IAuthUserService {
                 .last(LastSql.LIMIT_ONE);
         AuthUser authUser1 = authUserMapper.selectOne(wrapper);
         if (Objects.nonNull(authUser1)) {
-            throw new EModeServiceException("当前用户名已经注册");
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前用户名已经注册");
         }
     }
 }

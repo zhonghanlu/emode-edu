@@ -1,4 +1,4 @@
-package com.mini.pc.entity;
+package com.mini.pojo.entity.manager;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -59,4 +59,19 @@ public class BmOrg extends CommonEntity {
      */
     @Schema(name = "机构状态")
     private YesOrNo orgStatus;
+    /**
+     * 机构负责人A
+     */
+    @Schema(name = "机构负责人A")
+    private String orgHeadA;
+    /**
+     * 机构负责人B
+     */
+    @Schema(name = "机构负责人B")
+    private String orgHeadB;
+    /**
+     * 机构营业执照
+     */
+    @Schema(name = "机构营业执照")
+    private Long orgBusinessLicense;
 }

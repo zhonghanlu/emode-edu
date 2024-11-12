@@ -1,4 +1,4 @@
-package com.mini.pc.service;
+package com.mini.manager.service;
 
 import com.mini.pojo.model.dto.BmOrgDTO;
 
