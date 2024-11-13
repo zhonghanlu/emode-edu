@@ -248,13 +248,14 @@ spring-doc:
   api-docs:
     path: /v3/api-docs
   group-configs:
-    - group: 'pc管理端-基础功能'
+    - group: 'pc管理端-系统功能'
       paths-to-match: '/**'
       packages-to-scan:
-        - com.mini.web.controller.auth
-        - com.mini.web.controller.file
-        - com.mini.web.controller.log
-        - com.mini.web.controller.base
+        - com.mini.web.controller.sys
+    - group: 'pc管理端-业务功能'
+      paths-to-match: '/**'
+      packages-to-scan:
+        - com.mini.web.controller.manager
 
 # knife4j configuration   http://127.0.0.1:18099/doc.html  OpenAPI3 语法
 knife4j:

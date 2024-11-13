@@ -1,6 +1,8 @@
 package com.mini.biz.manager;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.mini.file.model.dto.SysFileDTO;
+import com.mini.file.service.ISysFileService;
 import com.mini.manager.service.BmOrgService;
 import com.mini.pojo.mapper.BmOrgStructMapper;
 import com.mini.pojo.model.dto.BmOrgDTO;
@@ -11,6 +13,8 @@ import com.mini.pojo.model.vo.BmOrgVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 /**
  * @author zhl
@@ -23,6 +27,7 @@ public class BmOrgBiz {
 
     private final BmOrgService bmOrgService;
 
+    private final ISysFileService sysFileService;
 
     /**
      * 分页
@@ -36,7 +41,19 @@ public class BmOrgBiz {
      * 获取当条机构详情
      */
     public BmOrgVo getBmOrgById(Long id) {
-        return BmOrgStructMapper.INSTANCE.dto2Vo(bmOrgService.selectById(id));
+        BmOrgDTO bmOrgDTO = bmOrgService.selectById(id);
+
+        if (Objects.isNull(bmOrgDTO)) {
+            return null;
+        }
+
+        SysFileDTO sysFileDTO = sysFileService.getById(bmOrgDTO.getOrgBusinessLicense());
+
+        if (Objects.nonNull(sysFileDTO)) {
+            bmOrgDTO.setOrgBusinessLicenseUrl(sysFileDTO.getFileUrl());
+        }
+
+        return BmOrgStructMapper.INSTANCE.dto2Vo(bmOrgDTO);
     }
 
     /**

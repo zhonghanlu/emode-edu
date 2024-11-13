@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mini.manager.mapper.BmOrgMapper">
-    <resultMap type="com.mini.pojo.entity.manager.BmOrg" id="BmOrgMap">
+    <resultMap type="com.mini.pojo.model.dto.BmOrgDTO" id="BmOrgMap">
         <result property="id" column="id"/>
         <result property="orgName" column="org_name"/>
         <result property="orgAddress" column="org_address"/>
@@ -10,40 +10,33 @@
         <result property="orgLatitude" column="org_latitude"/>
         <result property="orgDescribed" column="org_described"/>
         <result property="orgStatus" column="org_status"/>
-        <result property="orgHeadA" column="org_headA"/>
-        <result property="orgHeadB" column="org_headB"/>
+        <result property="orgHeadA" column="org_head_a"/>
+        <result property="orgHeadB" column="org_head_b"/>
         <result property="orgBusinessLicense" column="org_business_license"/>
-        <result property="createTime" column="create_time"/>
-        <result property="createBy" column="create_by"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="updateBy" column="update_by"/>
-        <result property="delFlag" column="del_flag"/>
+        <result property="orgBusinessLicenseUrl" column="orgBusinessLicenseUrl"/>
     </resultMap>
 
     <select id="page" resultMap="BmOrgMap">
-        SELECT id,
-        org_name,
-        org_address,
-        org_longitude,
-        org_latitude,
-        org_described,
-        org_status,
-        org_headA,
-        org_headB,
-        org_business_license,
-        create_time,
-        create_by,
-        update_time,
-        update_by,
-        del_flag
-        FROM bm_org
+        SELECT bm.id,
+        bm.org_name,
+        bm.org_address,
+        bm.org_longitude,
+        bm.org_latitude,
+        bm.org_described,
+        bm.org_status,
+        bm.org_head_a,
+        bm.org_head_b,
+        bm.org_business_license,
+        sf.file_url AS orgBusinessLicenseUrl
+        FROM bm_org bm
+        LEFT JOIN sys_file sf ON bm.org_business_license = sf.id AND sf.del_flag = 1
         <where>
-            del_flag = 1
+            bm.del_flag = 1
             <if test="query.orgName != null and query.orgName != '' ">
-                AND org_name LIKE CONCAT('%',#{query.orgName},'%')
+                AND bm.org_name LIKE CONCAT('%',#{query.orgName},'%')
             </if>
             <if test="query.orgStatus != null">
-                AND org_status = #{query.orgStatus}
+                AND bm.org_status = #{query.orgStatus}
             </if>
         </where>
     </select>

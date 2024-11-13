@@ -36,6 +36,7 @@ public class BmOrgServiceImpl extends ServiceImpl<BmOrgMapper, BmOrg> implements
         BmOrg bmOrg = BmOrgStructMapper.INSTANCE.dto2Entity(dto);
 
         bmOrg.setId(IDGenerator.next());
+        bmOrg.setDelFlag(Delete.NO);
         if (Objects.isNull(bmOrg.getOrgStatus())) {
             bmOrg.setOrgStatus(YesOrNo.NO);
         }
