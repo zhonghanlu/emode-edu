@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.manager.mapper.BmClassroomMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmClassroomDTO">
+        <id column="id" property="id"/>
+        <result column="room_name" property="roomName"/>
+        <result column="room_status" property="roomStatus"/>
+        <result column="room_size" property="roomSize"/>
+    </resultMap>
+
+    <select id="page" resultMap="BaseResultMap">
+        SELECT id,
+        room_name,
+        room_status,
+        room_size
+        FROM bm_classroom
+        <where>
+            del_flag = 1
+            <if test="query.roomName != null and query.roomName != '' ">
+                AND room_name LIKE CONCAT('%',#{query.roomName},'%')
+            </if>
+            <if test="query.roomStatus != null">
+                AND room_status = #{query.roomStatus}
+            </if>
+            <if test="query.roomSize != null">
+                AND room_size &gt;= #{query.roomSize}
+            </if>
+        </where>
+    </select>
+
+</mapper>

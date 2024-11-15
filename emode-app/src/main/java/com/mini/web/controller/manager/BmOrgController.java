@@ -33,14 +33,14 @@ public class BmOrgController {
 
     @Operation(summary = "机构分页")
     @GetMapping("/page")
-    public Restful<IPage<BmOrgVo>> rolePage(@ParameterObject BmOrgQuery query) {
+    public Restful<IPage<BmOrgVo>> page(@ParameterObject BmOrgQuery query) {
         return Restful.OBJECT(bmOrgBiz.page(query)).build();
     }
 
     @Operation(summary = "机构详情")
     @GetMapping("/detail/{orgId}")
-    public Restful<BmOrgVo> getRoleById(@PathVariable("orgId") Long id) {
-        return Restful.OBJECT(bmOrgBiz.getBmOrgById(id)).build();
+    public Restful<BmOrgVo> getDetailById(@PathVariable("orgId") Long id) {
+        return Restful.OBJECT(bmOrgBiz.getEntityById(id)).build();
     }
 
     @Operation(summary = "新增机构信息")

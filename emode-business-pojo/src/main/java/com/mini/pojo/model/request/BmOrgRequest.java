@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
  * @author zhl
  * @create 2024/11/12 17:24
  */
+@Schema(description = "机构请求")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class BmOrgRequest {

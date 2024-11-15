@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.manager.mapper.BmStudentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmStudentDTO">
+        <id column="id" property="id"/>
+        <result column="stu_name" property="stuName"/>
+        <result column="stu_sex" property="stuSex"/>
+        <result column="stu_birth" property="stuBirth"/>
+        <result column="stu_cur_school" property="stuCurSchool"/>
+        <result column="stu_cur_grade" property="stuCurGrade"/>
+    </resultMap>
+
+    <select id="page" resultMap="BaseResultMap">
+        SELECT id,
+        stu_name,
+        stu_sex,
+        stu_birth,
+        stu_cur_school,
+        stu_cur_grade
+        FROM bm_student
+        <where>
+            del_flag = 1
+            <if test="query.stuName != null and query.stuName != '' ">
+                AND stu_name LIKE CONCAT('%',#{query.stuName},'%')
+            </if>
+            <if test="query.stuSex != null">
+                AND stu_sex = #{query.stuSex}
+            </if>
+            <if test="query.stuBirth != null">
+                AND stu_birth &gt;= #{query.stuBirth}
+            </if>
+            <if test="query.stuCurSchool != null and query.stuCurSchool != '' ">
+                AND stu_cur_school = #{query.stuCurSchool}
+            </if>
+            <if test="query.stuCurGrade != null and query.stuCurGrade != '' ">
+                AND stu_cur_grade = #{query.stuCurGrade}
+            </if>
+        </where>
+    </select>
+
+</mapper>

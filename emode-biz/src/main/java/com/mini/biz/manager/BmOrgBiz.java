@@ -13,6 +13,7 @@ import com.mini.pojo.model.vo.BmOrgVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -40,7 +41,7 @@ public class BmOrgBiz {
     /**
      * 获取当条机构详情
      */
-    public BmOrgVo getBmOrgById(Long id) {
+    public BmOrgVo getEntityById(Long id) {
         BmOrgDTO bmOrgDTO = bmOrgService.selectById(id);
 
         if (Objects.isNull(bmOrgDTO)) {
@@ -59,6 +60,7 @@ public class BmOrgBiz {
     /**
      * 新增机构信息
      */
+    @Transactional(rollbackFor = Exception.class)
     public void insert(BmOrgRequest request) {
         bmOrgService.add(BmOrgStructMapper.INSTANCE.req2Dto(request));
     }
@@ -66,6 +68,7 @@ public class BmOrgBiz {
     /**
      * 删除单条信息
      */
+    @Transactional(rollbackFor = Exception.class)
     public void del(long id) {
         bmOrgService.del(id);
     }
@@ -73,6 +76,7 @@ public class BmOrgBiz {
     /**
      * 修改信息
      */
+    @Transactional(rollbackFor = Exception.class)
     public void update(BmOrgEdit edit) {
         bmOrgService.update(BmOrgStructMapper.INSTANCE.edit2Dto(edit));
     }

@@ -64,7 +64,7 @@ class TestBmOrg {
 
     @Test
     void byId() {
-        BmOrgVo bmOrgVo = bmOrgBiz.getBmOrgById(1645826375942176L);
+        BmOrgVo bmOrgVo = bmOrgBiz.getEntityById(1645826375942176L);
         System.out.println(bmOrgVo);
     }
 }

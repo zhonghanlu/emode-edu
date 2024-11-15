@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.manager.mapper.BmPatriarchMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmPatriarchDTO">
+        <id column="id" property="id"/>
+        <result column="pat_avatar_id" property="patAvatarId"/>
+        <result column="pat_name" property="patName"/>
+        <result column="pat_iphone" property="patIphone"/>
+        <result column="pat_wx" property="patWx"/>
+        <result column="pat_address" property="patAddress"/>
+        <result column="patAvatarUrl" property="patAvatarUrl"/>
+    </resultMap>
+
+    <select id="page" resultMap="BaseResultMap">
+        SELECT bp.id,
+        bp.pat_avatar_id,
+        bp.pat_name,
+        bp.pat_iphone,
+        bp.pat_wx,
+        bp.pat_address,
+        sf.file_url AS patAvatarUrl
+        FROM bm_patriarch bp
+        LEFT JOIN sys_file sf ON bp.pat_avatar_id = sf.id AND sf.del_flag = 1
+        <where>
+            bp.del_flag = 1
+            <if test="query.patName != null and query.patName != '' ">
+                AND bp.pat_name LIKE CONCAT('%',#{query.patName},'%')
+            </if>
+            <if test="query.patIphone != null and query.patIphone != '' ">
+                AND bp.pat_iphone LIKE CONCAT('%',#{query.patIphone},'%')
+            </if>
+        </where>
+
+    </select>
+
+</mapper>

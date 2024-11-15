@@ -3,6 +3,7 @@ package com.mini.pojo.model.query;
 import com.mini.common.enums.str.YesOrNo;
 import com.mini.common.utils.webmvc.PageQuery;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,6 +11,7 @@ import lombok.EqualsAndHashCode;
  * @author zhl
  * @create 2024/11/12 16:57
  */
+@Schema(description = "机构查询")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class BmOrgQuery extends PageQuery {

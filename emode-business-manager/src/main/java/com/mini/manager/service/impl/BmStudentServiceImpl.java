@@ -4,16 +4,15 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
-import com.mini.common.enums.str.YesOrNo;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.mybatis.CommonMybatisUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
-import com.mini.pojo.entity.manager.BmOrg;
-import com.mini.manager.mapper.BmOrgMapper;
-import com.mini.manager.service.BmOrgService;
-import com.mini.pojo.mapper.BmOrgStructMapper;
-import com.mini.pojo.model.dto.BmOrgDTO;
-import com.mini.pojo.model.query.BmOrgQuery;
+import com.mini.manager.mapper.BmStudentMapper;
+import com.mini.manager.service.BmStudentService;
+import com.mini.pojo.entity.manager.BmStudent;
+import com.mini.pojo.mapper.BmStudentStructMapper;
+import com.mini.pojo.model.dto.BmStudentDTO;
+import com.mini.pojo.model.query.BmStudentQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,27 +20,28 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 /**
+ * <p>
+ * 学生表 服务实现类
+ * </p>
+ *
  * @author zhl
- * @create 2024/8/30 15:46
+ * @since 2024-11-15
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class BmOrgServiceImpl extends ServiceImpl<BmOrgMapper, BmOrg> implements BmOrgService {
+public class BmStudentServiceImpl extends ServiceImpl<BmStudentMapper, BmStudent> implements BmStudentService {
 
-    private final BmOrgMapper bmOrgMapper;
+    private final BmStudentMapper bmStudentMapper;
 
     @Override
-    public void add(BmOrgDTO dto) {
-        BmOrg bmOrg = BmOrgStructMapper.INSTANCE.dto2Entity(dto);
+    public void add(BmStudentDTO dto) {
+        BmStudent bmStudent = BmStudentStructMapper.INSTANCE.dto2Entity(dto);
 
-        bmOrg.setId(IDGenerator.next());
-        bmOrg.setDelFlag(Delete.NO);
-        if (Objects.isNull(bmOrg.getOrgStatus())) {
-            bmOrg.setOrgStatus(YesOrNo.NO);
-        }
+        bmStudent.setId(IDGenerator.next());
+        bmStudent.setDelFlag(Delete.NO);
 
-        int b = bmOrgMapper.insert(bmOrg);
+        int b = bmStudentMapper.insert(bmStudent);
 
         if (b <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "新增失败");
@@ -54,14 +54,14 @@ public class BmOrgServiceImpl extends ServiceImpl<BmOrgMapper, BmOrg> implements
             throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "参数异常，id：" + id);
         }
 
-        BmOrg bmOrg = CommonMybatisUtil.getById(id, bmOrgMapper);
+        BmStudent bmStudent = CommonMybatisUtil.getById(id, bmStudentMapper);
 
-        if (Objects.isNull(bmOrg)) {
+        if (Objects.isNull(bmStudent)) {
             throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前待删除数据不存在");
         }
 
-        bmOrg.setDelFlag(Delete.YES);
-        int b = bmOrgMapper.updateById(bmOrg);
+        bmStudent.setDelFlag(Delete.YES);
+        int b = bmStudentMapper.updateById(bmStudent);
 
         if (b <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "删除失败");
@@ -69,17 +69,17 @@ public class BmOrgServiceImpl extends ServiceImpl<BmOrgMapper, BmOrg> implements
     }
 
     @Override
-    public void update(BmOrgDTO dto) {
+    public void update(BmStudentDTO dto) {
         // 校验数据是否存在
-        boolean b = CommonMybatisUtil.isExistById(dto.getId(), bmOrgMapper);
+        boolean b = CommonMybatisUtil.isExistById(dto.getId(), bmStudentMapper);
 
         if (!b) {
             throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前待修改数据不存在");
         }
 
-        BmOrg bmOrg = BmOrgStructMapper.INSTANCE.dto2Entity(dto);
+        BmStudent bmStudent = BmStudentStructMapper.INSTANCE.dto2Entity(dto);
 
-        int b1 = bmOrgMapper.updateById(bmOrg);
+        int b1 = bmStudentMapper.updateById(bmStudent);
 
         if (b1 <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "更新失败");
@@ -87,13 +87,12 @@ public class BmOrgServiceImpl extends ServiceImpl<BmOrgMapper, BmOrg> implements
     }
 
     @Override
-    public BmOrgDTO selectById(long id) {
-        return BmOrgStructMapper.INSTANCE.entity2Dto(CommonMybatisUtil.getById(id, bmOrgMapper));
+    public BmStudentDTO selectById(long id) {
+        return BmStudentStructMapper.INSTANCE.entity2Dto(CommonMybatisUtil.getById(id, bmStudentMapper));
     }
 
     @Override
-    public IPage<BmOrgDTO> page(BmOrgQuery query) {
-        return bmOrgMapper.page(query, query.build());
+    public IPage<BmStudentDTO> page(BmStudentQuery query) {
+        return bmStudentMapper.page(query, query.build());
     }
-
 }

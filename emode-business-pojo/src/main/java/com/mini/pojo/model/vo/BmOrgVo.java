@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
  * @author zhl
  * @create 2024/11/12 17:21
  */
+@Schema(description = "机构展示")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class BmOrgVo {

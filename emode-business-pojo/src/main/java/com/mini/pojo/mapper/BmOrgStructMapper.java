@@ -25,7 +25,7 @@ public interface BmOrgStructMapper {
     /**
      * entity2dto
      */
-    BmOrgDTO entity2Dto(BmOrg bmOrg);
+    BmOrgDTO entity2Dto(BmOrg entity);
 
     /**
      * dto2vo

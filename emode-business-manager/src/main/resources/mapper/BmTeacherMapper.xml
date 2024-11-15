@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.manager.mapper.BmTeacherMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmTeacherDTO">
+        <id column="id" property="id"/>
+        <result column="tea_avatar_id" property="teaAvatarId"/>
+        <result column="teaAvatarUrl" property="teaAvatarUrl"/>
+        <result column="tea_name" property="teaName"/>
+        <result column="tea_iphone" property="teaIphone"/>
+        <result column="tea_email" property="teaEmail"/>
+        <result column="tea_org_id" property="teaOrgId"/>
+        <result column="tea_org_name" property="teaOrgName"/>
+    </resultMap>
+
+    <select id="page" resultMap="BaseResultMap">
+        SELECT bt.id,
+        bt.tea_avatar_id,
+        bt.tea_name,
+        bt.tea_iphone,
+        bt.tea_email,
+        bt.tea_org_id,
+        bt.tea_org_name,
+        sf.file_url AS teaAvatarUrl
+        FROM bm_teacher bt
+        LEFT JOIN sys_file sf ON bt.tea_avatar_id = sf.id AND sf.del_flag = 1
+        <where>
+            bt.del_flag = 1
+            <if test="query.teaName != null and query.teaName != '' ">
+                AND tea_name LIKE CONCAT('%',#{query.teaName},'%')
+            </if>
+            <if test="query.teaIphone != null and query.teaIphone != '' ">
+                AND tea_iphone LIKE CONCAT('%',#{query.teaIphone})
+            </if>
+        </where>
+    </select>
+
+</mapper>
