@@ -25,7 +25,7 @@ import javax.validation.Valid;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/org")
+@RequestMapping("/bm-org")
 @RequiredArgsConstructor
 public class BmOrgController {
 

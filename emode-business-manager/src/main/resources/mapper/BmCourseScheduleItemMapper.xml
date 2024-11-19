@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.manager.mapper.BmCourseScheduleItemMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmCourseScheduleItemDTO">
+        <id column="id" property="id" />
+        <result column="range_start_time" property="rangeStartTime" />
+        <result column="range_end_time" property="rangeEndTime" />
+        <result column="cur_id" property="curId" />
+        <result column="cur_name" property="curName" />
+        <result column="cur_schedule_id" property="curScheduleId" />
+        <result column="sort" property="sort" />
+    </resultMap>
+
+</mapper>

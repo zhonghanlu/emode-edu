@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.manager.mapper.BmLackCourseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmLackCourseDTO">
+        <id column="id" property="id" />
+        <result column="class_grade_id" property="classGradeId" />
+        <result column="class_grade_name" property="classGradeName" />
+        <result column="cur_type" property="curType" />
+        <result column="cur_name" property="curName" />
+        <result column="cur_id" property="curId" />
+        <result column="week_one" property="weekOne" />
+        <result column="lack_start_time" property="lackStartTime" />
+        <result column="lack_end_time" property="lackEndTime" />
+        <result column="stu_id" property="stuId" />
+        <result column="stu_name" property="stuName" />
+        <result column="lack_status" property="lackStatus" />
+    </resultMap>
+
+</mapper>

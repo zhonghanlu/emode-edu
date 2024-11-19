@@ -29,7 +29,7 @@ import javax.validation.Valid;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/student")
+@RequestMapping("/bm-student")
 @RequiredArgsConstructor
 public class BmStudentController {
 

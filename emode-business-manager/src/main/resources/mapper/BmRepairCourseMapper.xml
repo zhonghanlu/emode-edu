@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.manager.mapper.BmRepairCourseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmRepairCourseDTO">
+        <id column="id" property="id" />
+        <result column="repair_name" property="repairName" />
+        <result column="cur_type" property="curType" />
+        <result column="week_one" property="weekOne" />
+        <result column="repair_start_time" property="repairStartTime" />
+        <result column="repair_end_time" property="repairEndTime" />
+    </resultMap>
+
+</mapper>

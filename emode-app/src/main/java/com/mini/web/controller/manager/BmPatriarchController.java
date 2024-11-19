@@ -29,7 +29,7 @@ import javax.validation.Valid;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/patriarch")
+@RequestMapping("/bm-patriarch")
 @RequiredArgsConstructor
 public class BmPatriarchController {
 

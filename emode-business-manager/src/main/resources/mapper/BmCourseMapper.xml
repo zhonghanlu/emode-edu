@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.manager.mapper.BmCourseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmCourseDTO">
+        <id column="id" property="id" />
+        <result column="course_type" property="courseType" />
+        <result column="course_name" property="courseName" />
+        <result column="week_one" property="weekOne" />
+        <result column="course_start_time" property="courseStartTime" />
+        <result column="course_end_time" property="courseEndTime" />
+        <result column="class_person_size" property="classPersonSize" />
+        <result column="class_room_id" property="classRoomId" />
+        <result column="class_room_name" property="classRoomName" />
+        <result column="tea_id" property="teaId" />
+        <result column="tea_name" property="teaName" />
+        <result column="class_grade_id" property="classGradeId" />
+        <result column="class_grade_name" property="classGradeName" />
+    </resultMap>
+
+</mapper>
