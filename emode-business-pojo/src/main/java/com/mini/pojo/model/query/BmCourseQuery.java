@@ -37,23 +37,11 @@ public class BmCourseQuery extends PageQuery {
     @Parameter(description = "课程结束时间")
     private LocalDateTime courseEndTime;
 
-    @Parameter(description = "班级人数")
-    private Integer classPersonSize;
-
-    @Parameter(description = "教室 id")
-    private Long classRoomId;
-
     @Parameter(description = "教室名称")
     private String classRoomName;
 
-    @Parameter(description = "教师 id")
-    private Long teaId;
-
     @Parameter(description = "教师名称")
     private String teaName;
-
-    @Parameter(description = "班级 id")
-    private Long classGradeId;
 
     @Parameter(description = "班级名称")
     private String classGradeName;

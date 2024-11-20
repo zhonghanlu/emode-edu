@@ -1,7 +1,12 @@
 package com.mini.manager.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mini.pojo.entity.manager.BmCourseSchedule;
+import com.mini.pojo.model.dto.BmCourseScheduleDTO;
+import com.mini.pojo.model.query.BmCourseScheduleQuery;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +18,5 @@ import com.mini.pojo.entity.manager.BmCourseSchedule;
  */
 public interface BmCourseScheduleMapper extends BaseMapper<BmCourseSchedule> {
 
+    IPage<BmCourseScheduleDTO> page(@Param("query") BmCourseScheduleQuery query, Page<BmCourseScheduleDTO> build);
 }

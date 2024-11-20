@@ -23,20 +23,11 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class BmLackCourseQuery extends PageQuery {
 
-    @Parameter(description = "班级id")
-    private Long classGradeId;
-
-    @Parameter(description = "班级名称")
-    private String classGradeName;
-
     @Parameter(description = "课程类型")
     private CourseType curType;
 
     @Parameter(description = "课程名称")
     private String curName;
-
-    @Parameter(description = "课程 id")
-    private Long curId;
 
     @Parameter(description = "周几")
     private Integer weekOne;
@@ -46,9 +37,6 @@ public class BmLackCourseQuery extends PageQuery {
 
     @Parameter(description = "缺课结束时间")
     private LocalDateTime lackEndTime;
-
-    @Parameter(description = "学生姓名 id")
-    private Long stuId;
 
     @Parameter(description = "学生姓名")
     private String stuName;

@@ -10,4 +10,21 @@
         <result column="cur_schedule_end_time" property="curScheduleEndTime" />
     </resultMap>
 
+    <select id="page" resultMap="BaseResultMap">
+        SELECT bcs.id,
+        bcs.cur_schedule_name,
+        bcs.cur_schedule_star_time,
+        bcs.cur_schedule_end_time
+        FROM bm_course_schedule bcs
+        <where>
+            bcs.del_flag = 1
+            <if test="query.curScheduleName != null and query.curScheduleName != ''">
+                AND bcs.cur_schedule_name LIKE CONCAT('%',#{query.curScheduleName},'%')
+            </if>
+            <if test="query.curScheduleStarTime != null">
+                AND bcs.cur_schedule_star_time &gt;= #{query.curScheduleStarTime}
+            </if>
+        </where>
+    </select>
+
 </mapper>

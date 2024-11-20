@@ -1,7 +1,10 @@
 package com.mini.manager.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mini.pojo.entity.manager.BmHandlerClass;
+import com.mini.pojo.model.dto.BmHandlerClassDTO;
+import com.mini.pojo.model.query.BmHandlerClassQuery;
 
 /**
  * <p>
@@ -13,4 +16,28 @@ import com.mini.pojo.entity.manager.BmHandlerClass;
  */
 public interface BmHandlerClassService extends IService<BmHandlerClass> {
 
+    /**
+     * 增
+     */
+    void add(BmHandlerClassDTO dto);
+
+    /**
+     * 删
+     */
+    void del(long id);
+
+    /**
+     * 改
+     */
+    void update(BmHandlerClassDTO dto);
+
+    /**
+     * 查
+     */
+    BmHandlerClassDTO selectById(long id);
+
+    /**
+     * 查分页
+     */
+    IPage<BmHandlerClassDTO> page(BmHandlerClassQuery query);
 }

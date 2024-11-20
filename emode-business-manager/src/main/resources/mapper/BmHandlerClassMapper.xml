@@ -12,4 +12,23 @@
         <result column="cur_type" property="curType" />
     </resultMap>
 
+    <select id="page" resultMap="BaseResultMap">
+        SELECT
+        bhc.id,
+        bhc.stu_id,
+        bhc.stu_name,
+        bhc.intention_cur_time,
+        bhc.consume_time,
+        bhc.cur_type
+        FROM bm_handler_class bhc
+        <where>
+            <if test="query.stuName != null and query.stuName != ''">
+                AND bhc.stu_name LIKE CONCAT('%',#{query.stuName},'%')
+            </if>
+            <if test="query.curType != null">
+                AND bhc.cur_type = #{query.curType}
+            </if>
+        </where>
+    </select>
+
 </mapper>

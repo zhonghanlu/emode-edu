@@ -1,7 +1,10 @@
 package com.mini.manager.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mini.pojo.entity.manager.BmRepairCourse;
+import com.mini.pojo.model.dto.BmRepairCourseDTO;
+import com.mini.pojo.model.query.BmRepairCourseQuery;
 
 /**
  * <p>
@@ -13,4 +16,28 @@ import com.mini.pojo.entity.manager.BmRepairCourse;
  */
 public interface BmRepairCourseService extends IService<BmRepairCourse> {
 
+    /**
+     * 增
+     */
+    void add(BmRepairCourseDTO dto);
+
+    /**
+     * 删
+     */
+    void del(long id);
+
+    /**
+     * 改
+     */
+    void update(BmRepairCourseDTO dto);
+
+    /**
+     * 查
+     */
+    BmRepairCourseDTO selectById(long id);
+
+    /**
+     * 查分页
+     */
+    IPage<BmRepairCourseDTO> page(BmRepairCourseQuery query);
 }

@@ -1,13 +1,22 @@
 package com.mini.web.controller.manager;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.mini.biz.manager.BmLackCourseBiz;
+import com.mini.common.utils.webmvc.Restful;
+import com.mini.pojo.model.edit.BmLackCourseEdit;
+import com.mini.pojo.model.query.BmLackCourseQuery;
+import com.mini.pojo.model.request.BmLackCourseRequest;
+import com.mini.pojo.model.vo.BmLackCourseVo;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -25,4 +34,38 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class BmLackCourseController {
 
+    private final BmLackCourseBiz bmLackCourseBiz;
+
+    @Operation(summary = "缺课分页")
+    @GetMapping("/page")
+    public Restful<IPage<BmLackCourseVo>> page(@ParameterObject BmLackCourseQuery query) {
+        return Restful.OBJECT(bmLackCourseBiz.page(query)).build();
+    }
+
+    @Operation(summary = "缺课详情")
+    @GetMapping("/detail/{orgId}")
+    public Restful<BmLackCourseVo> getDetailById(@PathVariable("orgId") Long id) {
+        return Restful.OBJECT(bmLackCourseBiz.getEntityById(id)).build();
+    }
+
+    @Operation(summary = "新增缺课信息")
+    @PostMapping("/add")
+    public Restful<Void> insert(@RequestBody @Valid BmLackCourseRequest request) {
+        bmLackCourseBiz.insert(request);
+        return Restful.SUCCESS().build();
+    }
+
+    @Operation(summary = "删除教师信息")
+    @PostMapping("/del")
+    public Restful<Void> del(Long id) {
+        bmLackCourseBiz.del(id);
+        return Restful.SUCCESS().build();
+    }
+
+    @Operation(summary = "修改缺课信息")
+    @PostMapping("/update")
+    public Restful<Void> update(@RequestBody @Valid BmLackCourseEdit edit) {
+        bmLackCourseBiz.update(edit);
+        return Restful.SUCCESS().build();
+    }
 }

@@ -4,18 +4,47 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmLackCourseDTO">
-        <id column="id" property="id" />
-        <result column="class_grade_id" property="classGradeId" />
-        <result column="class_grade_name" property="classGradeName" />
-        <result column="cur_type" property="curType" />
-        <result column="cur_name" property="curName" />
-        <result column="cur_id" property="curId" />
-        <result column="week_one" property="weekOne" />
-        <result column="lack_start_time" property="lackStartTime" />
-        <result column="lack_end_time" property="lackEndTime" />
-        <result column="stu_id" property="stuId" />
-        <result column="stu_name" property="stuName" />
-        <result column="lack_status" property="lackStatus" />
+        <id column="id" property="id"/>
+        <result column="class_grade_id" property="classGradeId"/>
+        <result column="class_grade_name" property="classGradeName"/>
+        <result column="cur_type" property="curType"/>
+        <result column="cur_name" property="curName"/>
+        <result column="cur_id" property="curId"/>
+        <result column="week_one" property="weekOne"/>
+        <result column="lack_start_time" property="lackStartTime"/>
+        <result column="lack_end_time" property="lackEndTime"/>
+        <result column="stu_id" property="stuId"/>
+        <result column="stu_name" property="stuName"/>
+        <result column="lack_status" property="lackStatus"/>
     </resultMap>
+
+    <select id="page" resultMap="BaseResultMap">
+        SELECT blc.id,
+        blc.class_grade_id,
+        blc.class_grade_name,
+        blc.cur_type,
+        blc.cur_name,
+        blc.cur_id,
+        blc.week_one,
+        blc.lack_start_time,
+        blc.lack_end_time,
+        blc.stu_id,
+        blc.stu_name,
+        blc.lack_status
+        FROM bm_lack_course blc
+        <where>
+            blc.del_flag = 1
+            <if test="query.curType != null">
+                AND blc.cur_type = #{query.curType}
+            </if>
+            <if test="query.curName != null and query.curName != ''">
+                AND blc.cur_name LIKE CONCAT('%',#{query.curName},'%')
+            </if>
+            <if test="query.lackStatus != null">
+                AND blc.lack_status = #{query.lackStatus}
+            </if>
+        </where>
+
+    </select>
 
 </mapper>

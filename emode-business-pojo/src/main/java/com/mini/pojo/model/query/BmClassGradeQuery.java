@@ -22,14 +22,8 @@ public class BmClassGradeQuery extends PageQuery {
     @Parameter(description = "班级名称")
     private String classGradeName;
 
-    @Parameter(description = "教师 id")
-    private Long teaId;
-
     @Parameter(description = "教师名称")
     private String teaName;
-
-    @Parameter(description = "教室 id")
-    private Long classroomId;
 
     @Parameter(description = "教室名")
     private String classroomName;

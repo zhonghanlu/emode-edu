@@ -19,4 +19,53 @@
         <result column="class_grade_name" property="classGradeName" />
     </resultMap>
 
+    <select id="page" resultMap="BaseResultMap">
+        SELECT
+        bc.id,
+        bc.course_type,
+        bc.course_name,
+        bc.week_one,
+        bc.course_start_time,
+        bc.course_end_time,
+        bc.class_person_size,
+        bc.class_room_id,
+        bc.class_room_name,
+        bc.tea_id,
+        bc.tea_name,
+        bc.class_grade_id,
+        bc.class_grade_name
+        FROM
+        bm_course bc
+        <where>
+            bc.del_flag = 1
+            <if test="query.courseType != null">
+                AND bc.course_type = #{query.courseType}
+            </if>
+            <if test="query.courseName != null and query.courseName != ''">
+                AND bc.course_name LIKE CONCAT("%",#{query.courseName},"%")
+            </if>
+            <if test="query.weekOne != null and query.weekOne != ''">
+                AND bc.week_one = #{query.weekOne}
+            </if>
+            <if test="query.courseName != null and query.courseName != ''">
+                AND bc.course_name LIKE CONCAT("%",#{query.courseName},"%")
+            </if>
+            <if test="query.courseStartTime != null">
+                AND bcs.course_start_time &gt;= #{query.courseStartTime}
+            </if>
+            <if test="query.courseEndTime != null">
+                AND bcs.course_end_time &lt;= #{query.courseEndTime}
+            </if>
+            <if test="query.classGradeName != null and query.classGradeName != ''">
+                AND bc.class_grade_name LIKE CONCAT("%",#{query.classGradeName},"%")
+            </if>
+            <if test="query.teaName != null and query.teaName != ''">
+                AND bc.tea_name LIKE CONCAT("%",#{query.teaName},"%")
+            </if>
+            <if test="query.classRoomName != null and query.classRoomName != ''">
+                AND bc.class_room_name LIKE CONCAT("%",#{query.classRoomName},"%")
+            </if>
+        </where>
+    </select>
+
 </mapper>

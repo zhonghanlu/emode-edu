@@ -1,7 +1,10 @@
 package com.mini.manager.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mini.pojo.entity.manager.BmClassGrade;
+import com.mini.pojo.model.dto.BmClassGradeDTO;
+import com.mini.pojo.model.query.BmClassGradeQuery;
 
 /**
  * <p>
@@ -12,5 +15,30 @@ import com.mini.pojo.entity.manager.BmClassGrade;
  * @since 2024-11-19
  */
 public interface BmClassGradeService extends IService<BmClassGrade> {
+
+    /**
+     * 增
+     */
+    void add(BmClassGradeDTO dto);
+
+    /**
+     * 删
+     */
+    void del(long id);
+
+    /**
+     * 改
+     */
+    void update(BmClassGradeDTO dto);
+
+    /**
+     * 查
+     */
+    BmClassGradeDTO selectById(long id);
+
+    /**
+     * 查分页
+     */
+    IPage<BmClassGradeDTO> page(BmClassGradeQuery query);
 
 }

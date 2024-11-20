@@ -1,7 +1,12 @@
 package com.mini.manager.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mini.pojo.entity.manager.BmLackCourse;
+import com.mini.pojo.model.dto.BmLackCourseDTO;
+import com.mini.pojo.model.query.BmLackCourseQuery;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +18,5 @@ import com.mini.pojo.entity.manager.BmLackCourse;
  */
 public interface BmLackCourseMapper extends BaseMapper<BmLackCourse> {
 
+    IPage<BmLackCourseDTO> page(@Param("query") BmLackCourseQuery query, Page<BmLackCourseDTO> build);
 }

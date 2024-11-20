@@ -12,4 +12,26 @@
         <result column="classroom_name" property="classroomName" />
     </resultMap>
 
+    <select id="page" resultMap="BaseResultMap">
+        SELECT bcg.id,
+        bcg.class_grade_name,
+        bcg.tea_id,
+        bcg.tea_name,
+        bcg.classroom_id,
+        bcg.classroom_name
+        FROM bm_class_grade bcg
+        <where>
+            bcg.del_flag = 1
+            <if test="query.classGradeName != null and query.classGradeName != ''">
+                AND bcg.class_grade_name LIKE CONCAT("%",#{query.classGradeName},"%")
+            </if>
+            <if test="query.teaName != null and query.teaName != ''">
+                AND bcg.tea_name LIKE CONCAT("%",#{query.teaName},"%")
+            </if>
+            <if test="query.classroomName != null and query.classroomName != ''">
+                AND bcg.classroom_name LIKE CONCAT("%",#{query.classroomName},"%")
+            </if>
+        </where>
+    </select>
+
 </mapper>

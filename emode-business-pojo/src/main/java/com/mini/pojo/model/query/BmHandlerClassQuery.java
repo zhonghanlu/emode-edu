@@ -22,9 +22,6 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class BmHandlerClassQuery extends PageQuery {
 
-    @Parameter(description = "学生 id")
-    private Long stuId;
-
     @Parameter(description = "学生姓名")
     private String stuName;
 
