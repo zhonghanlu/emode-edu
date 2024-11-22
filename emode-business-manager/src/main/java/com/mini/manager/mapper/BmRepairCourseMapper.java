@@ -1,7 +1,12 @@
 package com.mini.manager.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mini.pojo.entity.manager.BmRepairCourse;
+import com.mini.pojo.model.dto.BmRepairCourseDTO;
+import com.mini.pojo.model.query.BmRepairCourseQuery;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +18,5 @@ import com.mini.pojo.entity.manager.BmRepairCourse;
  */
 public interface BmRepairCourseMapper extends BaseMapper<BmRepairCourse> {
 
+    IPage<BmRepairCourseDTO> page(@Param("query") BmRepairCourseQuery query, Page<BmRepairCourseDTO> build);
 }

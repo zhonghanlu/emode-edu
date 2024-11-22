@@ -12,4 +12,24 @@
         <result column="repair_end_time" property="repairEndTime" />
     </resultMap>
 
+    <select id="page" resultMap="BaseResultMap">
+        SELECT
+        brc.id,
+        brc.repair_name,
+        brc.cur_type,
+        brc.week_one,
+        brc.repair_start_time,
+        brc.repair_end_time
+        FROM bm_repair_course brc
+        <where>
+            brc.del_flag = 1
+            <if test="query.repairName != null and query.repairName != ''">
+                AND brc.repair_name LIKE concat('%',#{query.repairName},'%')
+            </if>
+            <if test="query.curType != null and query.curType != ''">
+                AND brc.cur_type LIKE concat('%',#{query.curType},'%')
+            </if>
+        </where>
+    </select>
+
 </mapper>
