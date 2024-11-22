@@ -22,9 +22,6 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class BmRepairCourseQuery extends PageQuery {
 
-    @Parameter(description = "主键 id")
-    private Long id;
-
     @Parameter(description = "补课名称")
     private String repairName;
 

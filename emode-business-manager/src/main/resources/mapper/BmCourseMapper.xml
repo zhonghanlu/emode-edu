@@ -51,10 +51,10 @@
                 AND bc.course_name LIKE CONCAT("%",#{query.courseName},"%")
             </if>
             <if test="query.courseStartTime != null">
-                AND bcs.course_start_time &gt;= #{query.courseStartTime}
+                AND bc.course_start_time &gt;= #{query.courseStartTime}
             </if>
             <if test="query.courseEndTime != null">
-                AND bcs.course_end_time &lt;= #{query.courseEndTime}
+                AND bc.course_end_time &lt;= #{query.courseEndTime}
             </if>
             <if test="query.classGradeName != null and query.classGradeName != ''">
                 AND bc.class_grade_name LIKE CONCAT("%",#{query.classGradeName},"%")

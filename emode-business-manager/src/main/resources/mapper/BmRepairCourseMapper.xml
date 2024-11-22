@@ -26,7 +26,7 @@
             <if test="query.repairName != null and query.repairName != ''">
                 AND brc.repair_name LIKE concat('%',#{query.repairName},'%')
             </if>
-            <if test="query.curType != null and query.curType != ''">
+            <if test="query.curType != null">
                 AND brc.cur_type LIKE concat('%',#{query.curType},'%')
             </if>
         </where>

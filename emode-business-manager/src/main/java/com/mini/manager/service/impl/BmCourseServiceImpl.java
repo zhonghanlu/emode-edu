@@ -15,7 +15,10 @@ import com.mini.manager.mapper.BmClassroomMapper;
 import com.mini.manager.mapper.BmCourseMapper;
 import com.mini.manager.mapper.BmTeacherMapper;
 import com.mini.manager.service.BmCourseService;
+import com.mini.pojo.entity.manager.BmClassGrade;
+import com.mini.pojo.entity.manager.BmClassroom;
 import com.mini.pojo.entity.manager.BmCourse;
+import com.mini.pojo.entity.manager.BmTeacher;
 import com.mini.pojo.mapper.BmCourseStructMapper;
 import com.mini.pojo.model.dto.BmCourseDTO;
 import com.mini.pojo.model.query.BmCourseQuery;
@@ -140,23 +143,34 @@ public class BmCourseServiceImpl extends ServiceImpl<BmCourseMapper, BmCourse> i
             throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "课程名重复，请重新输入");
         }
 
-        // 查询教师 与 教室是否存在
-        boolean b = CommonMybatisUtil.isExistById(bmCourse.getTeaId(), bmTeacherMapper);
+        // 查询教师
+        if (Objects.nonNull(bmCourse.getTeaId())) {
+            BmTeacher bmTeacher = CommonMybatisUtil.getById(bmCourse.getTeaId(), bmTeacherMapper);
 
-        if (!b) {
-            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前教师不存在");
+            if (Objects.isNull(bmTeacher)) {
+                throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前教师不存在");
+            }
+            bmCourse.setTeaName(bmTeacher.getTeaName());
         }
 
-        boolean b1 = CommonMybatisUtil.isExistById(bmCourse.getClassRoomId(), bmClassroomMapper);
+        // 教室是否存在
+        if (Objects.nonNull(bmCourse.getClassRoomId())) {
+            BmClassroom bmClassroom = CommonMybatisUtil.getById(bmCourse.getClassRoomId(), bmClassroomMapper);
 
-        if (!b1) {
-            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前教室不存在");
+            if (Objects.isNull(bmClassroom)) {
+                throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前教室不存在");
+            }
+            bmCourse.setClassRoomName(bmClassroom.getRoomName());
         }
 
-        boolean b2 = CommonMybatisUtil.isExistById(bmCourse.getClassGradeId(), bmClassGradeMapper);
+        // 查询班级是否存在
+        if (Objects.nonNull(bmCourse.getClassGradeId())) {
+            BmClassGrade bmClassGrade = CommonMybatisUtil.getById(bmCourse.getClassGradeId(), bmClassGradeMapper);
 
-        if (!b2) {
-            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前班级不存在");
+            if (Objects.isNull(bmClassGrade)) {
+                throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前班级不存在");
+            }
+            bmCourse.setClassGradeName(bmClassGrade.getClassGradeName());
         }
     }
 

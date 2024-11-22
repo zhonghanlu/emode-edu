@@ -12,7 +12,10 @@ import com.mini.manager.mapper.BmCourseMapper;
 import com.mini.manager.mapper.BmLackCourseMapper;
 import com.mini.manager.mapper.BmStudentMapper;
 import com.mini.manager.service.BmLackCourseService;
+import com.mini.pojo.entity.manager.BmClassGrade;
+import com.mini.pojo.entity.manager.BmCourse;
 import com.mini.pojo.entity.manager.BmLackCourse;
+import com.mini.pojo.entity.manager.BmStudent;
 import com.mini.pojo.mapper.BmLackCourseStructMapper;
 import com.mini.pojo.model.dto.BmLackCourseDTO;
 import com.mini.pojo.model.query.BmLackCourseQuery;
@@ -125,26 +128,35 @@ public class BmLackCourseServiceImpl extends ServiceImpl<BmLackCourseMapper, BmL
     /**
      * 校验班级课程学生是否存在
      */
-    private void checkExistParams(BmLackCourse bmCourse) {
+    private void checkExistParams(BmLackCourse bmLackCourse) {
         // 课程
-        boolean b = CommonMybatisUtil.isExistById(bmCourse.getCurId(), bmCourseMapper);
+        if (Objects.nonNull(bmLackCourse.getCurId())) {
+            BmCourse bmCourse = CommonMybatisUtil.getById(bmLackCourse.getCurId(), bmCourseMapper);
 
-        if (!b) {
-            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前课程不存在");
+            if (Objects.isNull(bmCourse)) {
+                throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前课程不存在");
+            }
+            bmLackCourse.setCurName(bmCourse.getCourseName());
         }
 
         // 学生
-        boolean b1 = CommonMybatisUtil.isExistById(bmCourse.getStuId(), bmStudentMapper);
+        if (Objects.nonNull(bmLackCourse.getStuId())) {
+            BmStudent bmStudent = CommonMybatisUtil.getById(bmLackCourse.getStuId(), bmStudentMapper);
 
-        if (!b1) {
-            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前学生不存在");
+            if (Objects.isNull(bmStudent)) {
+                throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前学生不存在");
+            }
+            bmLackCourse.setStuName(bmStudent.getStuName());
         }
 
         // 班级
-        boolean b2 = CommonMybatisUtil.isExistById(bmCourse.getClassGradeId(), bmClassGradeMapper);
+        if (Objects.nonNull(bmLackCourse.getClassGradeId())) {
+            BmClassGrade bmClassGrade = CommonMybatisUtil.getById(bmLackCourse.getClassGradeId(), bmClassGradeMapper);
 
-        if (!b2) {
-            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前班级不存在");
+            if (Objects.isNull(bmClassGrade)) {
+                throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前班级不存在");
+            }
+            bmLackCourse.setClassGradeName(bmClassGrade.getClassGradeName());
         }
     }
 }
