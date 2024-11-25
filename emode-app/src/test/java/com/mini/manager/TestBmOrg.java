@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.common.enums.str.YesOrNo;
 
 import com.mini.biz.manager.BmOrgBiz;
-import com.mini.pojo.model.edit.BmOrgEdit;
-import com.mini.pojo.model.query.BmOrgQuery;
-import com.mini.pojo.model.request.BmOrgRequest;
-import com.mini.pojo.model.vo.BmOrgVo;
+import com.mini.pojo.model.edit.org.BmOrgEdit;
+import com.mini.pojo.model.query.org.BmOrgQuery;
+import com.mini.pojo.model.request.org.BmOrgRequest;
+import com.mini.pojo.model.vo.org.BmOrgVo;
 import com.mini.web.ModeApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

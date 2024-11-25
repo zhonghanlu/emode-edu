@@ -2,9 +2,9 @@ package com.mini.manager.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mini.pojo.entity.manager.BmOrg;
-import com.mini.pojo.model.dto.BmOrgDTO;
-import com.mini.pojo.model.query.BmOrgQuery;
+import com.mini.pojo.entity.org.BmOrg;
+import com.mini.pojo.model.dto.org.BmOrgDTO;
+import com.mini.pojo.model.query.org.BmOrgQuery;
 
 /**
  * @author zhl

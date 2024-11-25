@@ -1,10 +1,10 @@
 package com.mini.pojo.mapper;
 
-import com.mini.pojo.entity.manager.BmRepairCourse;
-import com.mini.pojo.model.dto.BmRepairCourseDTO;
-import com.mini.pojo.model.edit.BmRepairCourseEdit;
-import com.mini.pojo.model.request.BmRepairCourseRequest;
-import com.mini.pojo.model.vo.BmRepairCourseVo;
+import com.mini.pojo.entity.course.BmRepairCourse;
+import com.mini.pojo.model.dto.course.BmRepairCourseDTO;
+import com.mini.pojo.model.edit.course.BmRepairCourseEdit;
+import com.mini.pojo.model.request.course.BmRepairCourseRequest;
+import com.mini.pojo.model.vo.course.BmRepairCourseVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

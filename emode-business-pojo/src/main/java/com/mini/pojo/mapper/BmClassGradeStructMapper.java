@@ -1,10 +1,10 @@
 package com.mini.pojo.mapper;
 
-import com.mini.pojo.entity.manager.BmClassGrade;
-import com.mini.pojo.model.dto.BmClassGradeDTO;
-import com.mini.pojo.model.edit.BmClassGradeEdit;
-import com.mini.pojo.model.request.BmClassGradeRequest;
-import com.mini.pojo.model.vo.BmClassGradeVo;
+import com.mini.pojo.entity.course.BmClassGrade;
+import com.mini.pojo.model.dto.course.BmClassGradeDTO;
+import com.mini.pojo.model.edit.course.BmClassGradeEdit;
+import com.mini.pojo.model.request.course.BmClassGradeRequest;
+import com.mini.pojo.model.vo.course.BmClassGradeVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

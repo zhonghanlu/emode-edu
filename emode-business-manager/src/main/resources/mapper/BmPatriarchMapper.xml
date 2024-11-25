@@ -3,7 +3,7 @@
 <mapper namespace="com.mini.manager.mapper.BmPatriarchMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmPatriarchDTO">
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.org.BmPatriarchDTO">
         <id column="id" property="id"/>
         <result column="pat_avatar_id" property="patAvatarId"/>
         <result column="pat_name" property="patName"/>

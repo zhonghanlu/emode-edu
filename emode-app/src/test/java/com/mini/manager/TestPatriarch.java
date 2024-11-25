@@ -2,10 +2,10 @@ package com.mini.manager;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.biz.manager.BmPatriarchBiz;
-import com.mini.pojo.model.edit.BmPatriarchEdit;
-import com.mini.pojo.model.query.BmPatriarchQuery;
-import com.mini.pojo.model.request.BmPatriarchRequest;
-import com.mini.pojo.model.vo.BmPatriarchVo;
+import com.mini.pojo.model.edit.org.BmPatriarchEdit;
+import com.mini.pojo.model.query.org.BmPatriarchQuery;
+import com.mini.pojo.model.request.org.BmPatriarchRequest;
+import com.mini.pojo.model.vo.org.BmPatriarchVo;
 import com.mini.web.ModeApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

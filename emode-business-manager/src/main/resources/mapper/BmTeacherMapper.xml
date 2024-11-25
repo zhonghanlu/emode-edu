@@ -3,7 +3,7 @@
 <mapper namespace="com.mini.manager.mapper.BmTeacherMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmTeacherDTO">
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.org.BmTeacherDTO">
         <id column="id" property="id"/>
         <result column="tea_avatar_id" property="teaAvatarId"/>
         <result column="teaAvatarUrl" property="teaAvatarUrl"/>

@@ -1,7 +1,7 @@
 package com.mini.manager.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mini.pojo.entity.manager.BmHandlerClassOrderRelation;
+import com.mini.pojo.entity.course.BmHandlerClassOrderRelation;
 
 /**
  * <p>

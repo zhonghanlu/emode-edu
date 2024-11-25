@@ -3,7 +3,7 @@
 <mapper namespace="com.mini.manager.mapper.BmRepairCourseMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmRepairCourseDTO">
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.course.BmRepairCourseDTO">
         <id column="id" property="id" />
         <result column="repair_name" property="repairName" />
         <result column="cur_type" property="curType" />

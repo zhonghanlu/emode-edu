@@ -3,7 +3,7 @@
 <mapper namespace="com.mini.manager.mapper.BmCourseScheduleItemMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmCourseScheduleItemDTO">
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.course.BmCourseScheduleItemDTO">
         <id column="id" property="id" />
         <result column="range_start_time" property="rangeStartTime" />
         <result column="range_end_time" property="rangeEndTime" />

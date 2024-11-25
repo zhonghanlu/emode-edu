@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mini.manager.mapper.BmOrgMapper">
-    <resultMap type="com.mini.pojo.model.dto.BmOrgDTO" id="BmOrgMap">
+    <resultMap type="com.mini.pojo.model.dto.org.BmOrgDTO" id="BmOrgMap">
         <result property="id" column="id"/>
         <result property="orgName" column="org_name"/>
         <result property="orgAddress" column="org_address"/>

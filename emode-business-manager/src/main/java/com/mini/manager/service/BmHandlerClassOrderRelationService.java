@@ -1,7 +1,7 @@
 package com.mini.manager.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mini.pojo.entity.manager.BmHandlerClassOrderRelation;
+import com.mini.pojo.entity.course.BmHandlerClassOrderRelation;
 
 /**
  * <p>

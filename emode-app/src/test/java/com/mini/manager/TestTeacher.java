@@ -2,10 +2,10 @@ package com.mini.manager;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.biz.manager.BmTeacherBiz;
-import com.mini.pojo.model.edit.BmTeacherEdit;
-import com.mini.pojo.model.query.BmTeacherQuery;
-import com.mini.pojo.model.request.BmTeacherRequest;
-import com.mini.pojo.model.vo.BmTeacherVo;
+import com.mini.pojo.model.edit.org.BmTeacherEdit;
+import com.mini.pojo.model.query.org.BmTeacherQuery;
+import com.mini.pojo.model.request.org.BmTeacherRequest;
+import com.mini.pojo.model.vo.org.BmTeacherVo;
 import com.mini.web.ModeApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

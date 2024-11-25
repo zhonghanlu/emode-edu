@@ -4,9 +4,9 @@ package com.mini.manager.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.mini.pojo.entity.manager.BmPatriarch;
-import com.mini.pojo.model.dto.BmPatriarchDTO;
-import com.mini.pojo.model.query.BmPatriarchQuery;
+import com.mini.pojo.entity.org.BmPatriarch;
+import com.mini.pojo.model.dto.org.BmPatriarchDTO;
+import com.mini.pojo.model.query.org.BmPatriarchQuery;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

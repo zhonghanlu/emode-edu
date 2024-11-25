@@ -3,9 +3,9 @@ package com.mini.manager.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mini.pojo.entity.manager.BmPatriarch;
-import com.mini.pojo.model.dto.BmPatriarchDTO;
-import com.mini.pojo.model.query.BmPatriarchQuery;
+import com.mini.pojo.entity.org.BmPatriarch;
+import com.mini.pojo.model.dto.org.BmPatriarchDTO;
+import com.mini.pojo.model.query.org.BmPatriarchQuery;
 
 /**
  * <p>

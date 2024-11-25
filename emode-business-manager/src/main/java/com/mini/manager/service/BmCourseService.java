@@ -2,9 +2,9 @@ package com.mini.manager.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mini.pojo.entity.manager.BmCourse;
-import com.mini.pojo.model.dto.BmCourseDTO;
-import com.mini.pojo.model.query.BmCourseQuery;
+import com.mini.pojo.entity.course.BmCourse;
+import com.mini.pojo.model.dto.course.BmCourseDTO;
+import com.mini.pojo.model.query.course.BmCourseQuery;
 
 /**
  * <p>

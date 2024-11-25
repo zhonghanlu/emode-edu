@@ -1,10 +1,10 @@
 package com.mini.pojo.mapper;
 
-import com.mini.pojo.entity.manager.BmClassroom;
-import com.mini.pojo.model.dto.BmClassroomDTO;
-import com.mini.pojo.model.edit.BmClassroomEdit;
-import com.mini.pojo.model.request.BmClassroomRequest;
-import com.mini.pojo.model.vo.BmClassroomVo;
+import com.mini.pojo.entity.org.BmClassroom;
+import com.mini.pojo.model.dto.org.BmClassroomDTO;
+import com.mini.pojo.model.edit.org.BmClassroomEdit;
+import com.mini.pojo.model.request.org.BmClassroomRequest;
+import com.mini.pojo.model.vo.org.BmClassroomVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -3,9 +3,9 @@ package com.mini.manager.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mini.pojo.entity.manager.BmTeacher;
-import com.mini.pojo.model.dto.BmTeacherDTO;
-import com.mini.pojo.model.query.BmTeacherQuery;
+import com.mini.pojo.entity.org.BmTeacher;
+import com.mini.pojo.model.dto.org.BmTeacherDTO;
+import com.mini.pojo.model.query.org.BmTeacherQuery;
 
 /**
  * <p>

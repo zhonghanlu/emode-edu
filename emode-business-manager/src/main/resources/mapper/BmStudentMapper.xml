@@ -3,7 +3,7 @@
 <mapper namespace="com.mini.manager.mapper.BmStudentMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmStudentDTO">
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.org.BmStudentDTO">
         <id column="id" property="id"/>
         <result column="stu_name" property="stuName"/>
         <result column="stu_sex" property="stuSex"/>

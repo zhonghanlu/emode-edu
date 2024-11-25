@@ -1,10 +1,10 @@
 package com.mini.pojo.mapper;
 
-import com.mini.pojo.entity.manager.BmOrg;
-import com.mini.pojo.model.dto.BmOrgDTO;
-import com.mini.pojo.model.edit.BmOrgEdit;
-import com.mini.pojo.model.request.BmOrgRequest;
-import com.mini.pojo.model.vo.BmOrgVo;
+import com.mini.pojo.entity.org.BmOrg;
+import com.mini.pojo.model.dto.org.BmOrgDTO;
+import com.mini.pojo.model.edit.org.BmOrgEdit;
+import com.mini.pojo.model.request.org.BmOrgRequest;
+import com.mini.pojo.model.vo.org.BmOrgVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

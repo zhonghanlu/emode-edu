@@ -3,7 +3,7 @@
 <mapper namespace="com.mini.manager.mapper.BmClassroomMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmClassroomDTO">
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.org.BmClassroomDTO">
         <id column="id" property="id"/>
         <result column="room_name" property="roomName"/>
         <result column="room_status" property="roomStatus"/>

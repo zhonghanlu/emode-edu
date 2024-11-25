@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.common.enums.str.RoomStatus;
 
 import com.mini.biz.manager.BmClassroomBiz;
-import com.mini.pojo.model.edit.BmClassroomEdit;
-import com.mini.pojo.model.query.BmClassroomQuery;
-import com.mini.pojo.model.request.BmClassroomRequest;
-import com.mini.pojo.model.vo.BmClassroomVo;
+import com.mini.pojo.model.edit.org.BmClassroomEdit;
+import com.mini.pojo.model.query.org.BmClassroomQuery;
+import com.mini.pojo.model.request.org.BmClassroomRequest;
+import com.mini.pojo.model.vo.org.BmClassroomVo;
 import com.mini.web.ModeApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

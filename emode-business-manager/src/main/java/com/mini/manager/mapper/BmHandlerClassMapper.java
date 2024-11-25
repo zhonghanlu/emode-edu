@@ -3,9 +3,9 @@ package com.mini.manager.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.mini.pojo.entity.manager.BmHandlerClass;
-import com.mini.pojo.model.dto.BmHandlerClassDTO;
-import com.mini.pojo.model.query.BmHandlerClassQuery;
+import com.mini.pojo.entity.course.BmHandlerClass;
+import com.mini.pojo.model.dto.course.BmHandlerClassDTO;
+import com.mini.pojo.model.query.course.BmHandlerClassQuery;
 import org.apache.ibatis.annotations.Param;
 
 /**

@@ -3,7 +3,7 @@
 <mapper namespace="com.mini.manager.mapper.BmHandlerClassOrderRelationMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mini.pojo.entity.manager.BmHandlerClassOrderRelation">
+    <resultMap id="BaseResultMap" type="com.mini.pojo.entity.course.BmHandlerClassOrderRelation">
         <id column="id" property="id" />
         <result column="handler_class_id" property="handlerClassId" />
         <result column="cur_order_id" property="curOrderId" />

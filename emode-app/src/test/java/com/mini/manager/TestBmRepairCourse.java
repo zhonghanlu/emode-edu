@@ -6,10 +6,10 @@ import com.mini.common.enums.str.CourseType;
 import java.time.LocalDateTime;
 
 import com.mini.biz.manager.BmRepairCourseBiz;
-import com.mini.pojo.model.edit.BmRepairCourseEdit;
-import com.mini.pojo.model.query.BmRepairCourseQuery;
-import com.mini.pojo.model.request.BmRepairCourseRequest;
-import com.mini.pojo.model.vo.BmRepairCourseVo;
+import com.mini.pojo.model.edit.course.BmRepairCourseEdit;
+import com.mini.pojo.model.query.course.BmRepairCourseQuery;
+import com.mini.pojo.model.request.course.BmRepairCourseRequest;
+import com.mini.pojo.model.vo.course.BmRepairCourseVo;
 import com.mini.web.ModeApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

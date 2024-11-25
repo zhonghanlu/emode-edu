@@ -6,10 +6,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.common.enums.str.Gender;
 
 import com.mini.biz.manager.BmStudentBiz;
-import com.mini.pojo.model.edit.BmStudentEdit;
-import com.mini.pojo.model.query.BmStudentQuery;
-import com.mini.pojo.model.request.BmStudentRequest;
-import com.mini.pojo.model.vo.BmStudentVo;
+import com.mini.pojo.model.edit.org.BmStudentEdit;
+import com.mini.pojo.model.query.org.BmStudentQuery;
+import com.mini.pojo.model.request.org.BmStudentRequest;
+import com.mini.pojo.model.vo.org.BmStudentVo;
 import com.mini.web.ModeApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

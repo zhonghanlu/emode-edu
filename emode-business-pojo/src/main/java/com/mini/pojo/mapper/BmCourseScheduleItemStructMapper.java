@@ -1,10 +1,10 @@
 package com.mini.pojo.mapper;
 
-import com.mini.pojo.entity.manager.BmCourseScheduleItem;
-import com.mini.pojo.model.dto.BmCourseScheduleItemDTO;
-import com.mini.pojo.model.edit.BmCourseScheduleItemEdit;
-import com.mini.pojo.model.request.BmCourseScheduleItemRequest;
-import com.mini.pojo.model.vo.BmCourseScheduleItemVo;
+import com.mini.pojo.entity.course.BmCourseScheduleItem;
+import com.mini.pojo.model.dto.course.BmCourseScheduleItemDTO;
+import com.mini.pojo.model.edit.course.BmCourseScheduleItemEdit;
+import com.mini.pojo.model.request.course.BmCourseScheduleItemRequest;
+import com.mini.pojo.model.vo.course.BmCourseScheduleItemVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -3,7 +3,7 @@
 <mapper namespace="com.mini.manager.mapper.BmLackCourseMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.BmLackCourseDTO">
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.course.BmLackCourseDTO">
         <id column="id" property="id"/>
         <result column="class_grade_id" property="classGradeId"/>
         <result column="class_grade_name" property="classGradeName"/>
