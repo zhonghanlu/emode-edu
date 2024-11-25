@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 public class BmCourseScheduleEdit {
 
+    @NotNull(message = "课表主键id不可为空")
     @Schema(title = "主键 id")
     private Long id;
 

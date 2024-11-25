@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  * 班级数据表
@@ -17,6 +19,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class BmClassGradeEdit {
 
+    @NotNull(message = "待删除主键id不可为空")
     @Schema(title = "主键 id")
     private Long id;
 

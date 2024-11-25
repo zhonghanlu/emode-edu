@@ -1,4 +1,4 @@
-package com.mini.web.controller.manager;
+package com.mini.web.controller.manager.course;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
