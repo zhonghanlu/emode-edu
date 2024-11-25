@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.manager.mapper.BmPatchOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mini.manager.entity.BmPatchOrder">
+        <id column="id" property="id" />
+        <result column="patch_create_time" property="patchCreateTime" />
+        <result column="patch_price" property="patchPrice" />
+        <result column="patch_reduced_price" property="patchReducedPrice" />
+        <result column="patch_actual_price" property="patchActualPrice" />
+        <result column="patch_product_name" property="patchProductName" />
+        <result column="patch_consume" property="patchConsume" />
+        <result column="patch_phone" property="patchPhone" />
+        <result column="patch_status" property="patchStatus" />
+        <result column="patch_handler_id" property="patchHandlerId" />
+        <result column="patch_handler_name" property="patchHandlerName" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+</mapper>

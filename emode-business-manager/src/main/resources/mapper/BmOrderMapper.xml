@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.manager.mapper.BmOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mini.manager.entity.BmOrder">
+        <id column="id" property="id" />
+        <result column="order_create_time" property="orderCreateTime" />
+        <result column="order_price" property="orderPrice" />
+        <result column="order_reduced_price" property="orderReducedPrice" />
+        <result column="order_actual_price" property="orderActualPrice" />
+        <result column="order_product_name" property="orderProductName" />
+        <result column="order_consume" property="orderConsume" />
+        <result column="order_status" property="orderStatus" />
+        <result column="order_phone" property="orderPhone" />
+        <result column="order_consumed_id" property="orderConsumedId" />
+        <result column="order_consumed_name" property="orderConsumedName" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+</mapper>
