@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
  * @author zhl
  * @since 2024-11-19
  */
+@Schema(description = "班级展示")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class BmClassGradeVo {

@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
  * @author zhl
  * @since 2024-11-19
  */
+@Schema(description = "待分班展示")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class BmHandlerClassVo {

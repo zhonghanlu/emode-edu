@@ -16,9 +16,10 @@ import java.time.LocalDateTime;
  * @author zhl
  * @since 2024-11-19
  */
+@Schema(description = "缺课展示")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class BmLackCourseVo{
+public class BmLackCourseVo {
 
     @Schema(title = "主键 id")
     private Long id;

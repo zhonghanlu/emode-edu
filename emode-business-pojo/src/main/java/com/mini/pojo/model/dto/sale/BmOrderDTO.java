@@ -1,16 +1,10 @@
-package com.mini.pojo.entity.sale;
+package com.mini.pojo.model.dto.sale;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.mini.common.enums.str.OrderStatus;
-import com.mini.common.model.CommonEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -21,18 +15,11 @@ import java.time.LocalDateTime;
  * @author zhl
  * @since 2024-11-25
  */
-@Schema(description = "订单表")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@TableName("bm_order")
-public class BmOrder extends CommonEntity implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@EqualsAndHashCode(callSuper = false)
+public class BmOrderDTO {
 
     @Schema(name = "主键id")
-    @TableId(value = "id")
     private Long id;
 
     @Schema(name = "订单创建时间")
