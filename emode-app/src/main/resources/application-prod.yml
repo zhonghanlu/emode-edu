@@ -196,6 +196,7 @@ security:
   excludes:
     # 验证码
     - /sys-captcha/captcha-image
+    - /sys-captcha/captcha-enable
     # 登录注册接口
     - /sys-auth/login
     - /sys-auth/register

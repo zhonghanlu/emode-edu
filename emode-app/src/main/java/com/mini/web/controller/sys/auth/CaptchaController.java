@@ -61,4 +61,14 @@ public class CaptchaController {
                 .build();
         return Restful.OBJECT(captchaModel).build();
     }
+
+    /**
+     * 生成验证码
+     */
+    @OptLog
+    @Operation(summary = "获取验证码是否开启")
+    @GetMapping("/captcha-enable")
+    public Restful<Boolean> getCodeEnable() {
+        return Restful.OBJECT(captchaProperties.isEnabled()).build();
+    }
 }
