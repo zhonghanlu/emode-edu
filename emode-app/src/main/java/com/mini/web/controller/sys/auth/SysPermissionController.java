@@ -1,5 +1,6 @@
 package com.mini.web.controller.sys.auth;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.auth.model.edit.AuthPermissionEdit;
 import com.mini.auth.model.query.AuthPermissionQuery;
@@ -31,6 +32,7 @@ public class SysPermissionController {
     private final SysPermissionBiz sysPermissionBiz;
 
     @OptLog
+    @SaCheckPermission("system:auth:query")
     @Operation(summary = "权限分页")
     @GetMapping("/page")
     public Restful<IPage<AuthPermissionVo>> rolePage(@ParameterObject AuthPermissionQuery query) {
@@ -38,6 +40,7 @@ public class SysPermissionController {
     }
 
     @OptLog
+    @SaCheckPermission("system:auth:add")
     @Operation(summary = "新增权限信息")
     @PostMapping("/add")
     public Restful<Void> insert(@RequestBody @Valid AuthPermissionRequest request) {
@@ -46,6 +49,7 @@ public class SysPermissionController {
     }
 
     @OptLog
+    @SaCheckPermission("system:auth:remove")
     @Operation(summary = "删除权限信息")
     @PostMapping("/del")
     public Restful<Void> del(Long id) {
@@ -54,6 +58,7 @@ public class SysPermissionController {
     }
 
     @OptLog
+    @SaCheckPermission("system:auth:edit")
     @Operation(summary = "修改权限信息")
     @PostMapping("/update")
     public Restful<Void> update(@RequestBody @Valid AuthPermissionEdit edit) {

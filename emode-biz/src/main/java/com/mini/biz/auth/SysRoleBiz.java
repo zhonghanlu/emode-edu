@@ -119,4 +119,8 @@ public class SysRoleBiz {
 
     }
 
+    public List<AuthRoleVo> all() {
+
+        return null;
+    }
 }

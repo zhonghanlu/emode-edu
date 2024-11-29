@@ -33,6 +33,12 @@ public class AuthPermissionVo extends TreeNode<AuthPermissionVo> {
     private String menuName;
 
     /**
+     * 菜单path
+     */
+    @Schema(title = "菜单path")
+    private String menuPath;
+
+    /**
      * 菜单url
      */
     @Schema(title = "菜单url")
@@ -47,7 +53,7 @@ public class AuthPermissionVo extends TreeNode<AuthPermissionVo> {
     /**
      * 按钮类型 按钮 菜单
      */
-    @Schema(title = "按钮类型：按钮、菜单")
+    @Schema(title = "类型：目录、按钮、菜单")
     private MenuType menuType;
 
     /**

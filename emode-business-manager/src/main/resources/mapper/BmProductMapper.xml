@@ -3,26 +3,26 @@
 <mapper namespace="com.mini.manager.mapper.BmProductMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mini.manager.entity.BmProduct">
-        <id column="id" property="id" />
-        <result column="product_url" property="productUrl" />
-        <result column="product_url_id" property="productUrlId" />
-        <result column="product_name" property="productName" />
-        <result column="product_hour" property="productHour" />
-        <result column="product_price" property="productPrice" />
-        <result column="product_reduced_price" property="productReducedPrice" />
-        <result column="recommend_age" property="recommendAge" />
-        <result column="course_detail" property="courseDetail" />
-        <result column="product_type" property="productType" />
-        <result column="class_type" property="classType" />
-        <result column="status" property="status" />
-        <result column="class_time" property="classTime" />
-        <result column="show_status" property="showStatus" />
-        <result column="create_by" property="createBy" />
-        <result column="create_time" property="createTime" />
-        <result column="update_by" property="updateBy" />
-        <result column="update_time" property="updateTime" />
-        <result column="del_flag" property="delFlag" />
-    </resultMap>
+<!--    <resultMap id="BaseResultMap" type="com.mini.manager.entity.BmProduct">-->
+<!--        <id column="id" property="id" />-->
+<!--        <result column="product_url" property="productUrl" />-->
+<!--        <result column="product_url_id" property="productUrlId" />-->
+<!--        <result column="product_name" property="productName" />-->
+<!--        <result column="product_hour" property="productHour" />-->
+<!--        <result column="product_price" property="productPrice" />-->
+<!--        <result column="product_reduced_price" property="productReducedPrice" />-->
+<!--        <result column="recommend_age" property="recommendAge" />-->
+<!--        <result column="course_detail" property="courseDetail" />-->
+<!--        <result column="product_type" property="productType" />-->
+<!--        <result column="class_type" property="classType" />-->
+<!--        <result column="status" property="status" />-->
+<!--        <result column="class_time" property="classTime" />-->
+<!--        <result column="show_status" property="showStatus" />-->
+<!--        <result column="create_by" property="createBy" />-->
+<!--        <result column="create_time" property="createTime" />-->
+<!--        <result column="update_by" property="updateBy" />-->
+<!--        <result column="update_time" property="updateTime" />-->
+<!--        <result column="del_flag" property="delFlag" />-->
+<!--    </resultMap>-->
 
 </mapper>
