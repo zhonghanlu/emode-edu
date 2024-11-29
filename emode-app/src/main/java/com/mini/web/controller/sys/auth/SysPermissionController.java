@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author zhl
@@ -37,6 +38,13 @@ public class SysPermissionController {
     @GetMapping("/page")
     public Restful<IPage<AuthPermissionVo>> rolePage(@ParameterObject AuthPermissionQuery query) {
         return Restful.OBJECT(sysPermissionBiz.page(query)).build();
+    }
+
+    @OptLog
+    @Operation(summary = "所有权限")
+    @GetMapping("/all")
+    public Restful<List<AuthPermissionVo>> all() {
+        return Restful.OBJECT(sysPermissionBiz.all()).build();
     }
 
     @OptLog

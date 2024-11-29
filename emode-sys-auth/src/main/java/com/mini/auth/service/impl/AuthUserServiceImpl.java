@@ -14,6 +14,7 @@ import com.mini.auth.mapperstruct.AuthUserStructMapper;
 import com.mini.auth.model.dto.AuthUserDTO;
 import com.mini.auth.model.dto.AuthUserDetailDTO;
 import com.mini.auth.model.dto.AuthUserRoleDTO;
+import com.mini.auth.model.edit.AuthUserPasswordEdit;
 import com.mini.auth.model.query.AuthUserQuery;
 import com.mini.auth.service.IAuthUserService;
 import com.mini.common.constant.ErrorCodeConstant;
@@ -22,6 +23,8 @@ import com.mini.common.enums.number.Delete;
 import com.mini.common.enums.str.UserType;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.LoginUtils;
+import com.mini.common.utils.SmCryptoUtil;
+import com.mini.common.utils.SmHutoolUtil;
 import com.mini.common.utils.mybatis.CommonMybatisUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
 import lombok.RequiredArgsConstructor;
@@ -205,6 +208,35 @@ public class AuthUserServiceImpl implements IAuthUserService {
             roleList.addAll(authUserMapper.getUserRoleByIdForSet(id));
         }
         return roleList;
+    }
+
+    @Override
+    public void updatePassword(AuthUserPasswordEdit edit) {
+        AuthUser authUser = CommonMybatisUtil.getById(edit.getId(), authUserMapper);
+        if (Objects.isNull(authUser)) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "当前用户数据不存在");
+        }
+
+        // 校验旧密码是否正确
+        String oldPassword = edit.getOldPassword();
+        if (!authUser.getPassword().equals(SmCryptoUtil.doHashValue(SmHutoolUtil.sm2DecryptStr(oldPassword)))) {
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "原密码错误");
+        }
+
+        // 校验新密码和确认密码是否一致
+        String newPassword = edit.getNewPassword();
+        String verifyPassword = edit.getVerifyPassword();
+        if (!SmHutoolUtil.sm2DecryptStr(newPassword).equals(SmHutoolUtil.sm2DecryptStr(verifyPassword))) {
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "新密码两次不一致");
+        }
+
+        authUser.setPassword(SmCryptoUtil.doHashValue(SmHutoolUtil.sm2DecryptStr(newPassword)));
+
+        int b = authUserMapper.updateById(authUser);
+
+        if (b <= 0) {
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "修改密码错误");
+        }
     }
 
     /**

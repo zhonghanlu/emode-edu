@@ -10,6 +10,7 @@ import com.mini.auth.mapper.AuthPermissionMapper;
 import com.mini.auth.mapper.AuthRoleMapper;
 import com.mini.auth.mapper.AuthRolePermissionMapper;
 import com.mini.auth.mapperstruct.AuthRoleStructMapper;
+import com.mini.auth.model.dto.AuthRoleDTO;
 import com.mini.auth.model.dto.AuthRoleRelationDTO;
 import com.mini.auth.model.query.AuthRoleQuery;
 import com.mini.auth.service.IAuthRoleService;
@@ -45,6 +46,14 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
     @Override
     public IPage<AuthRoleRelationDTO> pageAuthRelation(AuthRoleQuery authRoleQuery) {
         return authRoleMapper.selectPage(authRoleQuery, authRoleQuery.build());
+    }
+
+    @Override
+    public List<AuthRoleDTO> all() {
+        LambdaQueryWrapper<AuthRole> wrapper = Wrappers.lambdaQuery(AuthRole.class);
+        wrapper.eq(AuthRole::getDelFlag, Delete.NO);
+        List<AuthRole> authRoleList = authRoleMapper.selectList(wrapper);
+        return AuthRoleStructMapper.INSTANCE.entityList2DtoList(authRoleList);
     }
 
     @Override

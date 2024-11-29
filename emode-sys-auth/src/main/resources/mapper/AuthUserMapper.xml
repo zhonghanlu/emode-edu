@@ -8,6 +8,7 @@
         <result column="username" property="username"/>
         <result column="nickname" property="nickname"/>
         <result column="avatarUrl" property="avatarUrl"/>
+        <result column="phone" property="phone"/>
         <result column="user_type" property="userType"/>
         <result column="sex" property="sex"/>
 
@@ -58,6 +59,7 @@
                au.nickname,
                au.user_type,
                au.sex,
+               au.phone,
                sf.file_url AS avatarUrl,
                ar.id       AS roleId,
                ar.role_name,

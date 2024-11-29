@@ -10,6 +10,7 @@ import com.mini.auth.model.dto.AuthUserDTO;
 import com.mini.auth.model.dto.AuthUserDetailDTO;
 import com.mini.auth.model.dto.AuthUserRoleDTO;
 import com.mini.auth.model.edit.AuthUserEdit;
+import com.mini.auth.model.edit.AuthUserPasswordEdit;
 import com.mini.auth.model.query.AuthUserQuery;
 import com.mini.auth.model.request.AuthLoginRequest;
 import com.mini.auth.model.request.AuthRegisterRequest;
@@ -284,5 +285,12 @@ public class SysUserBiz {
             authUserDetailRouterVoList = AuthPermissionStructMapper.INSTANCE.dtoList2RouterVoList(authPermissionDTOList);
         }
         return TreeUtils.build(authUserDetailRouterVoList);
+    }
+
+    /**
+     * 修改密码
+     */
+    public void updatePassword(AuthUserPasswordEdit edit) {
+        authUserService.updatePassword(edit);
     }
 }

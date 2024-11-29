@@ -3,6 +3,7 @@ package com.mini.web.controller.sys.auth;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.auth.model.edit.AuthUserEdit;
+import com.mini.auth.model.edit.AuthUserPasswordEdit;
 import com.mini.auth.model.query.AuthUserQuery;
 import com.mini.auth.model.request.AuthUserRequest;
 import com.mini.auth.model.request.AuthUserRoleRequest;
@@ -57,6 +58,14 @@ public class SysUserController {
     @PostMapping("/update")
     public Restful<Void> update(@RequestBody @Valid AuthUserEdit edit) {
         sysUserBiz.update(edit);
+        return Restful.SUCCESS().build();
+    }
+
+    @OptLog
+    @Operation(summary = "修改用户密码")
+    @PostMapping("/update-password")
+    public Restful<Void> updatePassword(@RequestBody @Valid AuthUserPasswordEdit edit) {
+        sysUserBiz.updatePassword(edit);
         return Restful.SUCCESS().build();
     }
 

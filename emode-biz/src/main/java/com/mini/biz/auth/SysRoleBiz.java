@@ -84,7 +84,7 @@ public class SysRoleBiz {
 
         if (!authRoleService.checkRoleByRoleCode(dto.getId(), dto.getRoleCode()) ||
                 !authRoleService.checkRoleByRoleName(dto.getId(), dto.getRoleName())) {
-            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR,"更改名字或编码重复");
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "更改名字或编码重复");
         }
 
         authRoleService.update(dto);
@@ -119,8 +119,10 @@ public class SysRoleBiz {
 
     }
 
+    /**
+     * 所有角色
+     */
     public List<AuthRoleVo> all() {
-
-        return null;
+        return AuthRoleStructMapper.INSTANCE.dtoList2VoList(authRoleService.all());
     }
 }
