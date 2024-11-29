@@ -196,7 +196,7 @@ security:
   excludes:
     # 验证码
     - /sys-captcha/captcha-image
-    - /sys-captcha/captcha-enable
+    - /sys-auth/captcha-enable
     # 登录注册接口
     - /sys-auth/login
     - /sys-auth/register
@@ -217,7 +217,7 @@ security:
 
 # 验证码配置
 captcha:
-  enabled: false
+  enabled: true
   weight: 130
   height: 48
   len: 4
