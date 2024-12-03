@@ -1,4 +1,4 @@
-package com.mini.biz.manager;
+package com.mini.biz.manager.org;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.manager.service.BmClassroomService;

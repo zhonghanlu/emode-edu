@@ -3,7 +3,7 @@ package com.mini.manager;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.common.enums.str.RoomStatus;
 
-import com.mini.biz.manager.BmClassroomBiz;
+import com.mini.biz.manager.org.BmClassroomBiz;
 import com.mini.pojo.model.edit.org.BmClassroomEdit;
 import com.mini.pojo.model.query.org.BmClassroomQuery;
 import com.mini.pojo.model.request.org.BmClassroomRequest;

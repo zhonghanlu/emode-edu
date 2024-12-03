@@ -1,7 +1,7 @@
 package com.mini.web.controller.manager.org;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.mini.biz.manager.BmPatriarchBiz;
+import com.mini.biz.manager.org.BmPatriarchBiz;
 import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.org.BmPatriarchEdit;
 import com.mini.pojo.model.query.org.BmPatriarchQuery;
@@ -42,8 +42,8 @@ public class BmPatriarchController {
     }
 
     @Operation(summary = "家长详情")
-    @GetMapping("/detail/{orgId}")
-    public Restful<BmPatriarchVo> getDetailById(@PathVariable("orgId") Long id) {
+    @GetMapping("/detail/{patriarchId}")
+    public Restful<BmPatriarchVo> getDetailById(@PathVariable("patriarchId") Long id) {
         return Restful.OBJECT(patriarchBiz.getEntityById(id)).build();
     }
 

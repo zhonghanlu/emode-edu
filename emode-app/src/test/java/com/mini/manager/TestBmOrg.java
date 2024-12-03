@@ -3,7 +3,7 @@ package com.mini.manager;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.common.enums.str.YesOrNo;
 
-import com.mini.biz.manager.BmOrgBiz;
+import com.mini.biz.manager.org.BmOrgBiz;
 import com.mini.pojo.model.edit.org.BmOrgEdit;
 import com.mini.pojo.model.query.org.BmOrgQuery;
 import com.mini.pojo.model.request.org.BmOrgRequest;

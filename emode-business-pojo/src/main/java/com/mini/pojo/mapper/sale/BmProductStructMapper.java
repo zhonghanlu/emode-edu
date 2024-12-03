@@ -13,9 +13,9 @@ import org.mapstruct.factory.Mappers;
  * @create 2024/8/30 15:48
  */
 @Mapper
-public interface BmProductMapper {
+public interface BmProductStructMapper {
 
-    BmProductMapper INSTANCE = Mappers.getMapper(BmProductMapper.class);
+    BmProductStructMapper INSTANCE = Mappers.getMapper(BmProductStructMapper.class);
 
     /**
      * dto2entity

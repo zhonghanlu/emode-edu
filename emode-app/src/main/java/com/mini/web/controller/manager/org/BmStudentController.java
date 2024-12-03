@@ -1,7 +1,7 @@
 package com.mini.web.controller.manager.org;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.mini.biz.manager.BmStudentBiz;
+import com.mini.biz.manager.org.BmStudentBiz;
 import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.org.BmStudentEdit;
 import com.mini.pojo.model.query.org.BmStudentQuery;
@@ -42,8 +42,8 @@ public class BmStudentController {
     }
 
     @Operation(summary = "学生详情")
-    @GetMapping("/detail/{orgId}")
-    public Restful<BmStudentVo> getDetailById(@PathVariable("orgId") Long id) {
+    @GetMapping("/detail/{stuId}")
+    public Restful<BmStudentVo> getDetailById(@PathVariable("stuId") Long id) {
         return Restful.OBJECT(studentBiz.getEntityById(id)).build();
     }
 

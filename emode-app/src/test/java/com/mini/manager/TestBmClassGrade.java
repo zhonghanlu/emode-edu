@@ -1,7 +1,7 @@
 package com.mini.manager;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.mini.biz.manager.BmClassGradeBiz;
+import com.mini.biz.manager.course.BmClassGradeBiz;
 import com.mini.pojo.model.edit.course.BmClassGradeEdit;
 import com.mini.pojo.model.query.course.BmClassGradeQuery;
 import com.mini.pojo.model.request.course.BmClassGradeRequest;

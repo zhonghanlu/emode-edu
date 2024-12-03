@@ -1,7 +1,7 @@
 package com.mini.web.controller.manager.org;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.mini.biz.manager.BmOrgBiz;
+import com.mini.biz.manager.org.BmOrgBiz;
 import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.org.BmOrgEdit;
 import com.mini.pojo.model.query.org.BmOrgQuery;

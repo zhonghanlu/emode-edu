@@ -1,7 +1,7 @@
 package com.mini.manager;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.mini.biz.manager.BmPatriarchBiz;
+import com.mini.biz.manager.org.BmPatriarchBiz;
 import com.mini.pojo.model.edit.org.BmPatriarchEdit;
 import com.mini.pojo.model.query.org.BmPatriarchQuery;
 import com.mini.pojo.model.request.org.BmPatriarchRequest;

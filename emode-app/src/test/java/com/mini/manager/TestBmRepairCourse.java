@@ -5,7 +5,7 @@ import com.mini.common.enums.str.CourseType;
 
 import java.time.LocalDateTime;
 
-import com.mini.biz.manager.BmRepairCourseBiz;
+import com.mini.biz.manager.course.BmRepairCourseBiz;
 import com.mini.pojo.model.edit.course.BmRepairCourseEdit;
 import com.mini.pojo.model.query.course.BmRepairCourseQuery;
 import com.mini.pojo.model.request.course.BmRepairCourseRequest;

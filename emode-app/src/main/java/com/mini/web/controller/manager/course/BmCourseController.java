@@ -2,7 +2,7 @@ package com.mini.web.controller.manager.course;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.mini.biz.manager.BmCourseBiz;
+import com.mini.biz.manager.course.BmCourseBiz;
 import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.course.BmCourseEdit;
 import com.mini.pojo.model.query.course.BmCourseQuery;
@@ -43,8 +43,8 @@ public class BmCourseController {
     }
 
     @Operation(summary = "课程详情")
-    @GetMapping("/detail/{orgId}")
-    public Restful<BmCourseVo> getDetailById(@PathVariable("orgId") Long id) {
+    @GetMapping("/detail/{courseId}")
+    public Restful<BmCourseVo> getDetailById(@PathVariable("courseId") Long id) {
         return Restful.OBJECT(bmCourseBiz.getEntityById(id)).build();
     }
 
@@ -55,7 +55,7 @@ public class BmCourseController {
         return Restful.SUCCESS().build();
     }
 
-    @Operation(summary = "删除教师信息")
+    @Operation(summary = "删除课程信息")
     @PostMapping("/del")
     public Restful<Void> del(Long id) {
         bmCourseBiz.del(id);

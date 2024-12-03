@@ -1,7 +1,7 @@
 package com.mini.manager;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.mini.biz.manager.BmCourseBiz;
+import com.mini.biz.manager.course.BmCourseBiz;
 import com.mini.common.enums.str.CourseType;
 import com.mini.pojo.model.edit.course.BmCourseEdit;
 import com.mini.pojo.model.query.course.BmCourseQuery;

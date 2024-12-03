@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.common.enums.str.Gender;
 
-import com.mini.biz.manager.BmStudentBiz;
+import com.mini.biz.manager.org.BmStudentBiz;
 import com.mini.pojo.model.edit.org.BmStudentEdit;
 import com.mini.pojo.model.query.org.BmStudentQuery;
 import com.mini.pojo.model.request.org.BmStudentRequest;

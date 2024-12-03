@@ -1,7 +1,7 @@
 package com.mini.manager;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.mini.biz.manager.BmCourseScheduleBiz;
+import com.mini.biz.manager.course.BmCourseScheduleBiz;
 import com.mini.pojo.model.edit.course.BmCourseScheduleEdit;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
 import com.mini.pojo.model.request.course.BmCourseScheduleRequest;

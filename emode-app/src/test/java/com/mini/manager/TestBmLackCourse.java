@@ -1,7 +1,7 @@
 package com.mini.manager;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.mini.biz.manager.BmLackCourseBiz;
+import com.mini.biz.manager.course.BmLackCourseBiz;
 import com.mini.common.enums.str.CourseType;
 import com.mini.common.enums.str.YesOrNo;
 import com.mini.pojo.model.edit.course.BmLackCourseEdit;
