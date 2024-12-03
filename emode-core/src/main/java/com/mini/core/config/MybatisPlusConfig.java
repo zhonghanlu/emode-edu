@@ -8,10 +8,10 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import com.mini.common.enums.number.Delete;
-import com.mini.common.enums.str.*;
 import com.mini.common.enums.converter.IntEnumTypeHandler;
 import com.mini.common.enums.converter.StringEnumTypeHandler;
+import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.*;
 import com.mini.common.mybatis.handler.InjectionMetaObjectHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.springframework.context.annotation.Bean;
@@ -49,6 +49,7 @@ public class MybatisPlusConfig {
             registry.register(ClassType.class, StringEnumTypeHandler.class);
             registry.register(ProductStatus.class, StringEnumTypeHandler.class);
             registry.register(ProductShowStatus.class, StringEnumTypeHandler.class);
+            registry.register(ApplyStatus.class, StringEnumTypeHandler.class);
         };
     }
 
