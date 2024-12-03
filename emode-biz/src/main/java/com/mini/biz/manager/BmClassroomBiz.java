@@ -2,7 +2,7 @@ package com.mini.biz.manager;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.manager.service.BmClassroomService;
-import com.mini.pojo.mapper.BmClassroomStructMapper;
+import com.mini.pojo.mapper.org.BmClassroomStructMapper;
 import com.mini.pojo.model.dto.org.BmClassroomDTO;
 import com.mini.pojo.model.edit.org.BmClassroomEdit;
 import com.mini.pojo.model.query.org.BmClassroomQuery;

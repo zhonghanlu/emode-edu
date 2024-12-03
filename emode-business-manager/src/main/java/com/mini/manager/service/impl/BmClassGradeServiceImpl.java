@@ -17,7 +17,7 @@ import com.mini.manager.service.BmClassGradeService;
 import com.mini.pojo.entity.course.BmClassGrade;
 import com.mini.pojo.entity.org.BmClassroom;
 import com.mini.pojo.entity.org.BmTeacher;
-import com.mini.pojo.mapper.BmClassGradeStructMapper;
+import com.mini.pojo.mapper.course.BmClassGradeStructMapper;
 import com.mini.pojo.model.dto.course.BmClassGradeDTO;
 import com.mini.pojo.model.query.course.BmClassGradeQuery;
 import lombok.RequiredArgsConstructor;

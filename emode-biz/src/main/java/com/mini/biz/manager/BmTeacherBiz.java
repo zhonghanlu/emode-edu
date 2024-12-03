@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.file.model.dto.SysFileDTO;
 import com.mini.file.service.ISysFileService;
 import com.mini.manager.service.BmTeacherService;
-import com.mini.pojo.mapper.BmTeacherStructMapper;
+import com.mini.pojo.mapper.org.BmTeacherStructMapper;
 import com.mini.pojo.model.dto.org.BmTeacherDTO;
 import com.mini.pojo.model.edit.org.BmTeacherEdit;
 import com.mini.pojo.model.query.org.BmTeacherQuery;

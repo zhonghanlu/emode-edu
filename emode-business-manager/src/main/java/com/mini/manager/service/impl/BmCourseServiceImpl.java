@@ -19,7 +19,7 @@ import com.mini.pojo.entity.course.BmClassGrade;
 import com.mini.pojo.entity.org.BmClassroom;
 import com.mini.pojo.entity.course.BmCourse;
 import com.mini.pojo.entity.org.BmTeacher;
-import com.mini.pojo.mapper.BmCourseStructMapper;
+import com.mini.pojo.mapper.course.BmCourseStructMapper;
 import com.mini.pojo.model.dto.course.BmCourseDTO;
 import com.mini.pojo.model.query.course.BmCourseQuery;
 import lombok.RequiredArgsConstructor;

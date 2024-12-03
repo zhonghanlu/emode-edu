@@ -10,7 +10,7 @@ import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.mapper.BmHandlerClassMapper;
 import com.mini.manager.service.BmHandlerClassService;
 import com.mini.pojo.entity.course.BmHandlerClass;
-import com.mini.pojo.mapper.BmHandlerClassStructMapper;
+import com.mini.pojo.mapper.course.BmHandlerClassStructMapper;
 import com.mini.pojo.model.dto.course.BmHandlerClassDTO;
 import com.mini.pojo.model.query.course.BmHandlerClassQuery;
 import lombok.RequiredArgsConstructor;

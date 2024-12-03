@@ -1,4 +1,4 @@
-package com.mini.pojo.mapper;
+package com.mini.pojo.mapper.org;
 
 import com.mini.pojo.entity.org.BmOrg;
 import com.mini.pojo.model.dto.org.BmOrgDTO;

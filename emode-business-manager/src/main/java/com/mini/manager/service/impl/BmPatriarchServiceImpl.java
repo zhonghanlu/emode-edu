@@ -10,7 +10,7 @@ import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.mapper.BmPatriarchMapper;
 import com.mini.manager.service.BmPatriarchService;
 import com.mini.pojo.entity.org.BmPatriarch;
-import com.mini.pojo.mapper.BmPatriarchStructMapper;
+import com.mini.pojo.mapper.org.BmPatriarchStructMapper;
 import com.mini.pojo.model.dto.org.BmPatriarchDTO;
 import com.mini.pojo.model.query.org.BmPatriarchQuery;
 import lombok.RequiredArgsConstructor;

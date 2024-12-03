@@ -10,7 +10,7 @@ import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.mapper.BmStudentMapper;
 import com.mini.manager.service.BmStudentService;
 import com.mini.pojo.entity.org.BmStudent;
-import com.mini.pojo.mapper.BmStudentStructMapper;
+import com.mini.pojo.mapper.org.BmStudentStructMapper;
 import com.mini.pojo.model.dto.org.BmStudentDTO;
 import com.mini.pojo.model.query.org.BmStudentQuery;
 import lombok.RequiredArgsConstructor;

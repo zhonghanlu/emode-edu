@@ -10,7 +10,7 @@ import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.mapper.BmCourseScheduleMapper;
 import com.mini.manager.service.BmCourseScheduleService;
 import com.mini.pojo.entity.course.BmCourseSchedule;
-import com.mini.pojo.mapper.BmCourseScheduleStructMapper;
+import com.mini.pojo.mapper.course.BmCourseScheduleStructMapper;
 import com.mini.pojo.model.dto.course.BmCourseScheduleDTO;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
 import lombok.RequiredArgsConstructor;

@@ -12,7 +12,7 @@ import com.mini.manager.mapper.BmTeacherMapper;
 import com.mini.manager.service.BmTeacherService;
 import com.mini.pojo.entity.org.BmOrg;
 import com.mini.pojo.entity.org.BmTeacher;
-import com.mini.pojo.mapper.BmTeacherStructMapper;
+import com.mini.pojo.mapper.org.BmTeacherStructMapper;
 import com.mini.pojo.model.dto.org.BmTeacherDTO;
 import com.mini.pojo.model.query.org.BmTeacherQuery;
 import lombok.RequiredArgsConstructor;

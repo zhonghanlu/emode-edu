@@ -10,7 +10,7 @@ import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.mapper.BmRepairCourseMapper;
 import com.mini.manager.service.BmRepairCourseService;
 import com.mini.pojo.entity.course.BmRepairCourse;
-import com.mini.pojo.mapper.BmRepairCourseStructMapper;
+import com.mini.pojo.mapper.course.BmRepairCourseStructMapper;
 import com.mini.pojo.model.dto.course.BmRepairCourseDTO;
 import com.mini.pojo.model.query.course.BmRepairCourseQuery;
 import lombok.RequiredArgsConstructor;

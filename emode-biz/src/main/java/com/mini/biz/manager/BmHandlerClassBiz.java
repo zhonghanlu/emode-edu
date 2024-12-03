@@ -2,7 +2,7 @@ package com.mini.biz.manager;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.manager.service.BmHandlerClassService;
-import com.mini.pojo.mapper.BmHandlerClassStructMapper;
+import com.mini.pojo.mapper.course.BmHandlerClassStructMapper;
 import com.mini.pojo.model.dto.course.BmHandlerClassDTO;
 import com.mini.pojo.model.edit.course.BmHandlerClassEdit;
 import com.mini.pojo.model.query.course.BmHandlerClassQuery;

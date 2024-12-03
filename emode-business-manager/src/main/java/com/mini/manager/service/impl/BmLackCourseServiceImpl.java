@@ -16,7 +16,7 @@ import com.mini.pojo.entity.course.BmClassGrade;
 import com.mini.pojo.entity.course.BmCourse;
 import com.mini.pojo.entity.course.BmLackCourse;
 import com.mini.pojo.entity.org.BmStudent;
-import com.mini.pojo.mapper.BmLackCourseStructMapper;
+import com.mini.pojo.mapper.course.BmLackCourseStructMapper;
 import com.mini.pojo.model.dto.course.BmLackCourseDTO;
 import com.mini.pojo.model.query.course.BmLackCourseQuery;
 import lombok.RequiredArgsConstructor;

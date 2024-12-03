@@ -11,7 +11,7 @@ import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.pojo.entity.org.BmOrg;
 import com.mini.manager.mapper.BmOrgMapper;
 import com.mini.manager.service.BmOrgService;
-import com.mini.pojo.mapper.BmOrgStructMapper;
+import com.mini.pojo.mapper.org.BmOrgStructMapper;
 import com.mini.pojo.model.dto.org.BmOrgDTO;
 import com.mini.pojo.model.query.org.BmOrgQuery;
 import lombok.RequiredArgsConstructor;

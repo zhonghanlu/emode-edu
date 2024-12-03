@@ -1,4 +1,4 @@
-package com.mini.pojo.mapper;
+package com.mini.pojo.mapper.course;
 
 import com.mini.pojo.entity.course.BmCourseSchedule;
 import com.mini.pojo.model.dto.course.BmCourseScheduleDTO;
