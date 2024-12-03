@@ -1,4 +1,4 @@
-package com.mini.manager;
+package com.mini.manager.org;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.biz.manager.org.BmTeacherBiz;
@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * @create 2024/11/13 13:23
  */
 @SpringBootTest(classes = ModeApplication.class)
-class TestTeacher {
+class TestBmTeacher {
 
     @Resource
     private BmTeacherBiz bmTeacherBiz;

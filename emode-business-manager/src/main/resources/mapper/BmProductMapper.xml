@@ -3,26 +3,58 @@
 <mapper namespace="com.mini.manager.mapper.BmProductMapper">
 
     <!-- 通用查询映射结果 -->
-<!--    <resultMap id="BaseResultMap" type="com.mini.manager.entity.BmProduct">-->
-<!--        <id column="id" property="id" />-->
-<!--        <result column="product_url" property="productUrl" />-->
-<!--        <result column="product_url_id" property="productUrlId" />-->
-<!--        <result column="product_name" property="productName" />-->
-<!--        <result column="product_hour" property="productHour" />-->
-<!--        <result column="product_price" property="productPrice" />-->
-<!--        <result column="product_reduced_price" property="productReducedPrice" />-->
-<!--        <result column="recommend_age" property="recommendAge" />-->
-<!--        <result column="course_detail" property="courseDetail" />-->
-<!--        <result column="product_type" property="productType" />-->
-<!--        <result column="class_type" property="classType" />-->
-<!--        <result column="status" property="status" />-->
-<!--        <result column="class_time" property="classTime" />-->
-<!--        <result column="show_status" property="showStatus" />-->
-<!--        <result column="create_by" property="createBy" />-->
-<!--        <result column="create_time" property="createTime" />-->
-<!--        <result column="update_by" property="updateBy" />-->
-<!--        <result column="update_time" property="updateTime" />-->
-<!--        <result column="del_flag" property="delFlag" />-->
-<!--    </resultMap>-->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.sale.BmProductDTO">
+        <id column="id" property="id"/>
+        <result column="product_url" property="productUrl"/>
+        <result column="product_url_id" property="productUrlId"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_hour" property="productHour"/>
+        <result column="product_price" property="productPrice"/>
+        <result column="product_reduced_price" property="productReducedPrice"/>
+        <result column="recommend_age" property="recommendAge"/>
+        <result column="course_detail" property="courseDetail"/>
+        <result column="product_type" property="productType"/>
+        <result column="class_type" property="classType"/>
+        <result column="status" property="status"/>
+        <result column="class_time" property="classTime"/>
+        <result column="show_status" property="showStatus"/>
+    </resultMap>
 
+    <select id="page" resultMap="BaseResultMap">
+        SELECT
+        bp.id,
+        bp.product_url,
+        bp.product_url_id,
+        bp.product_name,
+        bp.product_hour,
+        bp.product_price,
+        bp.product_reduced_price,
+        bp.recommend_age,
+        bp.course_detail,
+        bp.product_type,
+        bp.class_type,
+        bp.status,
+        bp.class_time,
+        bp.show_status
+        FROM
+        bm_product bp
+        <where>
+            bp.del_flag = 1
+            <if test="query.productName != '' and query.productName != null">
+                AND bp.product_name LIKE CONCAT("%",#{query.productName},"%")
+            </if>
+            <if test="query.productHour != null">
+                AND bp.product_hour = #{query.productHour}
+            </if>
+            <if test="query.productType != null">
+                AND bp.product_type = #{query.productType}
+            </if>
+            <if test="query.classType != null">
+                AND bp.class_type = #{query.classType}
+            </if>
+            <if test="query.showStatus != null">
+                AND bp.show_status = #{query.showStatus}
+            </if>
+        </where>
+    </select>
 </mapper>

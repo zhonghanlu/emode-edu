@@ -3,23 +3,50 @@
 <mapper namespace="com.mini.manager.mapper.BmPatchOrderMapper">
 
     <!-- 通用查询映射结果 -->
-<!--    <resultMap id="BaseResultMap" type="com.mini.manager.entity.BmPatchOrder">-->
-<!--        <id column="id" property="id" />-->
-<!--        <result column="patch_create_time" property="patchCreateTime" />-->
-<!--        <result column="patch_price" property="patchPrice" />-->
-<!--        <result column="patch_reduced_price" property="patchReducedPrice" />-->
-<!--        <result column="patch_actual_price" property="patchActualPrice" />-->
-<!--        <result column="patch_product_name" property="patchProductName" />-->
-<!--        <result column="patch_consume" property="patchConsume" />-->
-<!--        <result column="patch_phone" property="patchPhone" />-->
-<!--        <result column="patch_status" property="patchStatus" />-->
-<!--        <result column="patch_handler_id" property="patchHandlerId" />-->
-<!--        <result column="patch_handler_name" property="patchHandlerName" />-->
-<!--        <result column="create_by" property="createBy" />-->
-<!--        <result column="create_time" property="createTime" />-->
-<!--        <result column="update_by" property="updateBy" />-->
-<!--        <result column="update_time" property="updateTime" />-->
-<!--        <result column="del_flag" property="delFlag" />-->
-<!--    </resultMap>-->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.sale.BmPatchOrderDTO">
+        <id column="id" property="id"/>
+        <result column="patch_create_time" property="patchCreateTime"/>
+        <result column="patch_price" property="patchPrice"/>
+        <result column="patch_reduced_price" property="patchReducedPrice"/>
+        <result column="patch_actual_price" property="patchActualPrice"/>
+        <result column="patch_product_name" property="patchProductName"/>
+        <result column="patch_consume" property="patchConsume"/>
+        <result column="patch_phone" property="patchPhone"/>
+        <result column="patch_status" property="patchStatus"/>
+        <result column="patch_handler_id" property="patchHandlerId"/>
+        <result column="patch_handler_name" property="patchHandlerName"/>
+    </resultMap>
 
+    <select id="page" resultMap="BaseResultMap">
+        SELECT bpo.id,
+        bpo.patch_create_time,
+        bpo.patch_price,
+        bpo.patch_reduced_price,
+        bpo.patch_actual_price,
+        bpo.patch_product_name,
+        bpo.patch_consume,
+        bpo.patch_phone,
+        bpo.patch_status,
+        bpo.patch_handler_id,
+        bpo.patch_handler_name
+        FROM bm_patch_order bpo
+        <where>
+            bpo.del_flag = 1
+            <if test="query.patchProductName != '' and query.patchProductName != null">
+                AND bpo.patch_product_name LIKE CONCAT("%",#{query.patchProductName},"%")
+            </if>
+            <if test="query.patchConsume != '' and query.patchConsume != null">
+                AND bpo.patch_consume LIKE CONCAT("%",#{query.patchConsume},"%")
+            </if>
+            <if test="query.patchPhone != '' and query.patchPhone != null">
+                AND bpo.patch_phone LIKE CONCAT("%",#{query.patchPhone},"%")
+            </if>
+            <if test="query.patchStatus != null">
+                AND bpo.patch_status = #{query.patchStatus}
+            </if>
+            <if test="query.patchHandlerName != '' and query.patchHandlerName != null">
+                AND bpo.patch_handler_name LIKE CONCAT("%",#{query.patchHandlerName},"%")
+            </if>
+        </where>
+    </select>
 </mapper>

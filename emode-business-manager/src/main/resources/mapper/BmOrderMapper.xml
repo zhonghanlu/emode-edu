@@ -3,23 +3,52 @@
 <mapper namespace="com.mini.manager.mapper.BmOrderMapper">
 
     <!-- 通用查询映射结果 -->
-<!--    <resultMap id="BaseResultMap" type="com.mini.manager.entity.BmOrder">-->
-<!--        <id column="id" property="id" />-->
-<!--        <result column="order_create_time" property="orderCreateTime" />-->
-<!--        <result column="order_price" property="orderPrice" />-->
-<!--        <result column="order_reduced_price" property="orderReducedPrice" />-->
-<!--        <result column="order_actual_price" property="orderActualPrice" />-->
-<!--        <result column="order_product_name" property="orderProductName" />-->
-<!--        <result column="order_consume" property="orderConsume" />-->
-<!--        <result column="order_status" property="orderStatus" />-->
-<!--        <result column="order_phone" property="orderPhone" />-->
-<!--        <result column="order_consumed_id" property="orderConsumedId" />-->
-<!--        <result column="order_consumed_name" property="orderConsumedName" />-->
-<!--        <result column="create_by" property="createBy" />-->
-<!--        <result column="create_time" property="createTime" />-->
-<!--        <result column="update_by" property="updateBy" />-->
-<!--        <result column="update_time" property="updateTime" />-->
-<!--        <result column="del_flag" property="delFlag" />-->
-<!--    </resultMap>-->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.sale.BmOrderDTO">
+        <id column="id" property="id" />
+        <result column="order_create_time" property="orderCreateTime" />
+        <result column="order_price" property="orderPrice" />
+        <result column="order_reduced_price" property="orderReducedPrice" />
+        <result column="order_actual_price" property="orderActualPrice" />
+        <result column="order_product_name" property="orderProductName" />
+        <result column="order_consume" property="orderConsume" />
+        <result column="order_status" property="orderStatus" />
+        <result column="order_phone" property="orderPhone" />
+        <result column="order_consumed_id" property="orderConsumedId" />
+        <result column="order_consumed_name" property="orderConsumedName" />
+    </resultMap>
 
+    <select id="page" resultMap="BaseResultMap">
+        SELECT
+        bo.id,
+        bo.order_create_time,
+        bo.order_price,
+        bo.order_reduced_price,
+        bo.order_actual_price,
+        bo.order_product_name,
+        bo.order_consume,
+        bo.order_status,
+        bo.order_phone,
+        bo.order_consumed_id,
+        bo.order_consumed_name
+        FROM
+        bm_order bo
+        <where>
+            bo.del_flag = 1
+            <if test="query.orderProductName != '' and query.orderProductName != null">
+                AND bo.order_product_name LIKE CONCAT("%",#{query.orderProductName},"%")
+            </if>
+            <if test="query.orderConsume != '' and query.orderConsume != null">
+                AND bo.order_consume LIKE CONCAT("%",#{query.orderConsume},"%")
+            </if>
+            <if test="query.orderStatus != null">
+                AND bo.order_status = #{query.orderStatus}
+            </if>
+            <if test="query.orderPhone != '' and query.orderPhone != null">
+                AND bo.order_phone LIKE CONCAT("%",#{query.orderPhone},"%")
+            </if>
+            <if test="query.orderConsumedName != '' and query.orderConsumedName != null">
+                AND bo.order_consumed_name LIKE CONCAT("%",#{query.orderConsumedName},"%")
+            </if>
+        </where>
+    </select>
 </mapper>

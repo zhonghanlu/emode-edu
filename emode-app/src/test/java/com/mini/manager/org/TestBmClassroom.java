@@ -1,4 +1,4 @@
-package com.mini.manager;
+package com.mini.manager.org;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.common.enums.str.RoomStatus;

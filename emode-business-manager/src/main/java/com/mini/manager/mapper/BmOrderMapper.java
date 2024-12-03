@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mini.pojo.entity.sale.BmOrder;
 import com.mini.pojo.model.dto.sale.BmOrderDTO;
 import com.mini.pojo.model.query.sale.BmOrderQuery;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -17,5 +18,5 @@ import com.mini.pojo.model.query.sale.BmOrderQuery;
  */
 public interface BmOrderMapper extends BaseMapper<BmOrder> {
 
-    IPage<BmOrderDTO> page(BmOrderQuery query, Page<BmOrderDTO> build);
+    IPage<BmOrderDTO> page(@Param("query") BmOrderQuery query, Page<BmOrderDTO> build);
 }

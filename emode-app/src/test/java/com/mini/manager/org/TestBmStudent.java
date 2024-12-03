@@ -1,4 +1,4 @@
-package com.mini.manager;
+package com.mini.manager.org;
 
 import java.time.LocalDateTime;
 
@@ -21,7 +21,7 @@ import javax.annotation.Resource;
  * @create 2024/11/13 13:23
  */
 @SpringBootTest(classes = ModeApplication.class)
-class TestStudent {
+class TestBmStudent {
 
     @Resource
     private BmStudentBiz bmStudentBiz;
