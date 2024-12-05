@@ -20,7 +20,7 @@
         SELECT
         bta.id,
         bta.apply_stu_id,
-        bta.stu_name,
+        bta.apply_name,
         bta.apply_subject,
         bta.apply_time,
         bta.apply_tutor_id,

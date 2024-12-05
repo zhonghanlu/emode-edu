@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  * 家教申请
@@ -18,6 +20,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class BmTutorApplyEdit {
 
+    @NotNull(message = "申请主键id不可为空")
     @Schema(title = "主键 id")
     private Long id;
 

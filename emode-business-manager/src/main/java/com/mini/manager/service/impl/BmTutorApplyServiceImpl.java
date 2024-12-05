@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.ApplyStatus;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.mybatis.CommonMybatisUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
@@ -49,6 +50,7 @@ public class BmTutorApplyServiceImpl extends ServiceImpl<BmTutorApplyMapper, BmT
             throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "申请家教老师不存在");
         }
 
+        bmTutorApply.setApplyStatus(ApplyStatus.APPLY_ING);
         bmTutorApply.setApplyTutorTeaName(bmTeacher.getTeaName());
 
         bmTutorApply.setId(IDGenerator.next());

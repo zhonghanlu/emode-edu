@@ -253,14 +253,22 @@ spring-doc:
       paths-to-match: '/**'
       packages-to-scan:
         - com.mini.web.controller.sys
-#    - group: 'pc管理端-机构管理'
-#      paths-to-match: '/**'
-#      packages-to-scan:
-#       - com.mini.web.controller.manager.org
-#    - group: 'pc管理端-课程管理'
-#      paths-to-match: '/**'
-#      packages-to-scan:
-#        - com.mini.web.controller.manager.course
+    - group: 'pc管理端-机构管理'
+      paths-to-match: '/**'
+      packages-to-scan:
+        - com.mini.web.controller.manager.org
+    - group: 'pc管理端-课程管理'
+      paths-to-match: '/**'
+      packages-to-scan:
+        - com.mini.web.controller.manager.course
+    - group: 'pc管理端-售课核销管理'
+      paths-to-match: '/**'
+      packages-to-scan:
+        - com.mini.web.controller.manager.sale
+    - group: 'pc管理端-家校一体管理'
+      paths-to-match: '/**'
+      packages-to-scan:
+        - com.mini.web.controller.manager.edu
 
 # knife4j configuration   http://127.0.0.1:18099/doc.html  OpenAPI3 语法
 knife4j:
