@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.manager.mapper.BmTutorTeacherMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.edu.BmTutorTeacherDTO">
+        <id column="id" property="id"/>
+        <result column="tea_id" property="teaId"/>
+        <result column="tea_name" property="teaName"/>
+        <result column="give_class_type" property="giveClassType"/>
+        <result column="leisure_time" property="leisureTime"/>
+        <result column="tutor_detail" property="tutorDetail"/>
+    </resultMap>
+
+    <select id="page" resultMap="BaseResultMap">
+        SELECT
+        btt.id,
+        btt.tea_id,
+        btt.tea_name,
+        btt.give_class_type,
+        btt.leisure_time,
+        btt.tutor_detail
+        FROM
+        bm_tutor_teacher btt
+        <where>
+            btt.del_flag = 1
+            <if test="query.teaName != null and query.teaName !=''">
+                AND btt.tea_name LIKE CONCAT("%",#{query.teaName},"%")
+            </if>
+            <if test="query.giveClassType != null">
+                AND btt.give_class_type = #{query.giveClassType}
+            </if>
+        </where>
+    </select>
+
+</mapper>

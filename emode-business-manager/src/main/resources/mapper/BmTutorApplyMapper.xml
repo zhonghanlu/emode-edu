@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.manager.mapper.BmTutorApplyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.edu.BmTutorApplyDTO">
+        <result column="id" property="id"/>
+        <result column="apply_stu_id" property="applyStuId"/>
+        <result column="apply_name" property="applyName"/>
+        <result column="apply_subject" property="applySubject"/>
+        <result column="apply_time" property="applyTime"/>
+        <result column="apply_tutor_id" property="applyTutorId"/>
+        <result column="apply_tutor_tea_name" property="applyTutorTeaName"/>
+        <result column="expend_class_hour" property="expendClassHour"/>
+        <result column="apply_address" property="applyAddress"/>
+        <result column="apply_status" property="applyStatus"/>
+    </resultMap>
+
+    <select id="page" resultMap="BaseResultMap">
+        SELECT
+        bta.id,
+        bta.apply_stu_id,
+        bta.stu_name,
+        bta.apply_subject,
+        bta.apply_time,
+        bta.apply_tutor_id,
+        bta.apply_tutor_tea_name,
+        bta.expend_class_hour,
+        bta.apply_address,
+        bta.apply_status
+        FROM
+        bm_tutor_apply bta
+        <where>
+            bta.del_flag = 1
+            <if test="query.applyName != null and query.applyName !=''">
+                AND bta.apply_name LIKE CONCAT("%",#{query.applyName},"%")
+            </if>
+            <if test="query.applySubject != null">
+                AND bta.apply_subject = #{query.applySubject}
+            </if>
+            <if test="query.applyTutorTeaName != null and query.applyTutorTeaName !=''">
+                AND bta.apply_tutor_tea_name LIKE CONCAT("%",#{query.applyTutorTeaName},"%")
+            </if>
+            <if test="query.applyStatus != null and query.applyStatus !=''">
+                AND bta.apply_status = #{query.applyStatus}
+            </if>
+        </where>
+    </select>
+
+</mapper>

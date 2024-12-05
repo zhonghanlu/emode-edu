@@ -19,12 +19,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class BmTutorApplyQuery extends PageQuery {
 
-    @Parameter(description = "主键 id")
-    private Long id;
-
-    @Parameter(description = "申请人 id")
-    private Long applyStuId;
-
     @Parameter(description = "申请人姓名")
     private String applyName;
 
@@ -34,17 +28,8 @@ public class BmTutorApplyQuery extends PageQuery {
     @Parameter(description = "申请时间")
     private String applyTime;
 
-    @Parameter(description = "申请家教老师 id")
-    private Long applyTutorId;
-
     @Parameter(description = "申请家教老师姓名")
     private String applyTutorTeaName;
-
-    @Parameter(description = "消耗课时")
-    private Integer expendClassHour;
-
-    @Parameter(description = "申请地址")
-    private String applyAddress;
 
     @Parameter(description = "申请状态")
     private ApplyStatus applyStatus;
