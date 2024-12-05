@@ -11,7 +11,7 @@
  Target Server Version : 80039 (8.0.39)
  File Encoding         : 65001
 
- Date: 29/11/2024 16:27:24
+ Date: 05/12/2024 11:41:13
 */
 
 SET NAMES utf8mb4;
@@ -465,6 +465,7 @@ CREATE TABLE `bm_order`  (
 -- ----------------------------
 -- Records of bm_order
 -- ----------------------------
+INSERT INTO `bm_order` VALUES (1649505279672352, '2024-12-03 20:50:10', 49999900, 45999900, 45999900, 'python50次课，python30次课', '小明', 'consume_paid', '15312665707', 1, '小王', NULL, '2024-12-03 20:50:10', NULL, '2024-12-03 20:52:30', 1);
 
 -- ----------------------------
 -- Table structure for bm_org
@@ -523,6 +524,7 @@ CREATE TABLE `bm_patch_order`  (
 -- ----------------------------
 -- Records of bm_patch_order
 -- ----------------------------
+INSERT INTO `bm_patch_order` VALUES (1649507571859488, '2024-12-03 21:08:23', 49999900, 49999900, 49999900, 'C++60次课', '小张', '147258', 'error_paid', 2, '嘻嘻', NULL, '2024-12-03 21:08:23', NULL, '2024-12-03 21:09:41', 1);
 
 -- ----------------------------
 -- Table structure for bm_patriarch
@@ -579,6 +581,7 @@ CREATE TABLE `bm_product`  (
 -- ----------------------------
 -- Records of bm_product
 -- ----------------------------
+INSERT INTO `bm_product` VALUES (1649501483827232, 'aaa.jpg', 1, 'python55次课', 50, 49999900, 43999900, 10, '章节1', 'python', 'offline', 'test', '暑假', 'listing', NULL, '2024-12-03 20:20:00', NULL, '2024-12-03 20:20:00', 1);
 
 -- ----------------------------
 -- Table structure for bm_repair_course
@@ -655,6 +658,55 @@ CREATE TABLE `bm_teacher`  (
 -- ----------------------------
 INSERT INTO `bm_teacher` VALUES (1646200895832096, 0, '丽丽', '17321729457', '1420865757@qq.com', 1645831847411744, '测试机构', NULL, '2024-11-15 15:09:18', NULL, '2024-11-15 15:09:18', 1);
 INSERT INTO `bm_teacher` VALUES (1646204593111072, 3, '小王啊', '145254145741', '111111', 1646203615838240, '极客晨星', 1, '2024-11-15 15:38:41', 1, '2024-11-15 15:38:41', 1);
+
+-- ----------------------------
+-- Table structure for bm_tutor_apply
+-- ----------------------------
+DROP TABLE IF EXISTS `bm_tutor_apply`;
+CREATE TABLE `bm_tutor_apply`  (
+  `id` bigint NULL DEFAULT NULL COMMENT '主键 id',
+  `apply_stu_id` bigint NULL DEFAULT NULL COMMENT '申请人 id',
+  `apply_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '申请人姓名',
+  `apply_subject` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '申请科目',
+  `apply_time` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '申请时间',
+  `apply_tutor_id` bigint NULL DEFAULT NULL COMMENT '申请家教老师 id',
+  `apply_tutor_tea_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '申请家教老师姓名',
+  `expend_class_hour` int NULL DEFAULT NULL COMMENT '消耗课时',
+  `apply_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '申请地址',
+  `apply_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '申请状态',
+  `create_by` bigint NULL DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` bigint NULL DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '修改人',
+  `del_flag` tinyint(1) NULL DEFAULT NULL COMMENT '删除标识 1 -1已删除'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '家教申请' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bm_tutor_apply
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for bm_tutor_teacher
+-- ----------------------------
+DROP TABLE IF EXISTS `bm_tutor_teacher`;
+CREATE TABLE `bm_tutor_teacher`  (
+  `id` bigint NOT NULL COMMENT '主键 id',
+  `tea_id` bigint NULL DEFAULT NULL COMMENT '教师 id',
+  `tea_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '家教老师名称',
+  `give_class_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '授课范围 python 、 c++等',
+  `leisure_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '空闲时间',
+  `tutor_detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '教师详细介绍',
+  `create_by` bigint NULL DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` bigint NULL DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '修改人',
+  `del_flag` tinyint(1) NULL DEFAULT NULL COMMENT '删除标识 1 -1已删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '家教老师' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bm_tutor_teacher
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -972,6 +1024,9 @@ INSERT INTO `sys_login_opt` VALUES (1648745569583136, 'sysUser', '192.168.56.1',
 INSERT INTO `sys_login_opt` VALUES (1648745575874592, 'sysUser', '192.168.56.1', '0|内网IP|内网IP', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-11-29 16:12:35');
 INSERT INTO `sys_login_opt` VALUES (1648745670246432, 'sysUser', '192.168.56.1', '0|内网IP|内网IP', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-11-29 16:13:20');
 INSERT INTO `sys_login_opt` VALUES (1648746968383520, 'admin', '192.168.56.1', '0|内网IP|内网IP', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-11-29 16:23:39');
+INSERT INTO `sys_login_opt` VALUES (1648748333629472, 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-11-29 16:34:30');
+INSERT INTO `sys_login_opt` VALUES (1648750026031136, 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-11-29 16:47:57');
+INSERT INTO `sys_login_opt` VALUES (1648750128791584, 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-11-29 16:48:47');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -1421,5 +1476,24 @@ INSERT INTO `sys_user_opt` VALUES (1648746989355040, '9b4c6ace-e67e-4466-8e1b-a0
 INSERT INTO `sys_user_opt` VALUES (1648747062755360, 'caef63ba-b119-4014-9d3c-9b168a3caf04', 'admin', '192.168.56.1', '0|内网IP|内网IP', 'Chrome 13', 'Windows 10', 'GET', '/sys-user/user-detail-type/1', '{id=1}', 'yes', '2024-11-29 16:24:24');
 INSERT INTO `sys_user_opt` VALUES (1648747136155680, '3e47e851-25bd-43e4-8463-66b5167cb22b', 'admin', '192.168.56.1', '0|内网IP|内网IP', 'Chrome 13', 'Windows 10', 'GET', '/sys-user/user-detail-type/1', '{id=1}', 'yes', '2024-11-29 16:24:59');
 INSERT INTO `sys_user_opt` VALUES (1648747276664864, 'c678693b-a629-46b9-acbd-c307ab79b3ca', 'admin', '192.168.56.1', '0|内网IP|内网IP', 'Chrome 13', 'Windows 10', 'GET', '/sys-user/user-detail-type/1', '{id=1}', 'yes', '2024-11-29 16:26:06');
+INSERT INTO `sys_user_opt` VALUES (1648748358795296, 'bce9ca53-fb52-4731-9e75-1621d9f70408', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/captcha-enable', '{}', 'yes', '2024-11-29 16:34:43');
+INSERT INTO `sys_user_opt` VALUES (1648748509790240, '2e0cc712-9d71-4c31-8f8d-56dd13e99301', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/user-detail-base', '{}', 'yes', '2024-11-29 16:35:54');
+INSERT INTO `sys_user_opt` VALUES (1648748516081696, 'db192042-1264-43bc-aeec-266b1c193ea5', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/user-detail-router', '{}', 'yes', '2024-11-29 16:35:57');
+INSERT INTO `sys_user_opt` VALUES (1648748555927584, 'f1d380c0-2161-463b-8f0a-bd03c40f787a', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-file/page', '{}', 'yes', '2024-11-29 16:36:17');
+INSERT INTO `sys_user_opt` VALUES (1648748639813664, 'b3d73407-d903-4f7d-8c4a-2be2cd500b8b', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'POST', '/sys-file/upload-mf', '', 'yes', '2024-11-29 16:36:57');
+INSERT INTO `sys_user_opt` VALUES (1648748706922528, '3f41c9ba-6924-4fd7-934d-eea1f8cd767a', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-captcha/captcha-image', '{}', 'yes', '2024-11-29 16:37:28');
+INSERT INTO `sys_user_opt` VALUES (1648748950192160, 'f4dc05a5-7a37-4def-81b8-af89583cf89b', 'admin', '192.168.56.1', '0|内网IP|内网IP', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/captcha-enable', '{}', 'yes', '2024-11-29 16:39:25');
+INSERT INTO `sys_user_opt` VALUES (1648748966969376, '4d7afd87-dc14-437e-ba39-1800fcb6af09', 'admin', '192.168.56.1', '0|内网IP|内网IP', 'Chrome 13', 'Windows 10', 'GET', '/sys-captcha/captcha-image', '{}', 'yes', '2024-11-29 16:39:32');
+INSERT INTO `sys_user_opt` VALUES (1648749753401376, '534fd858-9664-4380-b8c9-3819632ceb8b', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/captcha-enable', '{}', 'yes', '2024-11-29 16:45:48');
+INSERT INTO `sys_user_opt` VALUES (1648749759692832, 'f8229354-39ae-449f-8066-2f826807a6d2', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/captcha-enable', '{}', 'yes', '2024-11-29 16:45:50');
+INSERT INTO `sys_user_opt` VALUES (1648749759692864, 'dbb9e872-351b-4ebe-bf4b-00b689bea188', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/captcha-enable', '{}', 'yes', '2024-11-29 16:45:51');
+INSERT INTO `sys_user_opt` VALUES (1648749761789984, '13ed5db5-6303-4d95-9d19-803deff4e5af', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/captcha-enable', '{}', 'yes', '2024-11-29 16:45:51');
+INSERT INTO `sys_user_opt` VALUES (1648749761790016, '00ef861d-ddbc-478b-9d67-25280e9876d4', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/captcha-enable', '{}', 'yes', '2024-11-29 16:45:51');
+INSERT INTO `sys_user_opt` VALUES (1648749761790048, '418c707a-9ca5-4fe4-a503-0fe2a3395b71', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/captcha-enable', '{}', 'yes', '2024-11-29 16:45:52');
+INSERT INTO `sys_user_opt` VALUES (1648749761790080, '18055c87-2ae6-4064-b0bc-f986b6d515e1', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/captcha-enable', '{}', 'yes', '2024-11-29 16:45:52');
+INSERT INTO `sys_user_opt` VALUES (1648749774372896, 'e7b10d67-d0a9-489e-9f89-c2f7cfa5328a', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-captcha/captcha-image', '{}', 'yes', '2024-11-29 16:45:57');
+INSERT INTO `sys_user_opt` VALUES (1648749776470048, '36d247f4-0ced-492d-9ad7-f95572f24531', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-captcha/captcha-image', '{}', 'yes', '2024-11-29 16:45:58');
+INSERT INTO `sys_user_opt` VALUES (1648750153957408, 'e3839213-7566-4e91-aea1-f25818eda872', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/user-detail-base', '{}', 'yes', '2024-11-29 16:48:59');
+INSERT INTO `sys_user_opt` VALUES (1648750160248864, 'be25d2a8-bcb5-4c2c-8bff-31e26c5174d1', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/user-detail-router', '{}', 'yes', '2024-11-29 16:49:02');
 
 SET FOREIGN_KEY_CHECKS = 1;
