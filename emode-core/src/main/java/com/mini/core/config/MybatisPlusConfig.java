@@ -50,6 +50,8 @@ public class MybatisPlusConfig {
             registry.register(ProductStatus.class, StringEnumTypeHandler.class);
             registry.register(ProductShowStatus.class, StringEnumTypeHandler.class);
             registry.register(ApplyStatus.class, StringEnumTypeHandler.class);
+            registry.register(IdeaType.class, StringEnumTypeHandler.class);
+            registry.register(PosterType.class, StringEnumTypeHandler.class);
         };
     }
 

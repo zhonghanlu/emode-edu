@@ -11,7 +11,7 @@
  Target Server Version : 80039 (8.0.39)
  File Encoding         : 65001
 
- Date: 05/12/2024 11:41:13
+ Date: 05/12/2024 17:05:11
 */
 
 SET NAMES utf8mb4;
@@ -409,6 +409,26 @@ CREATE TABLE `bm_handler_class_order_relation`  (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for bm_idea
+-- ----------------------------
+DROP TABLE IF EXISTS `bm_idea`;
+CREATE TABLE `bm_idea`  (
+  `id` bigint NOT NULL COMMENT '主键id',
+  `idea_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '意见类型',
+  `idea_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '意见内容',
+  `create_by` bigint NULL DEFAULT NULL COMMENT '创建人',
+  `update_by` bigint NULL DEFAULT NULL COMMENT '修改人',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '修改人',
+  `del_flag` tinyint(1) NULL DEFAULT NULL COMMENT '删除标识 1 -1已删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '意见箱表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bm_idea
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for bm_lack_course
 -- ----------------------------
 DROP TABLE IF EXISTS `bm_lack_course`;
@@ -552,6 +572,29 @@ INSERT INTO `bm_patriarch` VALUES (1646197760589856, 2, '李四', '17321729457',
 INSERT INTO `bm_patriarch` VALUES (1646204005908512, 2, '王五', '14785269874', '456465465', '江苏啊', 1, '2024-11-15 15:34:00', 1, '2024-11-15 15:34:00', 1);
 
 -- ----------------------------
+-- Table structure for bm_poster
+-- ----------------------------
+DROP TABLE IF EXISTS `bm_poster`;
+CREATE TABLE `bm_poster`  (
+  `id` bigint NOT NULL COMMENT '主键id',
+  `poster_file_id` bigint NULL DEFAULT NULL COMMENT '图片id',
+  `poster_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片地址',
+  `poster_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '（线下首页推荐海报）（线下运营宣传）（小程序首页）（小程序课程）（家校一体推广）',
+  `poster_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '海报状态、使用、未使用',
+  `poster_opt_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '绘画人',
+  `create_by` bigint NULL DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` bigint NULL DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '修改人',
+  `del_flag` tinyint(1) NULL DEFAULT NULL COMMENT '删除标识 1 -1已删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '海报统一管理表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bm_poster
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for bm_product
 -- ----------------------------
 DROP TABLE IF EXISTS `bm_product`;
@@ -582,6 +625,31 @@ CREATE TABLE `bm_product`  (
 -- Records of bm_product
 -- ----------------------------
 INSERT INTO `bm_product` VALUES (1649501483827232, 'aaa.jpg', 1, 'python55次课', 50, 49999900, 43999900, 10, '章节1', 'python', 'offline', 'test', '暑假', 'listing', NULL, '2024-12-03 20:20:00', NULL, '2024-12-03 20:20:00', 1);
+
+-- ----------------------------
+-- Table structure for bm_pull_new
+-- ----------------------------
+DROP TABLE IF EXISTS `bm_pull_new`;
+CREATE TABLE `bm_pull_new`  (
+  `id` bigint NOT NULL COMMENT '主键id',
+  `source_patriarch_id` bigint NULL DEFAULT NULL COMMENT '拉新人id',
+  `source_patriarch_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '拉新人姓名',
+  `invitation_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邀请码',
+  `new_patriarch_id` bigint NULL DEFAULT NULL COMMENT '被拉新人id',
+  `new_patriarch_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '被拉新人姓名',
+  `reward` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '奖励',
+  `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '原因',
+  `create_by` bigint NULL DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` bigint NULL DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '修改人',
+  `del_flag` tinyint(1) NULL DEFAULT NULL COMMENT '删除标识 1 -1已删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '拉新统一汇总表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bm_pull_new
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for bm_repair_course
@@ -684,6 +752,7 @@ CREATE TABLE `bm_tutor_apply`  (
 -- ----------------------------
 -- Records of bm_tutor_apply
 -- ----------------------------
+INSERT INTO `bm_tutor_apply` VALUES (1649822910119968, 1, '张三', 'python', '2020-02-02 -- 2024-01-01', 1646200895832096, '丽丽', 4, '江苏省南京市嘻嘻', 'apply_end', NULL, '2024-12-05 14:54:28', NULL, '2024-12-05 14:54:28', 1);
 
 -- ----------------------------
 -- Table structure for bm_tutor_teacher
@@ -707,6 +776,7 @@ CREATE TABLE `bm_tutor_teacher`  (
 -- ----------------------------
 -- Records of bm_tutor_teacher
 -- ----------------------------
+INSERT INTO `bm_tutor_teacher` VALUES (1649823549751328, 1, '李四', '[SCRATCH]', '2024-02-02 -- 2024-02-02', '滴滴滴滴滴滴滴滴', NULL, '2024-12-05 14:59:33', NULL, '2024-12-05 14:59:33', 1);
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -1027,6 +1097,7 @@ INSERT INTO `sys_login_opt` VALUES (1648746968383520, 'admin', '192.168.56.1', '
 INSERT INTO `sys_login_opt` VALUES (1648748333629472, 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-11-29 16:34:30');
 INSERT INTO `sys_login_opt` VALUES (1648750026031136, 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-11-29 16:47:57');
 INSERT INTO `sys_login_opt` VALUES (1648750128791584, 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-11-29 16:48:47');
+INSERT INTO `sys_login_opt` VALUES (1649824644464672, 'admin', '192.168.56.1', '0|内网IP|内网IP', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-12-05 15:08:16');
 
 -- ----------------------------
 -- Table structure for sys_notice
