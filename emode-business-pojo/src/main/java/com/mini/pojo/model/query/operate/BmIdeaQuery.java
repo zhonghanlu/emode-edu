@@ -3,8 +3,6 @@ package com.mini.pojo.model.query.operate;
 import com.mini.common.enums.str.IdeaType;
 import com.mini.common.utils.webmvc.PageQuery;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.PatternProperties;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,7 +20,4 @@ public class BmIdeaQuery extends PageQuery {
 
     @Parameter(description = "意见类型")
     private IdeaType ideaType;
-
-    @Parameter(description = "意见内容")
-    private String ideaContent;
 }

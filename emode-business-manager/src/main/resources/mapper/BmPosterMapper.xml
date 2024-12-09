@@ -3,18 +3,36 @@
 <mapper namespace="com.mini.manager.mapper.BmPosterMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mini.manager.entity.BmPoster">
-        <result column="id" property="id" />
-        <result column="poster_file_id" property="posterFileId" />
-        <result column="poster_url" property="posterUrl" />
-        <result column="poster_type" property="posterType" />
-        <result column="poster_status" property="posterStatus" />
-        <result column="poster_opt_name" property="posterOptName" />
-        <result column="create_by" property="createBy" />
-        <result column="create_time" property="createTime" />
-        <result column="update_by" property="updateBy" />
-        <result column="update_time" property="updateTime" />
-        <result column="del_flag" property="delFlag" />
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.operate.BmPosterDTO">
+        <result column="id" property="id"/>
+        <result column="poster_file_id" property="posterFileId"/>
+        <result column="poster_url" property="posterUrl"/>
+        <result column="poster_type" property="posterType"/>
+        <result column="poster_status" property="posterStatus"/>
+        <result column="poster_opt_name" property="posterOptName"/>
     </resultMap>
+
+    <select id="page" resultMap="BaseResultMap">
+        SELECT
+        bp.id,
+        bp.poster_file_id,
+        bp.poster_url,
+        bp.poster_type,
+        bp.poster_status,
+        bp.poster_opt_name
+        FROM bm_poster bp
+        <where>
+            bp.del_flag = 1
+            <if test="query.posterType != null">
+                AND bp.poster_type = #{query.posterType}
+            </if>
+            <if test="query.posterStatus != null">
+                AND bp.poster_status = #{query.posterStatus}
+            </if>
+            <if test="query.posterOptName != null and query.posterOptName != ''">
+                AND bp.poster_opt_name LIKE CONCAT('%',#{query.posterOptName},'%')
+            </if>
+        </where>
+    </select>
 
 </mapper>

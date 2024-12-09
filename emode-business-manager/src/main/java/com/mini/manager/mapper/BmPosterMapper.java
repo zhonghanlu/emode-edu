@@ -2,7 +2,12 @@ package com.mini.manager.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mini.pojo.entity.operate.BmPoster;
+import com.mini.pojo.model.dto.operate.BmPosterDTO;
+import com.mini.pojo.model.query.operate.BmPosterQuery;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -14,4 +19,5 @@ import com.mini.pojo.entity.operate.BmPoster;
  */
 public interface BmPosterMapper extends BaseMapper<BmPoster> {
 
+    IPage<BmPosterDTO> page(@Param("query") BmPosterQuery query, Page<BmPosterDTO> build);
 }

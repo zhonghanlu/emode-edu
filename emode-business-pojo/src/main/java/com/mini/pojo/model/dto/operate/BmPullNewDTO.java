@@ -16,7 +16,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class BmPullNewDTO {
 
-
     @Schema(title = "主键id")
     private Long id;
 

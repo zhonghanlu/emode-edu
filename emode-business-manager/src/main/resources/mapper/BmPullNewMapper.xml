@@ -3,20 +3,40 @@
 <mapper namespace="com.mini.manager.mapper.BmPullNewMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mini.manager.entity.BmPullNew">
-        <id column="id" property="id" />
-        <result column="source_patriarch_id" property="sourcePatriarchId" />
-        <result column="source_patriarch_name" property="sourcePatriarchName" />
-        <result column="invitation_code" property="invitationCode" />
-        <result column="new_patriarch_id" property="newPatriarchId" />
-        <result column="new_patriarch_name" property="newPatriarchName" />
-        <result column="reward" property="reward" />
-        <result column="reason" property="reason" />
-        <result column="create_by" property="createBy" />
-        <result column="create_time" property="createTime" />
-        <result column="update_by" property="updateBy" />
-        <result column="update_time" property="updateTime" />
-        <result column="del_flag" property="delFlag" />
+    <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.operate.BmPullNewDTO">
+        <id column="id" property="id"/>
+        <result column="source_patriarch_id" property="sourcePatriarchId"/>
+        <result column="source_patriarch_name" property="sourcePatriarchName"/>
+        <result column="invitation_code" property="invitationCode"/>
+        <result column="new_patriarch_id" property="newPatriarchId"/>
+        <result column="new_patriarch_name" property="newPatriarchName"/>
+        <result column="reward" property="reward"/>
+        <result column="reason" property="reason"/>
     </resultMap>
+
+    <select id="page" resultMap="BaseResultMap">
+        SELECT
+        bpn.id,
+        bpn.source_patriarch_id,
+        bpn.source_patriarch_name,
+        bpn.invitation_code,
+        bpn.new_patriarch_id,
+        bpn.new_patriarch_name,
+        bpn.reward,
+        bpn.reason
+        FROM bm_pull_new bpn
+        <where>
+            bpn.del_flag = 1
+            <if test="query.sourcePatriarchName != null and query.sourcePatriarchName != ''">
+                AND bpn.source_patriarch_name LIKE CONCAT('%',#{query.sourcePatriarchName},'%')
+            </if>
+            <if test="query.invitationCode != null and query.invitationCode != ''">
+                AND bpn.invitation_code LIKE CONCAT('%',#{query.invitationCode},'%')
+            </if>
+            <if test="query.newPatriarchName != null and query.newPatriarchName != ''">
+                AND bpn.new_patriarch_name LIKE CONCAT('%',#{query.newPatriarchName},'%')
+            </if>
+        </where>
+    </select>
 
 </mapper>

@@ -269,6 +269,10 @@ spring-doc:
       paths-to-match: '/**'
       packages-to-scan:
         - com.mini.web.controller.manager.edu
+    - group: 'pc管理端-运营管理'
+      paths-to-match: '/**'
+      packages-to-scan:
+        - com.mini.web.controller.manager.operate
 
 # knife4j configuration   http://127.0.0.1:18099/doc.html  OpenAPI3 语法
 knife4j:
