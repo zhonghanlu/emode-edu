@@ -4,9 +4,12 @@ import com.mini.pojo.entity.org.BmPatriarch;
 import com.mini.pojo.model.dto.org.BmPatriarchDTO;
 import com.mini.pojo.model.edit.org.BmPatriarchEdit;
 import com.mini.pojo.model.request.org.BmPatriarchRequest;
+import com.mini.pojo.model.vo.org.BmPatriarchPullVo;
 import com.mini.pojo.model.vo.org.BmPatriarchVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * @author zhl
@@ -41,4 +44,9 @@ public interface BmPatriarchStructMapper {
      * edit2dto
      */
     BmPatriarchDTO edit2Dto(BmPatriarchEdit edit);
+
+    /**
+     * voList2pullVoList
+     */
+    List<BmPatriarchPullVo> voList2PullVoList(List<BmPatriarch> patriarchList);
 }

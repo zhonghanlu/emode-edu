@@ -35,7 +35,7 @@ public class BmStudentServiceImpl extends ServiceImpl<BmStudentMapper, BmStudent
     private final BmStudentMapper bmStudentMapper;
 
     @Override
-    public void add(BmStudentDTO dto) {
+    public BmStudentDTO add(BmStudentDTO dto) {
         BmStudent bmStudent = BmStudentStructMapper.INSTANCE.dto2Entity(dto);
 
         bmStudent.setId(IDGenerator.next());
@@ -46,6 +46,8 @@ public class BmStudentServiceImpl extends ServiceImpl<BmStudentMapper, BmStudent
         if (b <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "新增失败");
         }
+
+        return BmStudentStructMapper.INSTANCE.entity2Dto(bmStudent);
     }
 
     @Override

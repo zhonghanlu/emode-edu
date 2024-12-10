@@ -1,9 +1,13 @@
 package com.mini.web.runner;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.mini.biz.base.SysConfigBiz;
 import com.mini.common.constant.RedisConstant;
 import com.mini.common.utils.http.IPUtils;
 import com.mini.common.utils.redis.RedisUtils;
+import com.mini.manager.service.BmStudentConstantService;
+import com.mini.pojo.entity.org.BmStudentConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -13,6 +17,9 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,6 +33,8 @@ import java.util.Map;
 public class ModeAppRunner implements ApplicationRunner {
 
     private final SysConfigBiz sysConfigBiz;
+
+    private final BmStudentConstantService bmStudentConstantService;
 
     @Value("${server.port}")
     private String serverPort;
@@ -49,5 +58,17 @@ public class ModeAppRunner implements ApplicationRunner {
         if (CollectionUtils.isNotEmpty(map.keySet())) {
             map.keySet().forEach(key -> RedisUtils.setCacheObject(RedisConstant.SYS_CONFIG_KEY + key, map.get(key)));
         }
+
+        // 学校与年级缓存
+        List<String> typeList = Arrays.asList(BmStudentConstant.GRADE_TYPE, BmStudentConstant.SCHOOL_TYPE);
+        typeList.forEach(type -> {
+            LambdaQueryWrapper<BmStudentConstant> wrapper = Wrappers.lambdaQuery(BmStudentConstant.class);
+            wrapper.eq(BmStudentConstant::getType, type);
+            List<BmStudentConstant> bmStudentConstantList = bmStudentConstantService.list(wrapper);
+            // 键入
+            if (CollectionUtils.isNotEmpty(bmStudentConstantList)) {
+                RedisUtils.setCacheObject(RedisConstant.SCHOOL_OR_GRADE + type + RedisConstant.PLACEHOLDER, bmStudentConstantList, Duration.ofDays(7));
+            }
+        });
     }
 }

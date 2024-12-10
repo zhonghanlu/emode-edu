@@ -6,6 +6,7 @@ import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.org.BmPatriarchEdit;
 import com.mini.pojo.model.query.org.BmPatriarchQuery;
 import com.mini.pojo.model.request.org.BmPatriarchRequest;
+import com.mini.pojo.model.vo.org.BmPatriarchPullVo;
 import com.mini.pojo.model.vo.org.BmPatriarchVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * <p>
@@ -66,6 +68,12 @@ public class BmPatriarchController {
     public Restful<Void> update(@RequestBody @Valid BmPatriarchEdit edit) {
         patriarchBiz.update(edit);
         return Restful.SUCCESS().build();
+    }
+
+    @Operation(summary = "家长信息下拉")
+    @PostMapping("/info-pull")
+    public Restful<List<BmPatriarchPullVo>> infoPull(@RequestParam(value = "patName", required = false) String patName) {
+        return Restful.OBJECT(patriarchBiz.infoPull(patName)).build();
     }
 
 }

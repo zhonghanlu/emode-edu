@@ -9,6 +9,8 @@ public final class RedisConstant {
     private RedisConstant() {
     }
 
+    public static final String PLACEHOLDER = ":";
+
     /**
      * 验证码相关
      */
@@ -30,5 +32,9 @@ public final class RedisConstant {
      * sm解密参数redis key
      */
     public static final String SM2_CACHE_KEY_PREFIX = "sm2-decrypt-cache:";
+
+
+    /// ////////////////////////////////////业务-机构管理-学生管理//////////////////////////////////////////////
+    public static final String SCHOOL_OR_GRADE = "school_or_grade:";
 
 }
