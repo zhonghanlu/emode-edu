@@ -11,7 +11,7 @@
  Target Server Version : 80039 (8.0.39)
  File Encoding         : 65001
 
- Date: 10/12/2024 22:03:13
+ Date: 12/12/2024 22:58:19
 */
 
 SET NAMES utf8mb4;
@@ -613,7 +613,7 @@ CREATE TABLE `bm_patriarch` (
   `id` bigint NOT NULL COMMENT '主键id',
   `pat_avatar_id` bigint DEFAULT NULL COMMENT '家长头像',
   `pat_name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '家长姓名',
-  `pat_iphone` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '家长手机号',
+  `pat_phone` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '家长手机号',
   `pat_wx` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '家长微信',
   `pat_address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '家长地址',
   `create_by` bigint DEFAULT NULL COMMENT '创建人',
@@ -628,8 +628,8 @@ CREATE TABLE `bm_patriarch` (
 -- Records of bm_patriarch
 -- ----------------------------
 BEGIN;
-INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_iphone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646197760589856, 2, '李四', '17321729457', '15312665707ZZZ', '江苏省徐州市睢宁县', NULL, '2024-11-15 14:44:23', 1, '2024-11-15 14:44:23', -1);
-INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_iphone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646204005908512, 2, '王五', '14785269874', '456465465', '江苏啊', 1, '2024-11-15 15:34:00', 1, '2024-11-15 15:34:00', 1);
+INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646197760589856, 2, '李四', '17321729457', '15312665707ZZZ', '江苏省徐州市睢宁县', NULL, '2024-11-15 14:44:23', 1, '2024-11-15 14:44:23', -1);
+INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646204005908512, 2, '王五', '14785269874', '456465465', '江苏啊', 1, '2024-11-15 15:34:00', 1, '2024-11-15 15:34:00', 1);
 COMMIT;
 
 -- ----------------------------
@@ -670,7 +670,7 @@ CREATE TABLE `bm_product` (
   `product_hour` int DEFAULT NULL COMMENT '课程课时',
   `product_price` int DEFAULT NULL COMMENT '商品价格',
   `product_reduced_price` int DEFAULT NULL COMMENT '优惠后价格',
-  `recommend_age` int DEFAULT NULL COMMENT '推荐年龄',
+  `recommend_age` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '推荐年龄',
   `course_detail` text COLLATE utf8mb4_general_ci COMMENT '课程详细介绍，默认写死',
   `product_type` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '课程语言类型',
   `class_type` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '授课类型，线上、线下....',
@@ -689,7 +689,7 @@ CREATE TABLE `bm_product` (
 -- Records of bm_product
 -- ----------------------------
 BEGIN;
-INSERT INTO `bm_product` (`id`, `product_url`, `product_url_id`, `product_name`, `product_hour`, `product_price`, `product_reduced_price`, `recommend_age`, `course_detail`, `product_type`, `class_type`, `status`, `class_time`, `show_status`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1649501483827232, 'aaa.jpg', 1, 'python55次课', 50, 49999900, 43999900, 10, '章节1', 'python', 'offline', 'test', '暑假', 'listing', NULL, '2024-12-03 20:20:00', NULL, '2024-12-03 20:20:00', 1);
+INSERT INTO `bm_product` (`id`, `product_url`, `product_url_id`, `product_name`, `product_hour`, `product_price`, `product_reduced_price`, `recommend_age`, `course_detail`, `product_type`, `class_type`, `status`, `class_time`, `show_status`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1649501483827232, 'aaa.jpg', 1, 'python55次课', 50, 49999900, 43999900, '10', '章节1', 'python', 'offline', 'test', '暑假', 'listing', NULL, '2024-12-03 20:20:00', NULL, '2024-12-03 20:20:00', 1);
 COMMIT;
 
 -- ----------------------------
@@ -747,6 +747,25 @@ INSERT INTO `bm_repair_course` (`id`, `repair_name`, `cur_type`, `week_one`, `re
 COMMIT;
 
 -- ----------------------------
+-- Table structure for bm_stu_class_hour
+-- ----------------------------
+DROP TABLE IF EXISTS `bm_stu_class_hour`;
+CREATE TABLE `bm_stu_class_hour` (
+  `id` bigint NOT NULL COMMENT '主键 id',
+  `class_hour_type` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '课时类型',
+  `class_hour` bigint DEFAULT NULL COMMENT '课时默认乘 100 计算逻辑',
+  `stu_id` bigint DEFAULT NULL COMMENT '学生 id',
+  `stu_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '学生姓名',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='学生与课时关系';
+
+-- ----------------------------
+-- Records of bm_stu_class_hour
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
 -- Table structure for bm_student
 -- ----------------------------
 DROP TABLE IF EXISTS `bm_student`;
@@ -790,6 +809,8 @@ CREATE TABLE `bm_student_constant` (
 -- Records of bm_student_constant
 -- ----------------------------
 BEGIN;
+INSERT INTO `bm_student_constant` (`id`, `type`, `constant_key`, `constant_value`) VALUES (1, 'school', '睢宁县实验小学', 0);
+INSERT INTO `bm_student_constant` (`id`, `type`, `constant_key`, `constant_value`) VALUES (2, 'grade', '一年级', 1);
 COMMIT;
 
 -- ----------------------------
@@ -800,7 +821,8 @@ CREATE TABLE `bm_teacher` (
   `id` bigint NOT NULL COMMENT '主键id',
   `tea_avatar_id` bigint DEFAULT NULL COMMENT '教师头像',
   `tea_name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '教师名称',
-  `tea_iphone` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '教师手机号',
+  `sex` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '教师性别',
+  `tea_phone` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '教师手机号',
   `tea_email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '教师邮箱',
   `tea_org_id` bigint DEFAULT NULL COMMENT '归属机构id',
   `tea_org_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '归属机构名称',
@@ -816,8 +838,8 @@ CREATE TABLE `bm_teacher` (
 -- Records of bm_teacher
 -- ----------------------------
 BEGIN;
-INSERT INTO `bm_teacher` (`id`, `tea_avatar_id`, `tea_name`, `tea_iphone`, `tea_email`, `tea_org_id`, `tea_org_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646200895832096, 0, '丽丽', '17321729457', '1420865757@qq.com', 1645831847411744, '测试机构', NULL, '2024-11-15 15:09:18', NULL, '2024-11-15 15:09:18', 1);
-INSERT INTO `bm_teacher` (`id`, `tea_avatar_id`, `tea_name`, `tea_iphone`, `tea_email`, `tea_org_id`, `tea_org_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646204593111072, 3, '小王啊', '145254145741', '111111', 1646203615838240, '极客晨星', 1, '2024-11-15 15:38:41', 1, '2024-11-15 15:38:41', 1);
+INSERT INTO `bm_teacher` (`id`, `tea_avatar_id`, `tea_name`, `sex`, `tea_phone`, `tea_email`, `tea_org_id`, `tea_org_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646200895832096, 0, '丽丽', NULL, '17321729457', '1420865757@qq.com', 1645831847411744, '测试机构', NULL, '2024-11-15 15:09:18', NULL, '2024-11-15 15:09:18', 1);
+INSERT INTO `bm_teacher` (`id`, `tea_avatar_id`, `tea_name`, `sex`, `tea_phone`, `tea_email`, `tea_org_id`, `tea_org_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646204593111072, 3, '小王啊', NULL, '145254145741', '111111', 1646203615838240, '极客晨星', 1, '2024-11-15 15:38:41', 1, '2024-11-15 15:38:41', 1);
 COMMIT;
 
 -- ----------------------------
@@ -873,6 +895,23 @@ CREATE TABLE `bm_tutor_teacher` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `bm_tutor_teacher` (`id`, `tea_id`, `tea_name`, `give_class_type`, `leisure_time`, `tutor_detail`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1649823549751328, 1, '李四', '[SCRATCH]', '2024-02-02 -- 2024-02-02', '滴滴滴滴滴滴滴滴', NULL, '2024-12-05 14:59:33', NULL, '2024-12-05 14:59:33', 1);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for bm_user_teacher
+-- ----------------------------
+DROP TABLE IF EXISTS `bm_user_teacher`;
+CREATE TABLE `bm_user_teacher` (
+  `id` bigint NOT NULL COMMENT '主键 id',
+  `tea_id` bigint DEFAULT NULL COMMENT '教师 id',
+  `user_id` bigint DEFAULT NULL COMMENT '账户 id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='教师与系统账户关联关系表';
+
+-- ----------------------------
+-- Records of bm_user_teacher
+-- ----------------------------
+BEGIN;
 COMMIT;
 
 -- ----------------------------
