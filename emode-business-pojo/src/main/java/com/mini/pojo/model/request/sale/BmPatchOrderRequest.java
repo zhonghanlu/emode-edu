@@ -1,12 +1,10 @@
 package com.mini.pojo.model.request.sale;
 
-import com.mini.common.enums.str.OrderStatus;
-import com.mini.common.utils.webmvc.PageQuery;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -21,33 +19,16 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 public class BmPatchOrderRequest {
 
-    @Schema(title = "补单时间")
-    private LocalDateTime patchCreateTime;
+    @NotNull(message = "商品 id 不可为空")
+    @Schema(title = "补单商品 id")
+    private Long productId;
 
-    @Schema(title = "补单总计价格")
-    private Integer patchPrice;
+    @NotNull(message = "家长 id 不可为空")
+    @Schema(title = "补单家长 id")
+    private Long patriarchId;
 
-    @Schema(title = "补单优惠价格")
-    private Integer patchReducedPrice;
+    @NotNull(message = "学生 id 不可为空")
+    @Schema(title = "补单学生 id")
+    private Long studentId;
 
-    @Schema(title = "补单实际价格")
-    private Integer patchActualPrice;
-
-    @Schema(title = "补单商品名称")
-    private String patchProductName;
-
-    @Schema(title = "补单核销人")
-    private String patchConsume;
-
-    @Schema(title = "补单人手机号")
-    private String patchPhone;
-
-    @Schema(title = "补单状态")
-    private OrderStatus patchStatus;
-
-    @Schema(title = "补单操作人id")
-    private Long patchHandlerId;
-
-    @Schema(title = "补单操作人姓名")
-    private String patchHandlerName;
 }

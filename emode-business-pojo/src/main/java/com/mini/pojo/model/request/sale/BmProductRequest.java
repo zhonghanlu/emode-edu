@@ -4,7 +4,6 @@ import com.mini.common.enums.str.ClassType;
 import com.mini.common.enums.str.CourseType;
 import com.mini.common.enums.str.ProductShowStatus;
 import com.mini.common.enums.str.ProductStatus;
-import com.mini.common.utils.webmvc.PageQuery;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,7 +40,7 @@ public class BmProductRequest {
     private Integer productReducedPrice;
 
     @Schema(title = "推荐年龄")
-    private Integer recommendAge;
+    private String recommendAge;
 
     @Schema(title = "课程详细介绍，默认写死")
     private String courseDetail;

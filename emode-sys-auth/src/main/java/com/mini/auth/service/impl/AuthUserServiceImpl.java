@@ -53,7 +53,7 @@ public class AuthUserServiceImpl implements IAuthUserService {
     private final AuthUserRoleMapper authUserRoleMapper;
 
     @Override
-    public void insert(AuthUserDTO dto) {
+    public AuthUserDTO insert(AuthUserDTO dto) {
         AuthUser authUser = AuthUserStructMapper.INSTANCE.dto2Entity(dto);
 
         // 校验用户名是否重复
@@ -64,6 +64,8 @@ public class AuthUserServiceImpl implements IAuthUserService {
         if (b <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "插入失败");
         }
+
+        return AuthUserStructMapper.INSTANCE.entity2Dto(authUser);
     }
 
     @Override

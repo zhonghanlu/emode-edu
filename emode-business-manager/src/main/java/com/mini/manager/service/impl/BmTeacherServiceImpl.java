@@ -39,7 +39,7 @@ public class BmTeacherServiceImpl extends ServiceImpl<BmTeacherMapper, BmTeacher
     private final BmOrgMapper bmOrgMapper;
 
     @Override
-    public void add(BmTeacherDTO dto) {
+    public BmTeacherDTO add(BmTeacherDTO dto) {
         BmTeacher bmTeacher = BmTeacherStructMapper.INSTANCE.dto2Entity(dto);
 
         bmTeacher.setId(IDGenerator.next());
@@ -57,6 +57,8 @@ public class BmTeacherServiceImpl extends ServiceImpl<BmTeacherMapper, BmTeacher
         if (b <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "新增失败");
         }
+
+        return BmTeacherStructMapper.INSTANCE.entity2Dto(bmTeacher);
     }
 
     @Override

@@ -70,6 +70,7 @@ public class BmPatriarchBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmPatriarchRequest request) {
+        // 1.新增家长信息
         bmPatriarchService.add(BmPatriarchStructMapper.INSTANCE.req2Dto(request));
     }
 

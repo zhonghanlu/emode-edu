@@ -56,7 +56,7 @@ public class BmProduct extends CommonEntity implements Serializable {
     private Integer productReducedPrice;
 
     @Schema(name = "推荐年龄")
-    private Integer recommendAge;
+    private String recommendAge;
 
     @Schema(name = "课程详细介绍，默认写死")
     private String courseDetail;

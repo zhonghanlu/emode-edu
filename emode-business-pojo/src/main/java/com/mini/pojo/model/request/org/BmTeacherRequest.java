@@ -1,5 +1,6 @@
 package com.mini.pojo.model.request.org;
 
+import com.mini.common.enums.str.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,9 +27,12 @@ public class BmTeacherRequest {
     @Schema(title = "教师名称")
     private String teaName;
 
+    @Schema(title = "性别")
+    private Gender sex;
+
     @NotBlank(message = "教师手机号")
     @Schema(title = "教师手机号")
-    private String teaIphone;
+    private String teaPhone;
 
     @Schema(title = "教师邮箱")
     private String teaEmail;

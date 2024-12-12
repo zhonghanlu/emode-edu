@@ -43,7 +43,7 @@ public class BmProductVo {
     private Integer productReducedPrice;
 
     @Schema(title = "推荐年龄")
-    private Integer recommendAge;
+    private String recommendAge;
 
     @Schema(title = "课程详细介绍，默认写死")
     private String courseDetail;

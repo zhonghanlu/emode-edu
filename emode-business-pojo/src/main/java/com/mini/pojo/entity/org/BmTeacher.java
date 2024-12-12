@@ -2,6 +2,7 @@ package com.mini.pojo.entity.org;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.mini.common.enums.str.Gender;
 import com.mini.common.model.CommonEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -38,7 +39,10 @@ public class BmTeacher extends CommonEntity {
     private String teaName;
 
     @Schema(name = "教师手机号")
-    private String teaIphone;
+    private String teaPhone;
+
+    @Schema(title = "性别")
+    private Gender sex;
 
     @Schema(name = "教师邮箱")
     private String teaEmail;

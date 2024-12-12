@@ -30,7 +30,7 @@ public class BmPatriarchVo {
     private String patName;
 
     @Schema(title = "家长手机号")
-    private String patIphone;
+    private String patPhone;
 
     @Schema(title = "家长微信")
     private String patWx;

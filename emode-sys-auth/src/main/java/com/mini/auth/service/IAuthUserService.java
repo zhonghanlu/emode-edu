@@ -19,7 +19,7 @@ public interface IAuthUserService {
     /**
      * 插入
      */
-    void insert(AuthUserDTO authUserDTO);
+    AuthUserDTO insert(AuthUserDTO authUserDTO);
 
     /**
      * 删除

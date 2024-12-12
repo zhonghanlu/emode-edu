@@ -29,7 +29,7 @@ public class BmPatriarchDTO {
     private String patName;
 
     @Schema(name = "家长手机号")
-    private String patIphone;
+    private String patPhone;
 
     @Schema(name = "家长微信")
     private String patWx;

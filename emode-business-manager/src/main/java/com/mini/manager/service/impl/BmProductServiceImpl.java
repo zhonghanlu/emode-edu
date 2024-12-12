@@ -42,7 +42,7 @@ public class BmProductServiceImpl extends ServiceImpl<BmProductMapper, BmProduct
         bmProduct.setId(IDGenerator.next());
         bmProduct.setDelFlag(Delete.NO);
         if (Objects.isNull(bmProduct.getStatus())) {
-            bmProduct.setStatus(ProductStatus.TEST);
+            bmProduct.setStatus(ProductStatus.START);
         }
 
         int b = bmProductMapper.insert(bmProduct);

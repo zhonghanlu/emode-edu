@@ -37,4 +37,9 @@ public final class RedisConstant {
     /// ////////////////////////////////////业务-机构管理-学生管理//////////////////////////////////////////////
     public static final String SCHOOL_OR_GRADE = "school_or_grade:";
 
+    /**
+     * 默认初始密码
+     */
+    public static final String SYS_CONFIG_INIT_PASSWORD = "init_password";
+
 }

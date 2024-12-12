@@ -23,5 +23,5 @@ public class BmPatriarchQuery extends PageQuery {
     private String patName;
 
     @Parameter(description = "家长手机号")
-    private String patIphone;
+    private String patPhone;
 }

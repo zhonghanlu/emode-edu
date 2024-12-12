@@ -12,8 +12,9 @@ import java.util.Arrays;
  */
 public enum ProductStatus implements StringEnum {
 
-    // 暫未想起來
-    TEST("test");
+    // 开始 未开始
+    START("start"),
+    STOP("stop");
 
     private final String value;
 

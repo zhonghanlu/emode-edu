@@ -20,7 +20,7 @@ public interface BmTeacherService extends IService<BmTeacher> {
     /**
      * 增
      */
-    void add(BmTeacherDTO dto);
+    BmTeacherDTO add(BmTeacherDTO dto);
 
     /**
      * 删
