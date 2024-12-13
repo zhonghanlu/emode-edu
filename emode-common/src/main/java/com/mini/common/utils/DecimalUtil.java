@@ -7,7 +7,7 @@ import java.math.RoundingMode;
  * @author zhl
  * 精确的浮点数运算
  */
-public class ArithUtil {
+public class DecimalUtil {
 
     /**
      * 默认除法运算精度
@@ -15,9 +15,27 @@ public class ArithUtil {
     private static final int DEF_DIV_SCALE = 10;
 
     /**
+     * 默认除法运算精度 保留两位
+     */
+    private static final int DEF_DIV_SCALE_TWO = 2;
+
+    /**
      * 这个类不能实例化
      */
-    private ArithUtil() {
+    private DecimalUtil() {
+    }
+
+    /**
+     * 提供精确的加法运算。
+     *
+     * @param v1 被加数
+     * @param v2 加数
+     * @return 两个参数的和
+     */
+    public static long add(long v1, long v2) {
+        BigDecimal b1 = BigDecimal.valueOf(v1);
+        BigDecimal b2 = BigDecimal.valueOf(v2);
+        return b1.add(b2).longValue();
     }
 
     /**
@@ -47,6 +65,19 @@ public class ArithUtil {
     }
 
     /**
+     * 提供精确的减法运算。
+     *
+     * @param v1 被减数
+     * @param v2 减数
+     * @return 两个参数的差
+     */
+    public static long sub(long v1, long v2) {
+        BigDecimal b1 = BigDecimal.valueOf(v1);
+        BigDecimal b2 = BigDecimal.valueOf(v2);
+        return b1.subtract(b2).longValue();
+    }
+
+    /**
      * 提供精确的乘法运算。
      *
      * @param v1 被乘数
@@ -60,6 +91,19 @@ public class ArithUtil {
     }
 
     /**
+     * 提供精确的乘法运算。
+     *
+     * @param v1 被乘数
+     * @param v2 乘数
+     * @return 两个参数的积
+     */
+    public static long mul(long v1, long v2) {
+        BigDecimal b1 = BigDecimal.valueOf(v1);
+        BigDecimal b2 = BigDecimal.valueOf(v2);
+        return b1.multiply(b2).longValue();
+    }
+
+    /**
      * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到
      * 小数点以后10位，以后的数字四舍五入。
      *
@@ -69,6 +113,18 @@ public class ArithUtil {
      */
     public static double div(double v1, double v2) {
         return div(v1, v2, DEF_DIV_SCALE);
+    }
+
+    /**
+     * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到
+     * 小数点以后2位，以后的数字四舍五入。
+     *
+     * @param v1 被除数
+     * @param v2 除数
+     * @return 两个参数的商
+     */
+    public static double div2(long v1, long v2) {
+        return div(v1, v2, DEF_DIV_SCALE_TWO);
     }
 
     /**
