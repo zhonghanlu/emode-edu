@@ -53,6 +53,7 @@ public class MybatisPlusConfig {
             registry.register(IdeaType.class, StringEnumTypeHandler.class);
             registry.register(PosterType.class, StringEnumTypeHandler.class);
             registry.register(ProductType.class, StringEnumTypeHandler.class);
+            registry.register(IntentionCurTime.class, StringEnumTypeHandler.class);
         };
     }
 

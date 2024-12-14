@@ -3,6 +3,7 @@ package com.mini.pojo.entity.course;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.mini.common.enums.str.CourseType;
+import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.common.model.CommonEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -41,8 +42,8 @@ public class BmHandlerClass extends CommonEntity implements Serializable {
     @Schema(name = "学生姓名")
     private String stuName;
 
-    @Schema(name = "意向上课时间")
-    private String intentionCurTime;
+    @Schema(title = "意向上课时间")
+    private IntentionCurTime intentionCurTime;
 
     @Schema(name = "核销时间")
     private LocalDateTime consumeTime;

@@ -40,11 +40,6 @@ public class BmHandlerClassServiceImpl extends ServiceImpl<BmHandlerClassMapper,
     public void add(BmHandlerClassDTO dto) {
         BmHandlerClass bmHandlerClass = BmHandlerClassStructMapper.INSTANCE.dto2Entity(dto);
 
-        // 意向上课时间
-        String intentionTime = dto.getIntentionCurTime().getIntentionCurWeekTime().getStringValue() + PLACEHOLDER +
-                dto.getIntentionCurTime().getIntentionCurPeriodTime().getStringValue();
-
-        bmHandlerClass.setIntentionCurTime(intentionTime);
         bmHandlerClass.setId(IDGenerator.next());
         bmHandlerClass.setDelFlag(Delete.NO);
 
@@ -85,13 +80,6 @@ public class BmHandlerClassServiceImpl extends ServiceImpl<BmHandlerClassMapper,
         }
 
         BmHandlerClass bmHandlerClass = BmHandlerClassStructMapper.INSTANCE.dto2Entity(dto);
-
-        if (Objects.nonNull(dto.getIntentionCurTime())) {
-            // 意向上课时间
-            String intentionTime = dto.getIntentionCurTime().getIntentionCurWeekTime().getStringValue() + PLACEHOLDER +
-                    dto.getIntentionCurTime().getIntentionCurPeriodTime().getStringValue();
-            bmHandlerClass.setIntentionCurTime(intentionTime);
-        }
 
         int b1 = bmHandlerClassMapper.updateById(bmHandlerClass);
 

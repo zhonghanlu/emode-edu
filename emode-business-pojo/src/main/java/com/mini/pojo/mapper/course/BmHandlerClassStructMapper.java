@@ -6,7 +6,6 @@ import com.mini.pojo.model.edit.course.BmHandlerClassEdit;
 import com.mini.pojo.model.request.course.BmHandlerClassRequest;
 import com.mini.pojo.model.vo.course.BmHandlerClassVo;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -21,13 +20,11 @@ public interface BmHandlerClassStructMapper {
     /**
      * dto2entity
      */
-    @Mapping(target = "intentionCurTime", ignore = true)
     BmHandlerClass dto2Entity(BmHandlerClassDTO dto);
 
     /**
      * entity2dto
      */
-    @Mapping(target = "intentionCurTime", ignore = true)
     BmHandlerClassDTO entity2Dto(BmHandlerClass entity);
 
     /**

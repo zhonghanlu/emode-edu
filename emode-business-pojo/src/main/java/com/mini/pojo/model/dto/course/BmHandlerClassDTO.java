@@ -1,6 +1,7 @@
 package com.mini.pojo.model.dto.course;
 
 import com.mini.common.enums.str.CourseType;
+import com.mini.common.enums.str.IntentionCurTime;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,11 +29,8 @@ public class BmHandlerClassDTO {
     @Schema(name = "学生姓名")
     private String stuName;
 
-    @Schema(name = "意向上课时间")
-    private BmIntentionCurTimeDTO intentionCurTime;
-
-    @Schema(name = "意向上课时间")
-    private String intentionCurTimeStr;
+    @Schema(title = "意向上课时间")
+    private IntentionCurTime intentionCurTime;
 
     @Schema(name = "核销时间")
     private LocalDateTime consumeTime;

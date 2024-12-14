@@ -7,7 +7,7 @@
         <id column="id" property="id" />
         <result column="stu_id" property="stuId" />
         <result column="stu_name" property="stuName" />
-        <result column="intention_cur_time" property="intentionCurTimeStr" />
+        <result column="intention_cur_time" property="intentionCurTime" />
         <result column="consume_time" property="consumeTime" />
         <result column="cur_type" property="curType" />
     </resultMap>

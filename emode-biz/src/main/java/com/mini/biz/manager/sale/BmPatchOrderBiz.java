@@ -1,8 +1,12 @@
 package com.mini.biz.manager.sale;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.mini.common.constant.ErrorCodeConstant;
+import com.mini.common.constant.LastSql;
 import com.mini.common.constant.StuClassHourConstant;
+import com.mini.common.enums.number.Delete;
 import com.mini.common.enums.str.OrderStatus;
 import com.mini.common.enums.str.ProductShowStatus;
 import com.mini.common.enums.str.ProductStatus;
@@ -11,6 +15,7 @@ import com.mini.common.model.LoginUser;
 import com.mini.common.utils.LoginUtils;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.service.*;
+import com.mini.pojo.entity.org.BmPatStuRelation;
 import com.mini.pojo.mapper.sale.BmPatchOrderStructMapper;
 import com.mini.pojo.model.dto.course.BmHandlerClassDTO;
 import com.mini.pojo.model.dto.org.BmPatriarchDTO;
@@ -50,6 +55,8 @@ public class BmPatchOrderBiz {
     private final BmStuClassHourService bmStuClassHourService;
 
     private final BmHandlerClassService bmHandlerClassService;
+
+    private final BmPatStuRelationService bmPatStuRelationService;
 
     /**
      * 分页
@@ -94,6 +101,9 @@ public class BmPatchOrderBiz {
             throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "当前学生信息不存在");
         }
 
+        // 家长与学生关系是否存在
+        checkPatStuRelation(bmPatriarchDTO, bmStudentDTO);
+
         // 2.创建补单订单，并且为已支付
         BmPatchOrderDTO bmPatchOrderDTO = getBmPatchOrderDTO(bmProductDTO, bmStudentDTO, bmPatriarchDTO);
         bmPatchOrderService.add(bmPatchOrderDTO);
@@ -102,16 +112,34 @@ public class BmPatchOrderBiz {
         bmStuClassHourService.handlerStuClassHour(bmStudentDTO.getId(), bmProductDTO.getCourseType(),
                 StuClassHourConstant.ADD, bmProductDTO.getProductHour(), bmPatriarchDTO.getPatPhone());
 
+        // TODO 此学生是否有同类型课程的班级，无进行新增待分班数据，有直接结束
+
         // 4.新增待分班数据
         BmHandlerClassDTO bmHandlerClassDTO = new BmHandlerClassDTO();
         bmHandlerClassDTO.setId(IDGenerator.next());
         bmHandlerClassDTO.setStuId(bmStudentDTO.getId());
         bmHandlerClassDTO.setStuName(bmStudentDTO.getStuName());
-        bmHandlerClassDTO.setIntentionCurTime(request.getBmIntentionCurTimeDTO());
+        bmHandlerClassDTO.setIntentionCurTime(request.getIntentionCurTime());
         bmHandlerClassDTO.setConsumeTime(LocalDateTime.now());
         bmHandlerClassDTO.setCurType(bmProductDTO.getCourseType());
 
         bmHandlerClassService.add(bmHandlerClassDTO);
+    }
+
+    /**
+     * 验证家长与学生关系是否存在
+     */
+    private void checkPatStuRelation(BmPatriarchDTO bmPatriarchDTO, BmStudentDTO bmStudentDTO) {
+        LambdaQueryWrapper<BmPatStuRelation> wrapper = Wrappers.lambdaQuery(BmPatStuRelation.class);
+        wrapper.eq(BmPatStuRelation::getPatriarchId, bmPatriarchDTO.getId())
+                .eq(BmPatStuRelation::getStudentId, bmStudentDTO.getId())
+                .eq(BmPatStuRelation::getDelFlag, Delete.NO)
+                .last(LastSql.LIMIT_ONE);
+        BmPatStuRelation bmPatStuRelation = bmPatStuRelationService.getOne(wrapper);
+
+        if (Objects.isNull(bmPatStuRelation)) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "当前家长与学生关系不存在");
+        }
     }
 
     /**

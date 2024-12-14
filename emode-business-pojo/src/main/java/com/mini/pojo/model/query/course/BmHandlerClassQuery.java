@@ -1,8 +1,8 @@
 package com.mini.pojo.model.query.course;
 
 import com.mini.common.enums.str.CourseType;
+import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.common.utils.webmvc.PageQuery;
-import com.mini.pojo.model.dto.course.BmIntentionCurTimeDTO;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -27,7 +27,7 @@ public class BmHandlerClassQuery extends PageQuery {
     private String stuName;
 
     @Parameter(description = "意向上课时间")
-    private BmIntentionCurTimeDTO intentionCurTime;
+    private IntentionCurTime intentionCurTime;
 
     @Parameter(description = "核销时间")
     private LocalDateTime consumeTime;

@@ -47,7 +47,7 @@ public class BmPatriarchServiceImpl extends ServiceImpl<BmPatriarchMapper, BmPat
                 .last(LastSql.LIMIT_ONE);
         Long count = bmPatriarchMapper.selectCount(wrapper);
 
-        if (count >= 0) {
+        if (count > 0) {
             throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "手机号重复，请重新输入");
         }
 
