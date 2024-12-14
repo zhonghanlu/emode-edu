@@ -11,7 +11,7 @@
  Target Server Version : 80039 (8.0.39)
  File Encoding         : 65001
 
- Date: 12/12/2024 22:58:19
+ Date: 14/12/2024 17:54:56
 */
 
 SET NAMES utf8mb4;
@@ -214,6 +214,7 @@ CREATE TABLE `auth_user` (
 BEGIN;
 INSERT INTO `auth_user` (`id`, `username`, `password`, `nickname`, `sex`, `avatar`, `phone`, `user_type`, `create_time`, `create_by`, `update_time`, `update_by`, `del_flag`) VALUES (1, 'admin', '207cf410532f92a47dee245ce9b11ff71f578ebd763eb3bbea44ebd043d018fb', '超级管理员', 'male', 2, '15312665707', 'manager', '2024-07-14 01:06:28', NULL, '2024-07-17 21:42:06', 1623626795188256, 1);
 INSERT INTO `auth_user` (`id`, `username`, `password`, `nickname`, `sex`, `avatar`, `phone`, `user_type`, `create_time`, `create_by`, `update_time`, `update_by`, `del_flag`) VALUES (1648725644541984, 'sysUser', '207cf410532f92a47dee245ce9b11ff71f578ebd763eb3bbea44ebd043d018fb', '系统管理测试用户', 'male', 4, '153126666666', 'manager', '2024-11-29 13:34:11', 1, '2024-11-29 13:34:11', 1648725644541984, 1);
+INSERT INTO `auth_user` (`id`, `username`, `password`, `nickname`, `sex`, `avatar`, `phone`, `user_type`, `create_time`, `create_by`, `update_time`, `update_by`, `del_flag`) VALUES (1651450646102112, 'zhonghanlu', '207cf410532f92a47dee245ce9b11ff71f578ebd763eb3bbea44ebd043d018fb', '仲寒露', 'male', 0, 'zhonhanlu', 'manager', '2024-12-14 14:30:34', 1, '2024-12-14 14:30:34', 1, 1);
 COMMIT;
 
 -- ----------------------------
@@ -246,6 +247,7 @@ INSERT INTO `auth_user_role` (`id`, `role_id`, `role_name`, `user_id`, `username
 INSERT INTO `auth_user_role` (`id`, `role_id`, `role_name`, `user_id`, `username`, `del_flag`) VALUES (1648732351234080, 1648724665172000, '系统管理人员', 1648725644541984, 'sysUser', 1);
 INSERT INTO `auth_user_role` (`id`, `role_id`, `role_name`, `user_id`, `username`, `del_flag`) VALUES (1648732351234112, 1648726439362592, '系统管理人员2', 1648725644541984, 'sysUser', 1);
 INSERT INTO `auth_user_role` (`id`, `role_id`, `role_name`, `user_id`, `username`, `del_flag`) VALUES (1648732351234144, 1648732317679648, '系统管理人员5', 1648725644541984, 'sysUser', 1);
+INSERT INTO `auth_user_role` (`id`, `role_id`, `role_name`, `user_id`, `username`, `del_flag`) VALUES (1651451306704928, 1648728391811104, '系统管理人员3', 1651450646102112, 'zhonhanlu', 1);
 COMMIT;
 
 -- ----------------------------
@@ -391,7 +393,7 @@ CREATE TABLE `bm_handler_class` (
   `id` bigint NOT NULL COMMENT '主键 id',
   `stu_id` bigint DEFAULT NULL COMMENT '学生 id',
   `stu_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '学生姓名',
-  `intention_cur_time` datetime DEFAULT NULL COMMENT '意向上课时间',
+  `intention_cur_time` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '意向上课时间',
   `consume_time` datetime DEFAULT NULL COMMENT '核销时间',
   `cur_type` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '课程类型',
   `create_by` bigint DEFAULT NULL COMMENT '创建人',
@@ -406,7 +408,16 @@ CREATE TABLE `bm_handler_class` (
 -- Records of bm_handler_class
 -- ----------------------------
 BEGIN;
-INSERT INTO `bm_handler_class` (`id`, `stu_id`, `stu_name`, `intention_cur_time`, `consume_time`, `cur_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1647480859000864, 1646199532683296, '小李', '2024-11-22 16:43:22', '2024-11-22 16:43:22', 'scratch', NULL, '2024-11-22 16:41:32', NULL, '2024-11-22 16:41:32', -1);
+INSERT INTO `bm_handler_class` (`id`, `stu_id`, `stu_name`, `intention_cur_time`, `consume_time`, `cur_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651460565631136, 1651455106744352, '王思思', 'saturday_up_one', '2024-12-14 15:49:23', 'python', 1651450646102112, '2024-12-14 15:49:23', 1651450646102112, '2024-12-14 15:49:23', 1);
+INSERT INTO `bm_handler_class` (`id`, `stu_id`, `stu_name`, `intention_cur_time`, `consume_time`, `cur_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475497353376, 1651473914003488, '王丝丝', 'saturday_up_one', '2024-12-14 17:48:04', 'python', 1651450646102112, '2024-12-14 17:48:04', 1651450646102112, '2024-12-14 17:48:04', 1);
+INSERT INTO `bm_handler_class` (`id`, `stu_id`, `stu_name`, `intention_cur_time`, `consume_time`, `cur_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475612696736, 1651473941266464, '仲丝丝', 'saturday_up_one', '2024-12-14 17:48:59', 'python', 1651450646102112, '2024-12-14 17:48:59', 1651450646102112, '2024-12-14 17:48:59', 1);
+INSERT INTO `bm_handler_class` (`id`, `stu_id`, `stu_name`, `intention_cur_time`, `consume_time`, `cur_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475673514144, 1651473970626592, '仲嘻嘻', 'saturday_down_one', '2024-12-14 17:49:27', 'python', 1651450646102112, '2024-12-14 17:49:27', 1651450646102112, '2024-12-14 17:49:27', 1);
+INSERT INTO `bm_handler_class` (`id`, `stu_id`, `stu_name`, `intention_cur_time`, `consume_time`, `cur_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475698679968, 1651473997889568, '王嘻嘻', 'saturday_up_one', '2024-12-14 17:49:40', 'python', 1651450646102112, '2024-12-14 17:49:40', 1651450646102112, '2024-12-14 17:49:40', 1);
+INSERT INTO `bm_handler_class` (`id`, `stu_id`, `stu_name`, `intention_cur_time`, `consume_time`, `cur_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475728040032, 1651474025152544, '王哈哈', 'saturday_down_one', '2024-12-14 17:49:53', 'python', 1651450646102112, '2024-12-14 17:49:53', 1651450646102112, '2024-12-14 17:49:53', 1);
+INSERT INTO `bm_handler_class` (`id`, `stu_id`, `stu_name`, `intention_cur_time`, `consume_time`, `cur_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475755303072, 1651474046124064, '李哈哈', 'saturday_down_one', '2024-12-14 17:50:06', 'python', 1651450646102112, '2024-12-14 17:50:06', 1651450646102112, '2024-12-14 17:50:06', 1);
+INSERT INTO `bm_handler_class` (`id`, `stu_id`, `stu_name`, `intention_cur_time`, `consume_time`, `cur_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475793051808, 1651474071289888, '李哦哦', 'saturday_up_one', '2024-12-14 17:50:24', 'python', 1651450646102112, '2024-12-14 17:50:24', 1651450646102112, '2024-12-14 17:50:24', 1);
+INSERT INTO `bm_handler_class` (`id`, `stu_id`, `stu_name`, `intention_cur_time`, `consume_time`, `cur_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475816120480, 1651474115330080, '藏哦哦', 'saturday_up_one', '2024-12-14 17:50:36', 'python', 1651450646102112, '2024-12-14 17:50:36', 1651450646102112, '2024-12-14 17:50:36', 1);
+INSERT INTO `bm_handler_class` (`id`, `stu_id`, `stu_name`, `intention_cur_time`, `consume_time`, `cur_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475843383456, 1651474167758880, '齐哦哦', 'saturday_up_one', '2024-12-14 17:50:48', 'python', 1651450646102112, '2024-12-14 17:50:48', 1651450646102112, '2024-12-14 17:50:48', 1);
 COMMIT;
 
 -- ----------------------------
@@ -572,6 +583,16 @@ CREATE TABLE `bm_pat_stu_relation` (
 -- Records of bm_pat_stu_relation
 -- ----------------------------
 BEGIN;
+INSERT INTO `bm_pat_stu_relation` (`id`, `patriarch_id`, `patriarch_name`, `student_id`, `student_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651455106744384, 1651452290269216, '宁小小', 1651455106744352, '王思思', 1651450646102112, '2024-12-14 15:06:01', 1651450646102112, '2024-12-14 15:06:01', 1);
+INSERT INTO `bm_pat_stu_relation` (`id`, `patriarch_id`, `patriarch_name`, `student_id`, `student_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473916100640, 1651473515544608, '宁大大', 1651473914003488, '王丝丝', 1651450646102112, '2024-12-14 17:35:29', 1651450646102112, '2024-12-14 17:35:29', 1);
+INSERT INTO `bm_pat_stu_relation` (`id`, `patriarch_id`, `patriarch_name`, `student_id`, `student_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473941266496, 1651473549099040, '仲小小', 1651473941266464, '仲丝丝', 1651450646102112, '2024-12-14 17:35:41', 1651450646102112, '2024-12-14 17:35:41', 1);
+INSERT INTO `bm_pat_stu_relation` (`id`, `patriarch_id`, `patriarch_name`, `student_id`, `student_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473970626624, 1651473563779104, '仲大大', 1651473970626592, '仲嘻嘻', 1651450646102112, '2024-12-14 17:35:56', 1651450646102112, '2024-12-14 17:35:56', 1);
+INSERT INTO `bm_pat_stu_relation` (`id`, `patriarch_id`, `patriarch_name`, `student_id`, `student_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473997889600, 1651473580556320, '王大大', 1651473997889568, '王嘻嘻', 1651450646102112, '2024-12-14 17:36:08', 1651450646102112, '2024-12-14 17:36:08', 1);
+INSERT INTO `bm_pat_stu_relation` (`id`, `patriarch_id`, `patriarch_name`, `student_id`, `student_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651474025152576, 1651473593139232, '王小小', 1651474025152544, '王哈哈', 1651450646102112, '2024-12-14 17:36:21', 1651450646102112, '2024-12-14 17:36:21', 1);
+INSERT INTO `bm_pat_stu_relation` (`id`, `patriarch_id`, `patriarch_name`, `student_id`, `student_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651474046124096, 1651473653956640, '李小小', 1651474046124064, '李哈哈', 1651450646102112, '2024-12-14 17:36:32', 1651450646102112, '2024-12-14 17:36:32', 1);
+INSERT INTO `bm_pat_stu_relation` (`id`, `patriarch_id`, `patriarch_name`, `student_id`, `student_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651474071289920, 1651473666539552, '李大大', 1651474071289888, '李哦哦', 1651450646102112, '2024-12-14 17:36:43', 1651450646102112, '2024-12-14 17:36:43', 1);
+INSERT INTO `bm_pat_stu_relation` (`id`, `patriarch_id`, `patriarch_name`, `student_id`, `student_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651474115330112, 1651473704288288, '张大大', 1651474115330080, '藏哦哦', 1651450646102112, '2024-12-14 17:37:05', 1651450646102112, '2024-12-14 17:37:05', 1);
+INSERT INTO `bm_pat_stu_relation` (`id`, `patriarch_id`, `patriarch_name`, `student_id`, `student_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651474167758912, 1651473718968352, '张小小', 1651474167758880, '齐哦哦', 1651450646102112, '2024-12-14 17:37:30', 1651450646102112, '2024-12-14 17:37:30', 1);
 COMMIT;
 
 -- ----------------------------
@@ -602,7 +623,16 @@ CREATE TABLE `bm_patch_order` (
 -- Records of bm_patch_order
 -- ----------------------------
 BEGIN;
-INSERT INTO `bm_patch_order` (`id`, `patch_create_time`, `patch_price`, `patch_reduced_price`, `patch_actual_price`, `patch_product_name`, `patch_consume`, `patch_phone`, `patch_status`, `patch_handler_id`, `patch_handler_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1649507571859488, '2024-12-03 21:08:23', 49999900, 49999900, 49999900, 'C++60次课', '小张', '147258', 'error_paid', 2, '嘻嘻', NULL, '2024-12-03 21:08:23', NULL, '2024-12-03 21:09:41', 1);
+INSERT INTO `bm_patch_order` (`id`, `patch_create_time`, `patch_price`, `patch_reduced_price`, `patch_actual_price`, `patch_product_name`, `patch_consume`, `patch_phone`, `patch_status`, `patch_handler_id`, `patch_handler_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651460565631040, '2024-12-14 15:49:23', 49990000, 4000000, 45990000, 'python课程 50 课时', '王思思', '1531266570', 'consume_paid', 1651450646102112, 'zhonghanlu', 1651450646102112, '2024-12-14 15:49:23', 1651450646102112, '2024-12-14 15:49:23', 1);
+INSERT INTO `bm_patch_order` (`id`, `patch_create_time`, `patch_price`, `patch_reduced_price`, `patch_actual_price`, `patch_product_name`, `patch_consume`, `patch_phone`, `patch_status`, `patch_handler_id`, `patch_handler_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475497353280, '2024-12-14 17:48:04', 49990000, 4000000, 45990000, 'python课程 50 课时', '王丝丝', '15312665708', 'consume_paid', 1651450646102112, 'zhonghanlu', 1651450646102112, '2024-12-14 17:48:04', 1651450646102112, '2024-12-14 17:48:04', 1);
+INSERT INTO `bm_patch_order` (`id`, `patch_create_time`, `patch_price`, `patch_reduced_price`, `patch_actual_price`, `patch_product_name`, `patch_consume`, `patch_phone`, `patch_status`, `patch_handler_id`, `patch_handler_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475612696640, '2024-12-14 17:48:59', 49990000, 4000000, 45990000, 'python课程 50 课时', '仲丝丝', '15312665702', 'consume_paid', 1651450646102112, 'zhonghanlu', 1651450646102112, '2024-12-14 17:48:59', 1651450646102112, '2024-12-14 17:48:59', 1);
+INSERT INTO `bm_patch_order` (`id`, `patch_create_time`, `patch_price`, `patch_reduced_price`, `patch_actual_price`, `patch_product_name`, `patch_consume`, `patch_phone`, `patch_status`, `patch_handler_id`, `patch_handler_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475673514048, '2024-12-14 17:49:27', 49990000, 4000000, 45990000, 'python课程 50 课时', '仲嘻嘻', '15311665702', 'consume_paid', 1651450646102112, 'zhonghanlu', 1651450646102112, '2024-12-14 17:49:27', 1651450646102112, '2024-12-14 17:49:27', 1);
+INSERT INTO `bm_patch_order` (`id`, `patch_create_time`, `patch_price`, `patch_reduced_price`, `patch_actual_price`, `patch_product_name`, `patch_consume`, `patch_phone`, `patch_status`, `patch_handler_id`, `patch_handler_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475698679872, '2024-12-14 17:49:40', 49990000, 4000000, 45990000, 'python课程 50 课时', '王嘻嘻', '15331665702', 'consume_paid', 1651450646102112, 'zhonghanlu', 1651450646102112, '2024-12-14 17:49:40', 1651450646102112, '2024-12-14 17:49:40', 1);
+INSERT INTO `bm_patch_order` (`id`, `patch_create_time`, `patch_price`, `patch_reduced_price`, `patch_actual_price`, `patch_product_name`, `patch_consume`, `patch_phone`, `patch_status`, `patch_handler_id`, `patch_handler_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475725942848, '2024-12-14 17:49:53', 49990000, 4000000, 45990000, 'python课程 50 课时', '王哈哈', '15331665402', 'consume_paid', 1651450646102112, 'zhonghanlu', 1651450646102112, '2024-12-14 17:49:53', 1651450646102112, '2024-12-14 17:49:53', 1);
+INSERT INTO `bm_patch_order` (`id`, `patch_create_time`, `patch_price`, `patch_reduced_price`, `patch_actual_price`, `patch_product_name`, `patch_consume`, `patch_phone`, `patch_status`, `patch_handler_id`, `patch_handler_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475755302976, '2024-12-14 17:50:06', 49990000, 4000000, 45990000, 'python课程 50 课时', '李哈哈', '13331665402', 'consume_paid', 1651450646102112, 'zhonghanlu', 1651450646102112, '2024-12-14 17:50:06', 1651450646102112, '2024-12-14 17:50:06', 1);
+INSERT INTO `bm_patch_order` (`id`, `patch_create_time`, `patch_price`, `patch_reduced_price`, `patch_actual_price`, `patch_product_name`, `patch_consume`, `patch_phone`, `patch_status`, `patch_handler_id`, `patch_handler_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475793051712, '2024-12-14 17:50:24', 49990000, 4000000, 45990000, 'python课程 50 课时', '李哦哦', '13335665402', 'consume_paid', 1651450646102112, 'zhonghanlu', 1651450646102112, '2024-12-14 17:50:24', 1651450646102112, '2024-12-14 17:50:24', 1);
+INSERT INTO `bm_patch_order` (`id`, `patch_create_time`, `patch_price`, `patch_reduced_price`, `patch_actual_price`, `patch_product_name`, `patch_consume`, `patch_phone`, `patch_status`, `patch_handler_id`, `patch_handler_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475816120384, '2024-12-14 17:50:36', 49990000, 4000000, 45990000, 'python课程 50 课时', '藏哦哦', '13335665452', 'consume_paid', 1651450646102112, 'zhonghanlu', 1651450646102112, '2024-12-14 17:50:36', 1651450646102112, '2024-12-14 17:50:36', 1);
+INSERT INTO `bm_patch_order` (`id`, `patch_create_time`, `patch_price`, `patch_reduced_price`, `patch_actual_price`, `patch_product_name`, `patch_consume`, `patch_phone`, `patch_status`, `patch_handler_id`, `patch_handler_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651475843383360, '2024-12-14 17:50:48', 49990000, 4000000, 45990000, 'python课程 50 课时', '齐哦哦', '13335645452', 'consume_paid', 1651450646102112, 'zhonghanlu', 1651450646102112, '2024-12-14 17:50:48', 1651450646102112, '2024-12-14 17:50:48', 1);
 COMMIT;
 
 -- ----------------------------
@@ -628,8 +658,16 @@ CREATE TABLE `bm_patriarch` (
 -- Records of bm_patriarch
 -- ----------------------------
 BEGIN;
-INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646197760589856, 2, '李四', '17321729457', '15312665707ZZZ', '江苏省徐州市睢宁县', NULL, '2024-11-15 14:44:23', 1, '2024-11-15 14:44:23', -1);
-INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646204005908512, 2, '王五', '14785269874', '456465465', '江苏啊', 1, '2024-11-15 15:34:00', 1, '2024-11-15 15:34:00', 1);
+INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651452290269216, 0, '宁小小', '1531266570', '15312665707', '江苏生徐州市沛县', 1651450646102112, '2024-12-14 14:43:37', 1651450646102112, '2024-12-14 14:43:37', 1);
+INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473515544608, 0, '宁大大', '15312665708', '15312665707', '江苏生徐州市沛县', 1651450646102112, '2024-12-14 17:32:19', 1651450646102112, '2024-12-14 17:32:19', 1);
+INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473549099040, 0, '仲小小', '15312665702', '15312665707', '江苏生徐州市沛县', 1651450646102112, '2024-12-14 17:32:35', 1651450646102112, '2024-12-14 17:32:35', 1);
+INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473563779104, 0, '仲大大', '15311665702', '15312665707', '江苏生徐州市沛县', 1651450646102112, '2024-12-14 17:32:41', 1651450646102112, '2024-12-14 17:32:41', 1);
+INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473580556320, 0, '王大大', '15331665702', '15312665707', '江苏生徐州市沛县', 1651450646102112, '2024-12-14 17:32:49', 1651450646102112, '2024-12-14 17:32:49', 1);
+INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473593139232, 0, '王小小', '15331665402', '15312665707', '江苏生徐州市沛县', 1651450646102112, '2024-12-14 17:32:56', 1651450646102112, '2024-12-14 17:32:56', 1);
+INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473653956640, 0, '李小小', '13331665402', '15312665707', '江苏生徐州市沛县', 1651450646102112, '2024-12-14 17:33:25', 1651450646102112, '2024-12-14 17:33:25', 1);
+INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473666539552, 0, '李大大', '13335665402', '15312665707', '江苏生徐州市沛县', 1651450646102112, '2024-12-14 17:33:31', 1651450646102112, '2024-12-14 17:33:31', 1);
+INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473704288288, 0, '张大大', '13335665452', '15312665707', '江苏生徐州市沛县', 1651450646102112, '2024-12-14 17:33:48', 1651450646102112, '2024-12-14 17:33:48', 1);
+INSERT INTO `bm_patriarch` (`id`, `pat_avatar_id`, `pat_name`, `pat_phone`, `pat_wx`, `pat_address`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473718968352, 0, '张小小', '13335645452', '15312665707', '江苏生徐州市沛县', 1651450646102112, '2024-12-14 17:33:56', 1651450646102112, '2024-12-14 17:33:56', 1);
 COMMIT;
 
 -- ----------------------------
@@ -672,7 +710,8 @@ CREATE TABLE `bm_product` (
   `product_reduced_price` int DEFAULT NULL COMMENT '优惠后价格',
   `recommend_age` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '推荐年龄',
   `course_detail` text COLLATE utf8mb4_general_ci COMMENT '课程详细介绍，默认写死',
-  `product_type` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '课程语言类型',
+  `product_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '体验 长期 课程类型',
+  `course_type` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '课程语言类型',
   `class_type` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '授课类型，线上、线下....',
   `status` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '课程状态',
   `class_time` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '课程授课区间（周末、暑假）',
@@ -689,7 +728,7 @@ CREATE TABLE `bm_product` (
 -- Records of bm_product
 -- ----------------------------
 BEGIN;
-INSERT INTO `bm_product` (`id`, `product_url`, `product_url_id`, `product_name`, `product_hour`, `product_price`, `product_reduced_price`, `recommend_age`, `course_detail`, `product_type`, `class_type`, `status`, `class_time`, `show_status`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1649501483827232, 'aaa.jpg', 1, 'python55次课', 50, 49999900, 43999900, '10', '章节1', 'python', 'offline', 'test', '暑假', 'listing', NULL, '2024-12-03 20:20:00', NULL, '2024-12-03 20:20:00', 1);
+INSERT INTO `bm_product` (`id`, `product_url`, `product_url_id`, `product_name`, `product_hour`, `product_price`, `product_reduced_price`, `recommend_age`, `course_detail`, `product_type`, `course_type`, `class_type`, `status`, `class_time`, `show_status`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651457789001760, '', 0, 'python课程 50 课时', 500000, 49990000, 45990000, '9-18 岁', '第一章--有趣的二进制', 'long', 'python', 'offline', 'start', '2024-12-01 - 2024-12-31', 'listing', 1651450646102112, '2024-12-14 15:27:20', 1651450646102112, '2024-12-14 15:27:20', 1);
 COMMIT;
 
 -- ----------------------------
@@ -763,6 +802,16 @@ CREATE TABLE `bm_stu_class_hour` (
 -- Records of bm_stu_class_hour
 -- ----------------------------
 BEGIN;
+INSERT INTO `bm_stu_class_hour` (`id`, `class_hour_type`, `class_hour`, `stu_id`, `stu_name`) VALUES (1651460565631072, 'python', 500000, 1651455106744352, '王思思');
+INSERT INTO `bm_stu_class_hour` (`id`, `class_hour_type`, `class_hour`, `stu_id`, `stu_name`) VALUES (1651475497353312, 'python', 500000, 1651473914003488, '王丝丝');
+INSERT INTO `bm_stu_class_hour` (`id`, `class_hour_type`, `class_hour`, `stu_id`, `stu_name`) VALUES (1651475612696672, 'python', 500000, 1651473941266464, '仲丝丝');
+INSERT INTO `bm_stu_class_hour` (`id`, `class_hour_type`, `class_hour`, `stu_id`, `stu_name`) VALUES (1651475673514080, 'python', 500000, 1651473970626592, '仲嘻嘻');
+INSERT INTO `bm_stu_class_hour` (`id`, `class_hour_type`, `class_hour`, `stu_id`, `stu_name`) VALUES (1651475698679904, 'python', 500000, 1651473997889568, '王嘻嘻');
+INSERT INTO `bm_stu_class_hour` (`id`, `class_hour_type`, `class_hour`, `stu_id`, `stu_name`) VALUES (1651475728039968, 'python', 500000, 1651474025152544, '王哈哈');
+INSERT INTO `bm_stu_class_hour` (`id`, `class_hour_type`, `class_hour`, `stu_id`, `stu_name`) VALUES (1651475755303008, 'python', 500000, 1651474046124064, '李哈哈');
+INSERT INTO `bm_stu_class_hour` (`id`, `class_hour_type`, `class_hour`, `stu_id`, `stu_name`) VALUES (1651475793051744, 'python', 500000, 1651474071289888, '李哦哦');
+INSERT INTO `bm_stu_class_hour` (`id`, `class_hour_type`, `class_hour`, `stu_id`, `stu_name`) VALUES (1651475816120416, 'python', 500000, 1651474115330080, '藏哦哦');
+INSERT INTO `bm_stu_class_hour` (`id`, `class_hour_type`, `class_hour`, `stu_id`, `stu_name`) VALUES (1651475843383392, 'python', 500000, 1651474167758880, '齐哦哦');
 COMMIT;
 
 -- ----------------------------
@@ -788,9 +837,16 @@ CREATE TABLE `bm_student` (
 -- Records of bm_student
 -- ----------------------------
 BEGIN;
-INSERT INTO `bm_student` (`id`, `stu_name`, `stu_sex`, `stu_birth`, `stu_cur_school`, `stu_cur_grade`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646199532683296, '小李', 'female', '2024-11-15 14:59:47', '宁海', '五年级', NULL, '2024-11-15 14:58:28', NULL, '2024-11-15 14:58:28', -1);
-INSERT INTO `bm_student` (`id`, `stu_name`, `stu_sex`, `stu_birth`, `stu_cur_school`, `stu_cur_grade`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646206692360224, '宁宁', 'male', '2023-02-02 00:00:00', '菁华', '一年级', 1, '2024-11-15 15:55:21', 1, '2024-11-15 15:55:21', 1);
-INSERT INTO `bm_student` (`id`, `stu_name`, `stu_sex`, `stu_birth`, `stu_cur_school`, `stu_cur_grade`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646206736400416, '宁宁啊', 'male', '2023-02-02 00:00:00', '菁华', '一年级', 1, '2024-11-15 15:55:43', 1, '2024-11-15 15:55:43', -1);
+INSERT INTO `bm_student` (`id`, `stu_name`, `stu_sex`, `stu_birth`, `stu_cur_school`, `stu_cur_grade`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651455106744352, '王思思', 'male', '2010-10-12 00:00:00', '睢宁县实验小学', '一年级', 1651450646102112, '2024-12-14 15:06:01', 1651450646102112, '2024-12-14 15:06:01', 1);
+INSERT INTO `bm_student` (`id`, `stu_name`, `stu_sex`, `stu_birth`, `stu_cur_school`, `stu_cur_grade`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473914003488, '王丝丝', 'male', '2010-10-12 00:00:00', '睢宁县实验小学', '一年级', 1651450646102112, '2024-12-14 17:35:29', 1651450646102112, '2024-12-14 17:35:29', 1);
+INSERT INTO `bm_student` (`id`, `stu_name`, `stu_sex`, `stu_birth`, `stu_cur_school`, `stu_cur_grade`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473941266464, '仲丝丝', 'male', '2010-10-12 00:00:00', '睢宁县实验小学', '一年级', 1651450646102112, '2024-12-14 17:35:41', 1651450646102112, '2024-12-14 17:35:41', 1);
+INSERT INTO `bm_student` (`id`, `stu_name`, `stu_sex`, `stu_birth`, `stu_cur_school`, `stu_cur_grade`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473970626592, '仲嘻嘻', 'male', '2010-10-12 00:00:00', '睢宁县实验小学', '一年级', 1651450646102112, '2024-12-14 17:35:56', 1651450646102112, '2024-12-14 17:35:56', 1);
+INSERT INTO `bm_student` (`id`, `stu_name`, `stu_sex`, `stu_birth`, `stu_cur_school`, `stu_cur_grade`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651473997889568, '王嘻嘻', 'male', '2010-10-12 00:00:00', '睢宁县实验小学', '一年级', 1651450646102112, '2024-12-14 17:36:08', 1651450646102112, '2024-12-14 17:36:08', 1);
+INSERT INTO `bm_student` (`id`, `stu_name`, `stu_sex`, `stu_birth`, `stu_cur_school`, `stu_cur_grade`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651474025152544, '王哈哈', 'male', '2010-10-12 00:00:00', '睢宁县实验小学', '一年级', 1651450646102112, '2024-12-14 17:36:21', 1651450646102112, '2024-12-14 17:36:21', 1);
+INSERT INTO `bm_student` (`id`, `stu_name`, `stu_sex`, `stu_birth`, `stu_cur_school`, `stu_cur_grade`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651474046124064, '李哈哈', 'male', '2010-10-12 00:00:00', '睢宁县实验小学', '一年级', 1651450646102112, '2024-12-14 17:36:32', 1651450646102112, '2024-12-14 17:36:32', 1);
+INSERT INTO `bm_student` (`id`, `stu_name`, `stu_sex`, `stu_birth`, `stu_cur_school`, `stu_cur_grade`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651474071289888, '李哦哦', 'male', '2010-10-12 00:00:00', '睢宁县实验小学', '一年级', 1651450646102112, '2024-12-14 17:36:43', 1651450646102112, '2024-12-14 17:36:43', 1);
+INSERT INTO `bm_student` (`id`, `stu_name`, `stu_sex`, `stu_birth`, `stu_cur_school`, `stu_cur_grade`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651474115330080, '藏哦哦', 'male', '2010-10-12 00:00:00', '睢宁县实验小学', '一年级', 1651450646102112, '2024-12-14 17:37:05', 1651450646102112, '2024-12-14 17:37:05', 1);
+INSERT INTO `bm_student` (`id`, `stu_name`, `stu_sex`, `stu_birth`, `stu_cur_school`, `stu_cur_grade`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651474167758880, '齐哦哦', 'male', '2010-10-12 00:00:00', '睢宁县实验小学', '一年级', 1651450646102112, '2024-12-14 17:37:30', 1651450646102112, '2024-12-14 17:37:30', 1);
 COMMIT;
 
 -- ----------------------------
@@ -838,8 +894,7 @@ CREATE TABLE `bm_teacher` (
 -- Records of bm_teacher
 -- ----------------------------
 BEGIN;
-INSERT INTO `bm_teacher` (`id`, `tea_avatar_id`, `tea_name`, `sex`, `tea_phone`, `tea_email`, `tea_org_id`, `tea_org_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646200895832096, 0, '丽丽', NULL, '17321729457', '1420865757@qq.com', 1645831847411744, '测试机构', NULL, '2024-11-15 15:09:18', NULL, '2024-11-15 15:09:18', 1);
-INSERT INTO `bm_teacher` (`id`, `tea_avatar_id`, `tea_name`, `sex`, `tea_phone`, `tea_email`, `tea_org_id`, `tea_org_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646204593111072, 3, '小王啊', NULL, '145254145741', '111111', 1646203615838240, '极客晨星', 1, '2024-11-15 15:38:41', 1, '2024-11-15 15:38:41', 1);
+INSERT INTO `bm_teacher` (`id`, `tea_avatar_id`, `tea_name`, `sex`, `tea_phone`, `tea_email`, `tea_org_id`, `tea_org_name`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1651450646102048, 0, '仲寒露', 'male', 'zhonhanlu', '1420865757@qq.com', 1645826375942176, '启智编梦', 1, '2024-12-14 14:30:34', 1, '2024-12-14 14:30:34', 1);
 COMMIT;
 
 -- ----------------------------
@@ -912,6 +967,7 @@ CREATE TABLE `bm_user_teacher` (
 -- Records of bm_user_teacher
 -- ----------------------------
 BEGIN;
+INSERT INTO `bm_user_teacher` (`id`, `tea_id`, `user_id`) VALUES (1651450646102144, 1651450646102048, 1651450646102080);
 COMMIT;
 
 -- ----------------------------
@@ -1239,6 +1295,12 @@ INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser
 INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1648750026031136, 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-11-29 16:47:57');
 INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1648750128791584, 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-11-29 16:48:47');
 INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1649824644464672, 'admin', '192.168.56.1', '0|内网IP|内网IP', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-12-05 15:08:16');
+INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1651449884835872, 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'no', 'login', 'ACCOUNT_PASSWORD_ERROR', '2024-12-14 14:24:30');
+INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1651449920487456, 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'no', 'login', 'ACCOUNT_PASSWORD_ERROR', '2024-12-14 14:24:48');
+INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1651449922584608, 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'no', 'login', 'ACCOUNT_PASSWORD_ERROR', '2024-12-14 14:24:48');
+INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1651450077773856, 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'yes', 'login', 'LOGIN_SUCCESS', '2024-12-14 14:26:02');
+INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1651450516078624, 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'yes', 'login', 'LOGIN_SUCCESS', '2024-12-14 14:29:31');
+INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1651451900198944, 'zhonghanlu', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'yes', 'login', 'LOGIN_SUCCESS', '2024-12-14 14:40:31');
 COMMIT;
 
 -- ----------------------------
@@ -1713,6 +1775,16 @@ INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_addre
 INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `opt_method`, `opt_url`, `opt_body`, `opt_status`, `opt_time`) VALUES (1648749776470048, '36d247f4-0ced-492d-9ad7-f95572f24531', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-captcha/captcha-image', '{}', 'yes', '2024-11-29 16:45:58');
 INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `opt_method`, `opt_url`, `opt_body`, `opt_status`, `opt_time`) VALUES (1648750153957408, 'e3839213-7566-4e91-aea1-f25818eda872', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/user-detail-base', '{}', 'yes', '2024-11-29 16:48:59');
 INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `opt_method`, `opt_url`, `opt_body`, `opt_status`, `opt_time`) VALUES (1648750160248864, 'be25d2a8-bcb5-4c2c-8bff-31e26c5174d1', 'admin', '180.102.170.68', '中国|江苏省|南京市|电信', 'Chrome 13', 'Windows 10', 'GET', '/sys-auth/user-detail-router', '{}', 'yes', '2024-11-29 16:49:02');
+INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `opt_method`, `opt_url`, `opt_body`, `opt_status`, `opt_time`) VALUES (1651450140688416, '4999163e-a2b8-4754-9768-65b425998fde', 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'GET', '/sys-user/page', '{}', 'yes', '2024-12-14 14:26:33');
+INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `opt_method`, `opt_url`, `opt_body`, `opt_status`, `opt_time`) VALUES (1651451109572640, 'd8dbc676-c989-44da-a02d-79de4be2dabc', 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'GET', '/sys-user/page', '{}', 'yes', '2024-12-14 14:34:15');
+INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `opt_method`, `opt_url`, `opt_body`, `opt_status`, `opt_time`) VALUES (1651451153612832, '1670443b-80d9-4e9c-b35b-f94350cfd8c2', 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'GET', '/sys-role/page', '{}', 'yes', '2024-12-14 14:34:36');
+INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `opt_method`, `opt_url`, `opt_body`, `opt_status`, `opt_time`) VALUES (1651451174584352, 'fc0c4bf4-0346-4de6-b052-55a7807add7d', 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'GET', '/sys-role/detail/1648724665172000', '{roleId=1648724665172000}', 'yes', '2024-12-14 14:34:45');
+INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `opt_method`, `opt_url`, `opt_body`, `opt_status`, `opt_time`) VALUES (1651451203944480, '5984868c-92f1-4ccb-b8c7-0d160d5a6e58', 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'GET', '/sys-role/detail/1648726439362592', '{roleId=1648726439362592}', 'yes', '2024-12-14 14:35:00');
+INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `opt_method`, `opt_url`, `opt_body`, `opt_status`, `opt_time`) VALUES (1651451222818848, 'bd93d799-8568-45b5-8e03-68e816d06376', 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'GET', '/sys-role/detail/1648728391811104', '{roleId=1648728391811104}', 'yes', '2024-12-14 14:35:08');
+INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `opt_method`, `opt_url`, `opt_body`, `opt_status`, `opt_time`) VALUES (1651451260567584, '124cd498-c841-4f5d-b0a3-cb8474eebe7c', 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'GET', '/sys-permission/page', '{}', 'yes', '2024-12-14 14:35:27');
+INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `opt_method`, `opt_url`, `opt_body`, `opt_status`, `opt_time`) VALUES (1651451306704960, '125e67ec-7a53-4a43-a27f-ba684110bf9e', 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'POST', '/sys-user/user-role-relation', '{\"id\":1651450646102112,\"roleIdList\":[1648728391811104]}', 'yes', '2024-12-14 14:35:49');
+INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `opt_method`, `opt_url`, `opt_body`, `opt_status`, `opt_time`) VALUES (1651451937947680, '537aac47-600c-44ef-b7f0-b8b9901283be', 'zhonghanlu', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'GET', '/sys-auth/user-detail-base', '{}', 'yes', '2024-12-14 14:40:50');
+INSERT INTO `sys_user_opt` (`id`, `request_id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `opt_method`, `opt_url`, `opt_body`, `opt_status`, `opt_time`) VALUES (1651451956822048, '092c362e-02fb-488d-96f3-dc9824716f24', 'zhonghanlu', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'GET', '/sys-auth/user-detail-router', '{}', 'yes', '2024-12-14 14:40:58');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
