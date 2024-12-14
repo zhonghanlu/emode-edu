@@ -9,6 +9,7 @@ import com.mini.common.constant.StuClassHourConstant;
 import com.mini.common.enums.number.Delete;
 import com.mini.common.enums.str.CourseType;
 import com.mini.common.exception.service.EModeServiceException;
+import com.mini.common.utils.DecimalUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.mapper.BmStuClassHourMapper;
 import com.mini.manager.mapper.BmStudentMapper;
@@ -65,7 +66,7 @@ public class BmStuClassHourServiceImpl extends ServiceImpl<BmStuClassHourMapper,
      * @param phone      通知家长课时信息
      */
     @Override
-    public void handlerStuClassHour(long stuId, CourseType courseType, Integer optType, Long classHour, String phone) {
+    public void handlerStuClassHour(long stuId, CourseType courseType, Integer optType, long classHour, String phone) {
         BmStuClassHour typeClassHour = getTypeClassHour(stuId, courseType);
         if (Objects.isNull(typeClassHour)) {
             // 当前课时类型不存在不允许进行减少操作
@@ -82,14 +83,18 @@ public class BmStuClassHourServiceImpl extends ServiceImpl<BmStuClassHourMapper,
             wrapper.eq(BmStudent::getId, stuId).eq(BmStudent::getDelFlag, Delete.NO).last(LastSql.LIMIT_ONE);
             BmStudent bmStudent = bmStudentMapper.selectOne(wrapper);
             bmStuClassHour.setStuName(bmStudent.getStuName());
+            int b = bmStuClassHourMapper.insert(bmStuClassHour);
+            if (b <= 0) {
+                throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "新增课时失败");
+            }
             return;
         }
 
         // 修改操作
         Long targetClassHour = typeClassHour.getClassHour();
         if (StuClassHourConstant.SUBTRACT.equals(optType)) {
-            // TODO 处理精度问题
-
+            // 课时进行减少操作
+            targetClassHour = DecimalUtil.sub(targetClassHour, classHour);
             // 减少之后小于最大承受负课时，进行抛异常
             if (targetClassHour < StuClassHourConstant.LOSE_CLASS_HOUR) {
                 // TODO: 发送短信通知
@@ -99,10 +104,11 @@ public class BmStuClassHourServiceImpl extends ServiceImpl<BmStuClassHourMapper,
             if (targetClassHour < StuClassHourConstant.WARNING_CLASS_HOUR) {
                 // TODO: 预警短信提醒
             }
-
         }
         if (StuClassHourConstant.ADD.equals(optType)) {
-            // TODO 处理精度问题
+            // 课时进行增加操作
+            targetClassHour = DecimalUtil.add(targetClassHour, classHour);
+            // TODO：短信通知家长课时学生课时新增
         }
         typeClassHour.setClassHour(targetClassHour);
         bmStuClassHourMapper.updateById(typeClassHour);

@@ -29,7 +29,10 @@ public class BmHandlerClassDTO {
     private String stuName;
 
     @Schema(name = "意向上课时间")
-    private LocalDateTime intentionCurTime;
+    private BmIntentionCurTimeDTO intentionCurTime;
+
+    @Schema(name = "意向上课时间")
+    private String intentionCurTimeStr;
 
     @Schema(name = "核销时间")
     private LocalDateTime consumeTime;

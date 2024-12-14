@@ -2,10 +2,7 @@ package com.mini.pojo.entity.sale;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.mini.common.enums.str.ClassType;
-import com.mini.common.enums.str.CourseType;
-import com.mini.common.enums.str.ProductShowStatus;
-import com.mini.common.enums.str.ProductStatus;
+import com.mini.common.enums.str.*;
 import com.mini.common.model.CommonEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -61,8 +58,11 @@ public class BmProduct extends CommonEntity implements Serializable {
     @Schema(name = "课程详细介绍，默认写死")
     private String courseDetail;
 
-    @Schema(name = "课程语言类型")
-    private CourseType productType;
+    @Schema(title = "商品课程类型 体验 长期")
+    private ProductType productType;
+
+    @Schema(title = "课程语言类型")
+    private CourseType courseType;
 
     @Schema(name = "授课类型，线上、线下....")
     private ClassType classType;

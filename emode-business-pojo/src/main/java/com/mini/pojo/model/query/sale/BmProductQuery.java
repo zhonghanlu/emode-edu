@@ -3,6 +3,7 @@ package com.mini.pojo.model.query.sale;
 import com.mini.common.enums.str.ClassType;
 import com.mini.common.enums.str.CourseType;
 import com.mini.common.enums.str.ProductShowStatus;
+import com.mini.common.enums.str.ProductType;
 import com.mini.common.utils.webmvc.PageQuery;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,8 +29,11 @@ public class BmProductQuery extends PageQuery {
     @Parameter(description = "课程课时")
     private Integer productHour;
 
-    @Parameter(description = "课程语言类型")
-    private CourseType productType;
+    @Schema(title = "商品课程类型 体验 长期")
+    private ProductType productType;
+
+    @Schema(title = "课程语言类型")
+    private CourseType courseType;
 
     @Parameter(description = "授课类型，线上、线下....")
     private ClassType classType;

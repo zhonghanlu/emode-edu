@@ -47,7 +47,7 @@ public class BmPatriarchBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取家长详情
      */
     public BmPatriarchVo getEntityById(Long id) {
         BmPatriarchDTO bmPatriarchDTO = bmPatriarchService.selectById(id);
@@ -66,7 +66,7 @@ public class BmPatriarchBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增家长信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmPatriarchRequest request) {

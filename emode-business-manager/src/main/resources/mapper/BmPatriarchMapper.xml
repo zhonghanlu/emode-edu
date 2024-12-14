@@ -7,7 +7,7 @@
         <id column="id" property="id"/>
         <result column="pat_avatar_id" property="patAvatarId"/>
         <result column="pat_name" property="patName"/>
-        <result column="pat_iphone" property="patIphone"/>
+        <result column="pat_phone" property="patPhone"/>
         <result column="pat_wx" property="patWx"/>
         <result column="pat_address" property="patAddress"/>
         <result column="patAvatarUrl" property="patAvatarUrl"/>
@@ -17,7 +17,7 @@
         SELECT bp.id,
         bp.pat_avatar_id,
         bp.pat_name,
-        bp.pat_iphone,
+        bp.pat_phone,
         bp.pat_wx,
         bp.pat_address,
         sf.file_url AS patAvatarUrl
@@ -28,8 +28,8 @@
             <if test="query.patName != null and query.patName != '' ">
                 AND bp.pat_name LIKE CONCAT('%',#{query.patName},'%')
             </if>
-            <if test="query.patIphone != null and query.patIphone != '' ">
-                AND bp.pat_iphone LIKE CONCAT('%',#{query.patIphone},'%')
+            <if test="query.patPhone != null and query.patPhone != '' ">
+                AND bp.pat_phone LIKE CONCAT('%',#{query.patPhone},'%')
             </if>
         </where>
 

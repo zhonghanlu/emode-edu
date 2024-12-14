@@ -1,8 +1,11 @@
 package com.mini.manager.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.ErrorCodeConstant;
+import com.mini.common.constant.LastSql;
 import com.mini.common.enums.number.Delete;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.mybatis.CommonMybatisUtil;
@@ -37,6 +40,16 @@ public class BmPatriarchServiceImpl extends ServiceImpl<BmPatriarchMapper, BmPat
     @Override
     public void add(BmPatriarchDTO dto) {
         BmPatriarch bmPatriarch = BmPatriarchStructMapper.INSTANCE.dto2Entity(dto);
+
+        // 校验手机号是否重复
+        LambdaQueryWrapper<BmPatriarch> wrapper = Wrappers.lambdaQuery(BmPatriarch.class);
+        wrapper.eq(BmPatriarch::getPatPhone, dto.getPatPhone())
+                .last(LastSql.LIMIT_ONE);
+        Long count = bmPatriarchMapper.selectCount(wrapper);
+
+        if (count >= 0) {
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "手机号重复，请重新输入");
+        }
 
         bmPatriarch.setId(IDGenerator.next());
         bmPatriarch.setDelFlag(Delete.NO);

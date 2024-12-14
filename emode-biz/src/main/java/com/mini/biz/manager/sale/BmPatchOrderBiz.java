@@ -2,6 +2,7 @@ package com.mini.biz.manager.sale;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.common.constant.ErrorCodeConstant;
+import com.mini.common.constant.StuClassHourConstant;
 import com.mini.common.enums.str.OrderStatus;
 import com.mini.common.enums.str.ProductShowStatus;
 import com.mini.common.enums.str.ProductStatus;
@@ -9,11 +10,9 @@ import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.model.LoginUser;
 import com.mini.common.utils.LoginUtils;
 import com.mini.common.utils.webmvc.IDGenerator;
-import com.mini.manager.service.BmPatchOrderService;
-import com.mini.manager.service.BmPatriarchService;
-import com.mini.manager.service.BmProductService;
-import com.mini.manager.service.BmStudentService;
+import com.mini.manager.service.*;
 import com.mini.pojo.mapper.sale.BmPatchOrderStructMapper;
+import com.mini.pojo.model.dto.course.BmHandlerClassDTO;
 import com.mini.pojo.model.dto.org.BmPatriarchDTO;
 import com.mini.pojo.model.dto.org.BmStudentDTO;
 import com.mini.pojo.model.dto.sale.BmPatchOrderDTO;
@@ -48,6 +47,10 @@ public class BmPatchOrderBiz {
 
     private final BmStudentService bmStudentService;
 
+    private final BmStuClassHourService bmStuClassHourService;
+
+    private final BmHandlerClassService bmHandlerClassService;
+
     /**
      * 分页
      */
@@ -81,12 +84,12 @@ public class BmPatchOrderBiz {
         }
 
         // 家长信息（补单人）
-        BmPatriarchDTO bmPatriarchDTO = bmPatriarchService.selectById(request.getProductId());
+        BmPatriarchDTO bmPatriarchDTO = bmPatriarchService.selectById(request.getPatriarchId());
         if (Objects.isNull(bmPatriarchDTO)) {
             throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "当前家长信息不存在");
         }
         // 学生信息 （被核销人）
-        BmStudentDTO bmStudentDTO = bmStudentService.selectById(request.getProductId());
+        BmStudentDTO bmStudentDTO = bmStudentService.selectById(request.getStudentId());
         if (Objects.isNull(bmStudentDTO)) {
             throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "当前学生信息不存在");
         }
@@ -95,9 +98,20 @@ public class BmPatchOrderBiz {
         BmPatchOrderDTO bmPatchOrderDTO = getBmPatchOrderDTO(bmProductDTO, bmStudentDTO, bmPatriarchDTO);
         bmPatchOrderService.add(bmPatchOrderDTO);
 
-        // 3.处理学生课时，有相同类型的课，课时进行累加操作 TODO
+        // 3.处理学生课时，有相同类型的课，课时进行累加操作
+        bmStuClassHourService.handlerStuClassHour(bmStudentDTO.getId(), bmProductDTO.getCourseType(),
+                StuClassHourConstant.ADD, bmProductDTO.getProductHour(), bmPatriarchDTO.getPatPhone());
 
-        // 4.新增待分班数据 TODO
+        // 4.新增待分班数据
+        BmHandlerClassDTO bmHandlerClassDTO = new BmHandlerClassDTO();
+        bmHandlerClassDTO.setId(IDGenerator.next());
+        bmHandlerClassDTO.setStuId(bmStudentDTO.getId());
+        bmHandlerClassDTO.setStuName(bmStudentDTO.getStuName());
+        bmHandlerClassDTO.setIntentionCurTime(request.getBmIntentionCurTimeDTO());
+        bmHandlerClassDTO.setConsumeTime(LocalDateTime.now());
+        bmHandlerClassDTO.setCurType(bmProductDTO.getCourseType());
+
+        bmHandlerClassService.add(bmHandlerClassDTO);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.mini.pojo.model.request.sale;
 
+import com.mini.pojo.model.dto.course.BmIntentionCurTimeDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,5 +31,9 @@ public class BmPatchOrderRequest {
     @NotNull(message = "学生 id 不可为空")
     @Schema(title = "补单学生 id")
     private Long studentId;
+
+    @NotNull(message = "意向上课时间不可为空")
+    @Schema(title = "意向上课时间")
+    private BmIntentionCurTimeDTO bmIntentionCurTimeDTO;
 
 }

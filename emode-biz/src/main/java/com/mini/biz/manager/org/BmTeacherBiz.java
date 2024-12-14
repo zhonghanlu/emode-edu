@@ -7,6 +7,7 @@ import com.mini.base.service.ISysConfigService;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.str.UserType;
 import com.mini.common.exception.service.EModeServiceException;
+import com.mini.common.utils.SmCryptoUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.file.model.dto.SysFileDTO;
 import com.mini.file.service.ISysFileService;
@@ -87,7 +88,7 @@ public class BmTeacherBiz {
         AuthUserDTO authUserDTO = new AuthUserDTO();
         authUserDTO.setId(IDGenerator.next());
         authUserDTO.setUsername(bmTeacherDTO.getTeaPhone());
-        authUserDTO.setPassword(sysConfigService.searchByKey(SYS_CONFIG_INIT_PASSWORD));
+        authUserDTO.setPassword(SmCryptoUtil.doHashValue(sysConfigService.searchByKey(SYS_CONFIG_INIT_PASSWORD)));
         authUserDTO.setNickname(bmTeacherDTO.getTeaName());
         authUserDTO.setSex(bmTeacherDTO.getSex());
         authUserDTO.setAvatar(bmTeacherDTO.getTeaAvatarId());

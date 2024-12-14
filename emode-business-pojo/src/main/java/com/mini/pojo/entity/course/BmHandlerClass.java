@@ -42,7 +42,7 @@ public class BmHandlerClass extends CommonEntity implements Serializable {
     private String stuName;
 
     @Schema(name = "意向上课时间")
-    private LocalDateTime intentionCurTime;
+    private String intentionCurTime;
 
     @Schema(name = "核销时间")
     private LocalDateTime consumeTime;

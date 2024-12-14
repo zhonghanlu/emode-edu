@@ -67,7 +67,11 @@ public class ModeAppRunner implements ApplicationRunner {
             List<BmStudentConstant> bmStudentConstantList = bmStudentConstantService.list(wrapper);
             // 键入
             if (CollectionUtils.isNotEmpty(bmStudentConstantList)) {
-                RedisUtils.setCacheObject(RedisConstant.SCHOOL_OR_GRADE + type + RedisConstant.PLACEHOLDER, bmStudentConstantList, Duration.ofDays(7));
+                String redisKey = RedisConstant.SCHOOL_OR_GRADE + type + RedisConstant.PLACEHOLDER;
+                // 先清除 后塞入 保证缓存与 key 一致
+                RedisUtils.deleteObject(redisKey);
+                RedisUtils.setCacheList(redisKey, bmStudentConstantList);
+                RedisUtils.expire(redisKey, Duration.ofDays(7));
             }
         });
     }

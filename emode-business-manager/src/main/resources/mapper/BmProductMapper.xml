@@ -14,6 +14,7 @@
         <result column="recommend_age" property="recommendAge"/>
         <result column="course_detail" property="courseDetail"/>
         <result column="product_type" property="productType"/>
+        <result column="course_type" property="courseType"/>
         <result column="class_type" property="classType"/>
         <result column="status" property="status"/>
         <result column="class_time" property="classTime"/>
@@ -32,6 +33,7 @@
         bp.recommend_age,
         bp.course_detail,
         bp.product_type,
+        bp.course_type,
         bp.class_type,
         bp.status,
         bp.class_time,

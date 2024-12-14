@@ -1,9 +1,12 @@
 package com.mini.biz.manager.course;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.mini.common.enums.str.IntentionCurPeriodTime;
+import com.mini.common.enums.str.IntentionCurWeekTime;
 import com.mini.manager.service.BmHandlerClassService;
 import com.mini.pojo.mapper.course.BmHandlerClassStructMapper;
 import com.mini.pojo.model.dto.course.BmHandlerClassDTO;
+import com.mini.pojo.model.dto.course.BmIntentionCurTimeDTO;
 import com.mini.pojo.model.edit.course.BmHandlerClassEdit;
 import com.mini.pojo.model.query.course.BmHandlerClassQuery;
 import com.mini.pojo.model.request.course.BmHandlerClassRequest;
@@ -12,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author zhl
@@ -24,16 +30,30 @@ public class BmHandlerClassBiz {
 
     private final BmHandlerClassService bmHandlerClassService;
 
+    public static final String PLACEHOLDER = ":";
+
     /**
      * 分页
      */
     public IPage<BmHandlerClassVo> page(BmHandlerClassQuery query) {
         IPage<BmHandlerClassDTO> page = bmHandlerClassService.page(query);
+
+        // 处理意向时间
+        page.getRecords().forEach(item -> {
+            List<String> timeList = Arrays.asList(item.getIntentionCurTimeStr().split(PLACEHOLDER));
+            item.setIntentionCurTime(
+                    BmIntentionCurTimeDTO.builder()
+                            .intentionCurWeekTime(IntentionCurWeekTime.get(timeList.get(0)))
+                            .intentionCurPeriodTime(IntentionCurPeriodTime.get(timeList.get(1)))
+                            .build()
+            );
+        });
+
         return page.convert(BmHandlerClassStructMapper.INSTANCE::dto2Vo);
     }
 
     /**
-     * 获取当条机构详情
+     * 获取待分班详情
      */
     public BmHandlerClassVo getEntityById(Long id) {
         BmHandlerClassDTO bmHandlerClassDTO = bmHandlerClassService.selectById(id);
@@ -41,7 +61,7 @@ public class BmHandlerClassBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增待分班信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmHandlerClassRequest request) {

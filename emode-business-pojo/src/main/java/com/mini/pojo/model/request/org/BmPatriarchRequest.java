@@ -1,7 +1,5 @@
 package com.mini.pojo.model.request.org;
 
-import com.mini.common.annotation.Desensitization;
-import com.mini.common.enums.DesensitizationTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,7 +26,6 @@ public class BmPatriarchRequest {
     @Schema(title = "家长姓名")
     private String patName;
 
-    @Desensitization(type = DesensitizationTypeEnum.MOBILE_PHONE)
     @NotBlank(message = "手机号不可为空")
     @Schema(title = "家长手机号")
     private String patPhone;

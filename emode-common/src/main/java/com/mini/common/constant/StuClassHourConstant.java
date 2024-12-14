@@ -10,6 +10,9 @@ public final class StuClassHourConstant {
     private StuClassHourConstant() {
     }
 
+    // 分隔
+    public static final String PLACEHOLDER = ":";
+
     // 增加
     public static final Integer ADD = 0;
 
