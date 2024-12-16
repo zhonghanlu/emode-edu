@@ -12,6 +12,9 @@ import java.util.Arrays;
  * @Description:
  */
 public enum IntentionCurTime implements StringEnum {
+
+    //////////////////////////////长期///////////////////////////////
+
     /**
      * 周六_上午_第一次课
      */
@@ -36,6 +39,84 @@ public enum IntentionCurTime implements StringEnum {
     /**
      * 周日_下午_第二次课
      */
+    SUNDAY_DOWN_TWO("sunday_down_two"),
+
+    /**
+     * 周六_上午_第一次课
+     */
+    SATURDAY_UP_ONE("saturday_up_one"),
+
+    /**
+     * 周六_下午_第一次课
+     */
+    SATURDAY_DOWN_ONE("saturday_down_one"),
+
+    /**
+     * 周六_下午_第二次课
+     */
+    SATURDAY_DOWN_TWO("saturday_down_two"),
+
+    /**
+     * 周日_上午_第一次课
+     */
+    SUNDAY_UP_ONE("sunday_up_one"),
+
+    /**
+     * 周日_下午_第一次课
+     */
+    SUNDAY_DOWN_ONE("sunday_down_one"),
+
+    /**
+     * 周日_下午_第二次课
+     */
+    SUNDAY_DOWN_TWO("sunday_down_two"),
+
+    /**
+     * 周六_上午_第一次课
+     */
+    SATURDAY_UP_ONE("saturday_up_one"),
+
+    /**
+     * 周六_下午_第一次课
+     */
+    SATURDAY_DOWN_ONE("saturday_down_one"),
+
+    /**
+     * 周六_下午_第二次课
+     */
+    SATURDAY_DOWN_TWO("saturday_down_two"),
+
+
+    //////////////////////////////长期///////////////////////////////
+
+    /**
+     * 周六_上午_第一次课
+     */
+    SATURDAY_UP_ONE("saturday_up_one"),
+
+    /**
+     * 周六_下午_第一次课
+     */
+    SATURDAY_DOWN_ONE("saturday_down_one"),
+
+    /**
+     * 周六_下午_第二次课
+     */
+    SATURDAY_DOWN_TWO("saturday_down_two"),
+
+    /**
+     * 周日_上午_第一次课
+     */
+    SUNDAY_UP_ONE("sunday_up_one"),
+
+    /**
+     * 周日_下午_第一次课
+     */
+    SUNDAY_DOWN_ONE("sunday_down_one"),
+
+    /**
+     * 周日_下午_第二次课
+     */
     SUNDAY_DOWN_TWO("sunday_down_two");
 
     private final String value;
@@ -53,4 +134,4 @@ public enum IntentionCurTime implements StringEnum {
     public String getStringValue() {
         return value;
     }
-}
+    }
