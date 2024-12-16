@@ -11,7 +11,7 @@
  Target Server Version : 80039 (8.0.39)
  File Encoding         : 65001
 
- Date: 14/12/2024 17:54:56
+ Date: 16/12/2024 20:25:01
 */
 
 SET NAMES utf8mb4;
@@ -300,6 +300,31 @@ CREATE TABLE `bm_classroom` (
 BEGIN;
 INSERT INTO `bm_classroom` (`id`, `room_name`, `room_status`, `room_size`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646195281756192, '西教室', 'enable', 22, NULL, '2024-11-15 14:24:40', 1, '2024-11-15 15:49:31', 1);
 INSERT INTO `bm_classroom` (`id`, `room_name`, `room_status`, `room_size`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1646205509566496, '一个教室', 'enable', 0, 1, '2024-11-15 15:45:57', 1, '2024-11-15 15:45:57', 1);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for bm_classroom_intention
+-- ----------------------------
+DROP TABLE IF EXISTS `bm_classroom_intention`;
+CREATE TABLE `bm_classroom_intention` (
+  `id` bigint NOT NULL COMMENT '主键 id',
+  `classroom_id` bigint DEFAULT NULL COMMENT '教室 id',
+  `classroom_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '教室名称',
+  `intention_cur_time` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '意向上课时间',
+  `class_grade_id` bigint DEFAULT NULL COMMENT '班级 id',
+  `class_grade_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '班级名称',
+  `create_by` bigint DEFAULT NULL COMMENT '创建人 id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` bigint DEFAULT NULL COMMENT '更新人 id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='教室与意向时间关系表';
+
+-- ----------------------------
+-- Records of bm_classroom_intention
+-- ----------------------------
+BEGIN;
 COMMIT;
 
 -- ----------------------------
@@ -898,6 +923,31 @@ INSERT INTO `bm_teacher` (`id`, `tea_avatar_id`, `tea_name`, `sex`, `tea_phone`,
 COMMIT;
 
 -- ----------------------------
+-- Table structure for bm_teacher_intention
+-- ----------------------------
+DROP TABLE IF EXISTS `bm_teacher_intention`;
+CREATE TABLE `bm_teacher_intention` (
+  `id` bigint NOT NULL COMMENT '主键 id',
+  `teacher_id` bigint DEFAULT NULL COMMENT '教师主键 id',
+  `teacher_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '教师名称',
+  `intention_cur_time` datetime DEFAULT NULL COMMENT '意向时间',
+  `class_grade_id` int DEFAULT NULL COMMENT '班级 id',
+  `class_grade_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '班级名称',
+  `create_by` bigint DEFAULT NULL COMMENT '创建人 id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` bigint DEFAULT NULL COMMENT '更新人 id',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='教师意向时间关联表';
+
+-- ----------------------------
+-- Records of bm_teacher_intention
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
 -- Table structure for bm_tutor_apply
 -- ----------------------------
 DROP TABLE IF EXISTS `bm_tutor_apply`;
@@ -1301,6 +1351,8 @@ INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser
 INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1651450077773856, 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'yes', 'login', 'LOGIN_SUCCESS', '2024-12-14 14:26:02');
 INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1651450516078624, 'admin', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'yes', 'login', 'LOGIN_SUCCESS', '2024-12-14 14:29:31');
 INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1651451900198944, 'zhonghanlu', '192.168.0.104', '0|内网IP|内网IP', 'Chrome 13', 'Mac OS X', 'yes', 'login', 'LOGIN_SUCCESS', '2024-12-14 14:40:31');
+INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1651805442277408, 'zhonghanlu', '192.168.0.67', '0|内网IP|内网IP', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-12-16 13:30:13');
+INSERT INTO `sys_login_opt` (`id`, `username`, `opt_ip`, `opt_address`, `browser`, `system_os`, `status`, `opt_type`, `opt_msg`, `opt_time`) VALUES (1651805591175200, 'zhonghanlu', '192.168.0.67', '0|内网IP|内网IP', 'Chrome 13', 'Windows 10', 'yes', 'login', 'LOGIN_SUCCESS', '2024-12-16 13:31:25');
 COMMIT;
 
 -- ----------------------------
