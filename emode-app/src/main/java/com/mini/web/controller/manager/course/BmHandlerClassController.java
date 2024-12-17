@@ -68,4 +68,11 @@ public class BmHandlerClassController {
         bmHandlerClassBiz.update(edit);
         return Restful.SUCCESS().build();
     }
+
+    @Operation(summary = "一键分班")
+    @PostMapping("/placement-class")
+    public Restful<Void> placementClass(@RequestBody @Valid BmHandlerClassRequest request) {
+        bmHandlerClassBiz.placementClass(request);
+        return Restful.SUCCESS().build();
+    }
 }

@@ -7,6 +7,7 @@ import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.constant.LastSql;
 import com.mini.common.constant.StuClassHourConstant;
 import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.HandlerClassStatus;
 import com.mini.common.enums.str.OrderStatus;
 import com.mini.common.enums.str.ProductShowStatus;
 import com.mini.common.enums.str.ProductStatus;
@@ -122,6 +123,7 @@ public class BmPatchOrderBiz {
         bmHandlerClassDTO.setIntentionCurTime(request.getIntentionCurTime());
         bmHandlerClassDTO.setConsumeTime(LocalDateTime.now());
         bmHandlerClassDTO.setCurType(bmProductDTO.getCourseType());
+        bmHandlerClassDTO.setHandlerClassStatus(HandlerClassStatus.TO_HANDLER_CLASS);
 
         bmHandlerClassService.add(bmHandlerClassDTO);
     }

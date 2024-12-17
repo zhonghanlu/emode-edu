@@ -6,6 +6,8 @@ import com.mini.pojo.entity.course.BmHandlerClass;
 import com.mini.pojo.model.dto.course.BmHandlerClassDTO;
 import com.mini.pojo.model.query.course.BmHandlerClassQuery;
 
+import java.util.List;
+
 /**
  * <p>
  * 待分班数据表 服务类
@@ -40,4 +42,9 @@ public interface BmHandlerClassService extends IService<BmHandlerClass> {
      * 查分页
      */
     IPage<BmHandlerClassDTO> page(BmHandlerClassQuery query);
+
+    /**
+     * 获取待分班数据
+     */
+    List<BmHandlerClassDTO> getToHandlerClass(List<Long> handlerIdList);
 }

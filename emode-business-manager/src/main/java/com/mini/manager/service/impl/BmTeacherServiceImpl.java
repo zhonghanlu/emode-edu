@@ -1,17 +1,23 @@
 package com.mini.manager.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.ErrorCodeConstant;
+import com.mini.common.constant.LastSql;
 import com.mini.common.enums.number.Delete;
 import com.mini.common.exception.service.EModeServiceException;
+import com.mini.common.utils.LoginUtils;
 import com.mini.common.utils.mybatis.CommonMybatisUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.mapper.BmOrgMapper;
 import com.mini.manager.mapper.BmTeacherMapper;
+import com.mini.manager.mapper.BmUserTeacherMapper;
 import com.mini.manager.service.BmTeacherService;
 import com.mini.pojo.entity.org.BmOrg;
 import com.mini.pojo.entity.org.BmTeacher;
+import com.mini.pojo.entity.org.BmUserTeacher;
 import com.mini.pojo.mapper.org.BmTeacherStructMapper;
 import com.mini.pojo.model.dto.org.BmTeacherDTO;
 import com.mini.pojo.model.query.org.BmTeacherQuery;
@@ -37,6 +43,8 @@ public class BmTeacherServiceImpl extends ServiceImpl<BmTeacherMapper, BmTeacher
     private final BmTeacherMapper bmTeacherMapper;
 
     private final BmOrgMapper bmOrgMapper;
+
+    private final BmUserTeacherMapper bmUserTeacherMapper;
 
     @Override
     public BmTeacherDTO add(BmTeacherDTO dto) {
@@ -114,5 +122,15 @@ public class BmTeacherServiceImpl extends ServiceImpl<BmTeacherMapper, BmTeacher
     @Override
     public IPage<BmTeacherDTO> page(BmTeacherQuery query) {
         return bmTeacherMapper.page(query, query.build());
+    }
+
+    @Override
+    public BmTeacherDTO getCurrentTeacher() {
+        Long userId = LoginUtils.getUserId();
+        LambdaQueryWrapper<BmUserTeacher> wrapper1 = Wrappers.lambdaQuery(BmUserTeacher.class);
+        wrapper1.eq(BmUserTeacher::getUserId, userId)
+                .last(LastSql.LIMIT_ONE);
+        BmUserTeacher userTeacher = bmUserTeacherMapper.selectOne(wrapper1);
+        return selectById(userTeacher.getTeaId());
     }
 }

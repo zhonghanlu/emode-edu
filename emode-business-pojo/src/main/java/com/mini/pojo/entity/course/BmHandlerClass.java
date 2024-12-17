@@ -3,6 +3,7 @@ package com.mini.pojo.entity.course;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.mini.common.enums.str.CourseType;
+import com.mini.common.enums.str.HandlerClassStatus;
 import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.common.enums.str.ProductType;
 import com.mini.common.model.CommonEntity;
@@ -54,4 +55,8 @@ public class BmHandlerClass extends CommonEntity implements Serializable {
 
     @Schema(name = "课程归属类型 长期 短期")
     private ProductType productType;
+
+    @Schema(name = "分班状态：待分班、已分班")
+    private HandlerClassStatus handlerClassStatus;
+
 }

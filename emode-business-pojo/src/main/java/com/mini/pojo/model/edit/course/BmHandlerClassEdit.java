@@ -1,6 +1,7 @@
 package com.mini.pojo.model.edit.course;
 
 import com.mini.common.enums.str.CourseType;
+import com.mini.common.enums.str.HandlerClassStatus;
 import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.common.enums.str.ProductType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -44,4 +45,7 @@ public class BmHandlerClassEdit {
 
     @Schema(name = "课程归属类型 长期 短期")
     private ProductType productType;
+
+    @Schema(name = "分班状态：待分班、已分班")
+    private HandlerClassStatus handlerClassStatus;
 }

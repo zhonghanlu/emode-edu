@@ -1,12 +1,9 @@
 package com.mini.pojo.model.request.course;
 
-import com.mini.common.enums.str.CourseType;
-import com.mini.common.enums.str.IntentionCurTime;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -20,18 +17,9 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 public class BmHandlerClassRequest {
 
-    @Schema(title = "学生 id")
-    private Long stuId;
+    /**
+     * 待分班数据 id
+     */
+    private List<Long> handlerIdList;
 
-    @Schema(title = "学生姓名")
-    private String stuName;
-
-    @Schema(title = "意向上课时间")
-    private IntentionCurTime intentionCurTime;
-
-    @Schema(title = "核销时间")
-    private LocalDateTime consumeTime;
-
-    @Schema(title = "课程类型")
-    private CourseType curType;
 }

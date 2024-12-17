@@ -42,4 +42,8 @@ public interface BmTeacherService extends IService<BmTeacher> {
      */
     IPage<BmTeacherDTO> page(BmTeacherQuery query);
 
+    /**
+     * 获取当前教师信息
+     */
+    BmTeacherDTO getCurrentTeacher();
 }
