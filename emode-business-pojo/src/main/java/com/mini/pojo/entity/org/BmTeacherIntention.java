@@ -2,6 +2,7 @@ package com.mini.pojo.entity.org;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.common.model.CommonEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -10,7 +11,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName("bm_classroom_intention")
+@TableName("bm_teacher_intention")
 public class BmTeacherIntention extends CommonEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,28 +42,11 @@ public class BmTeacherIntention extends CommonEntity implements Serializable {
     private String teacherName;
 
     @Schema(title = "意向时间")
-    private LocalDateTime intentionCurTime;
+    private IntentionCurTime intentionCurTime;
 
     @Schema(title = "班级 id")
     private Integer classGradeId;
 
     @Schema(title = "班级名称")
     private String classGradeName;
-
-    @Schema(title = "创建人 id")
-    private Long createBy;
-
-    @Schema(title = "创建时间")
-    private LocalDateTime createTime;
-
-    @Schema(title = "更新人 id")
-    private Long updateBy;
-
-    @Schema(title = "更新时间")
-    private LocalDateTime updateTime;
-
-    @Schema(title = "删除标识")
-    private Boolean delFlag;
-
-
 }

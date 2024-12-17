@@ -2,6 +2,7 @@ package com.mini.pojo.model.query.course;
 
 import com.mini.common.enums.str.CourseType;
 import com.mini.common.enums.str.IntentionCurTime;
+import com.mini.common.enums.str.ProductType;
 import com.mini.common.utils.webmvc.PageQuery;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,4 +35,7 @@ public class BmHandlerClassQuery extends PageQuery {
 
     @Parameter(description = "课程类型")
     private CourseType curType;
+
+    @Schema(name = "课程归属类型 长期 短期")
+    private ProductType productType;
 }

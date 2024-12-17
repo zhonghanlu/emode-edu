@@ -4,12 +4,13 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.course.BmHandlerClassDTO">
-        <id column="id" property="id" />
-        <result column="stu_id" property="stuId" />
-        <result column="stu_name" property="stuName" />
-        <result column="intention_cur_time" property="intentionCurTime" />
-        <result column="consume_time" property="consumeTime" />
-        <result column="cur_type" property="curType" />
+        <id column="id" property="id"/>
+        <result column="stu_id" property="stuId"/>
+        <result column="stu_name" property="stuName"/>
+        <result column="intention_cur_time" property="intentionCurTime"/>
+        <result column="consume_time" property="consumeTime"/>
+        <result column="cur_type" property="curType"/>
+        <result column="product_type" property="productType"/>
     </resultMap>
 
     <select id="page" resultMap="BaseResultMap">
@@ -19,7 +20,8 @@
         bhc.stu_name,
         bhc.intention_cur_time,
         bhc.consume_time,
-        bhc.cur_type
+        bhc.cur_type,
+        bhc.product_type
         FROM bm_handler_class bhc
         <where>
             <if test="query.stuName != null and query.stuName != ''">
