@@ -102,7 +102,7 @@ public class BmHandlerClassBiz {
         List<Long> handlerIdList = request.getHandlerIdList();
         // 1.获取待分班数据
         List<BmHandlerClassDTO> bmHandlerClassDTOList = bmHandlerClassService.getToHandlerClass(handlerIdList);
-        // 基础校验
+        // 基础校验 TODO  校验此批数据是否为同一种类型 长期 或者 体验
         if (bmHandlerClassDTOList.size() != handlerIdList.size()) {
             log.error("待分班数据有误,检查入参重新请求");
             throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "待分班数据有误,检查入参重新请求");
