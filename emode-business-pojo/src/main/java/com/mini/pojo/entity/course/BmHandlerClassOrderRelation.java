@@ -2,6 +2,7 @@ package com.mini.pojo.entity.course;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.mini.common.enums.str.OrderType;
 import com.mini.common.model.CommonEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,9 @@ public class BmHandlerClassOrderRelation extends CommonEntity implements Seriali
 
     @Schema(name = "核销人（待分班）id")
     private Long handlerClassId;
+
+    @Schema(name = "订单类型 补单 普通订单")
+    private OrderType orderType;
 
     @Schema(name = "课程订单 id")
     private Long curOrderId;

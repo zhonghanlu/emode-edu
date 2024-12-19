@@ -1,4 +1,5 @@
 package com.mini.biz.manager.sale;
+import com.mini.common.enums.str.OrderType;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -16,6 +17,7 @@ import com.mini.common.model.LoginUser;
 import com.mini.common.utils.LoginUtils;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.service.*;
+import com.mini.pojo.entity.course.BmHandlerClassOrderRelation;
 import com.mini.pojo.entity.org.BmPatStuRelation;
 import com.mini.pojo.mapper.sale.BmPatchOrderStructMapper;
 import com.mini.pojo.model.dto.course.BmHandlerClassDTO;
@@ -58,6 +60,8 @@ public class BmPatchOrderBiz {
     private final BmHandlerClassService bmHandlerClassService;
 
     private final BmPatStuRelationService bmPatStuRelationService;
+
+    private final BmHandlerClassOrderRelationService bmHandlerClassOrderRelationService;
 
     /**
      * 分页
@@ -126,6 +130,17 @@ public class BmPatchOrderBiz {
         bmHandlerClassDTO.setHandlerClassStatus(HandlerClassStatus.TO_HANDLER_CLASS);
 
         bmHandlerClassService.add(bmHandlerClassDTO);
+
+        // 新增订单与待分班关联关系
+        BmHandlerClassOrderRelation orderRelation = new BmHandlerClassOrderRelation();
+        orderRelation.setId(IDGenerator.next());
+        orderRelation.setHandlerClassId(bmHandlerClassDTO.getId());
+        orderRelation.setOrderType(OrderType.PATCH);
+        orderRelation.setCurOrderId(bmPatchOrderDTO.getId());
+        orderRelation.setCurName(bmProductDTO.getProductName());
+        orderRelation.setDelFlag(Delete.NO);
+
+        bmHandlerClassOrderRelationService.save(orderRelation);
     }
 
     /**
