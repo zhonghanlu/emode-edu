@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.mini.common.constant.ErrorCodeConstant;
+import com.mini.common.constant.HandlerClassConstant;
 import com.mini.common.enums.number.Delete;
 import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.common.exception.service.EModeServiceException;
@@ -19,6 +20,7 @@ import com.mini.pojo.model.dto.org.BmTeacherDTO;
 import com.mini.pojo.model.edit.course.BmHandlerClassEdit;
 import com.mini.pojo.model.query.course.BmHandlerClassQuery;
 import com.mini.pojo.model.request.course.BmHandlerClassRequest;
+import com.mini.pojo.model.vo.course.BmHandlerClassResultVo;
 import com.mini.pojo.model.vo.course.BmHandlerClassVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,10 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -97,7 +96,7 @@ public class BmHandlerClassBiz {
      * 一键分班！！！
      */
     @Transactional(rollbackFor = Exception.class)
-    public void placementClass(BmHandlerClassRequest request) {
+    public List<BmHandlerClassResultVo> placementClass(BmHandlerClassRequest request) {
         // 待分班数据id集合
         List<Long> handlerIdList = request.getHandlerIdList();
         // 1.获取待分班数据
@@ -177,15 +176,17 @@ public class BmHandlerClassBiz {
         // 4.处理分班数据
         Map<IntentionCurTime, List<BmHandlerClassDTO>> intentionCurTimeListMap = bmHandlerClassDTOList
                 .stream().collect(Collectors.groupingBy(BmHandlerClassDTO::getIntentionCurTime));
+        // 根据课程类型进行排序 防止影响分班截取数据错乱
+        intentionCurTimeListMap.forEach((key, value) ->
+                value.sort(Comparator.comparing(type -> type.getCurType().getSort())));
 
         // 5.根据分班数据意向时间，针对对应的教师与教室进行划分班级
-        // 无对应教室的待分班数据
-        Map<IntentionCurTime, List<BmHandlerClassDTO>> noClassroomMap = new HashMap<>();
-        Map<IntentionCurTime, List<BmHandlerClassDTO>> maxTeacherMap = new HashMap<>();
-
+        Map<String, List<BmHandlerClassDTO>> unableHandlerClass = new HashMap<>();
         for (Map.Entry<IntentionCurTime, List<BmHandlerClassDTO>> entry : intentionCurTimeListMap.entrySet()) {
             // 意向时间
             IntentionCurTime intentionCurTime = entry.getKey();
+            // 意向时间对应的分班数据
+            List<BmHandlerClassDTO> handlerClassDTOList = entry.getValue();
 
             // 根据意向时间获取教室数据
             BmClassroomIntention bmClassroomIntention1 = bmClassroomIntentionList1.stream()
@@ -195,42 +196,107 @@ public class BmHandlerClassBiz {
 
             // 当前意向时间没有空闲教室，记录数据
             if (Objects.isNull(bmClassroomIntention1)) {
-                noClassroomMap.put(intentionCurTime, entry.getValue());
+                // 记录数据
+                unableHandlerClass.put(HandlerClassConstant.NONE_INTENTION_CLASSROOM, entry.getValue());
                 log.warn("当前意向时间没有对应的教室，记录数据-意向时间：【{}】 - 人数：【{}】", intentionCurTime, entry.getValue().size());
                 continue;
             }
-            // 判断当前意向上课时间是否超过 当前学校最大老师数量
+            // 获取所有满足意向时间的教室
             LambdaQueryWrapper<BmClassroomIntention> wrapper5 = Wrappers.lambdaQuery(BmClassroomIntention.class);
             wrapper5.in(BmClassroomIntention::getIntentionCurTime, intentionCurTime)
-                    .eq(BmClassroomIntention::getClassGradeId, null)
-                    .eq(BmClassroomIntention::getClassGradeName, null)
+                    .isNull(BmClassroomIntention::getClassGradeId)
+                    .isNull(BmClassroomIntention::getClassGradeName)
                     .eq(BmClassroomIntention::getDelFlag, Delete.NO);
-            List<BmClassroomIntention> bmClassroomIntentionList2 = bmClassroomIntentionService.list(wrapper3);
+            List<BmClassroomIntention> bmClassroomIntentionList2 = bmClassroomIntentionService.list(wrapper5);
 
-            // 获取教室详细信息
-            BmClassroomDTO bmClassroomDTO = bmClassroomService.selectById(bmClassroomIntention1.getClassroomId());
+            // 计算当前符合意向时间的教室容纳数是否超过当前批次最大人数
+            List<Long> roomIdList = bmClassroomIntentionList2.stream().map(BmClassroomIntention::getClassroomId).collect(Collectors.toList());
 
-            if (bmClassroomIntentionList2.size() + 1 > bmTeacherList.size()) {
-                maxTeacherMap.put(intentionCurTime, entry.getValue());
-                log.warn("当前意向时间已经超过校区内最大老师数量，记录数据-意向时间：【{}】 - 人数：【{}】", intentionCurTime, entry.getValue().size());
-                continue;
+            LambdaQueryWrapper<BmClassroom> wrapper6 = Wrappers.lambdaQuery(BmClassroom.class);
+            wrapper6.in(BmClassroom::getId, roomIdList)
+                    .eq(BmClassroom::getDelFlag, Delete.NO);
+            // 教室数据
+            List<BmClassroom> bmClassroomList1 = bmClassroomService.list(wrapper6);
+            // 当前意向时间最大空闲教室承载量
+            int sumRoomSize = bmClassroomList1.stream().mapToInt(BmClassroom::getRoomSize).sum();
+
+            // 如果当前意向时间对应的待分班数据超过最大承载量，记录无法分班数据
+            int currentToHandlerSize = entry.getValue().size();
+            if (sumRoomSize < currentToHandlerSize) {
+                log.warn("空闲教室容量不满足此次分班，记录数据-意向时间：【{}】 - 人数：【{}】", intentionCurTime, entry.getValue().size());
+                // 超出数量
+                int exceedSize = currentToHandlerSize - sumRoomSize;
+                // 处理集合
+                List<BmHandlerClassDTO> exceedList = entry.getValue().stream()
+                        .limit(exceedSize)
+                        .collect(Collectors.toList());
+                // 记录超出数据
+                unableHandlerClass.put(HandlerClassConstant.EXCEED_INTENTION_CLASSROOM, exceedList);
+                // 处理当前数据
+                handlerClassDTOList = entry.getValue().subList(0, currentToHandlerSize - exceedSize);
             }
 
-            // 处理人数最大值是否满足教室最大值
+            // 处理最大老师数量是否满足
+            // 获取此意向时间下所有空闲老师数
+            LambdaQueryWrapper<BmTeacherIntention> wrapper8 = Wrappers.lambdaQuery(BmTeacherIntention.class);
+            wrapper8.in(BmTeacherIntention::getIntentionCurTime, intentionCurTime)
+                    .isNull(BmTeacherIntention::getClassGradeId)
+                    .isNull(BmTeacherIntention::getClassGradeName)
+                    .eq(BmTeacherIntention::getDelFlag, Delete.NO);
+            List<BmTeacherIntention> bmTeacherIntentionList2 = bmTeacherIntentionService.list(wrapper8);
 
+            // 对应分班数据进行减少 根据房间大小进行排序 减少容量最小的教室
+            bmClassroomIntentionList2.sort(Comparator.comparing(BmClassroomIntention::getRoomSize));
+            Iterator<BmClassroomIntention> iterator = bmClassroomIntentionList2.iterator();
+            // 标注：此处需要实时进行获取 list 数量，否则会导致死循环
+            while (bmClassroomIntentionList2.size() > bmTeacherIntentionList2.size()) {
+                BmClassroomIntention bmClassroomIntention = iterator.next();
+                iterator.remove();
 
+                Long classroomId = bmClassroomIntention.getClassroomId();
+                BmClassroomDTO bmClassroomDTO = bmClassroomService.selectById(classroomId);
+
+                List<BmHandlerClassDTO> exceedList = handlerClassDTOList
+                        .stream()
+                        .limit(bmClassroomDTO.getRoomSize())
+                        .collect(Collectors.toList());
+                unableHandlerClass.put(HandlerClassConstant.EXCEED_INTENTION_TEACHER, exceedList);
+                handlerClassDTOList = handlerClassDTOList.subList(0, handlerClassDTOList.size() - exceedList.size());
+                log.warn("当前意向时间已经超过校区内最大老师数量，记录数据-意向时间：【{}】 - 人数：【{}】", intentionCurTime, entry.getValue().size());
+            }
         }
 
+        // TODO  获取结果数据，将结果数据根据课程类型进行分批，根据数量进行排序，根据教室数量分配 一个教室分配一个教室与教室，多出数据返回
 
         // 6.更新待分班状态
         // 7.创建待确认班级数据
         // 8.回执无法进行分班数据
+        return null;
     }
 
     /**
      * 校验此批意向时间下是否有空闲教师与老师
      */
     private void checkClassroomAndTeacher(List<IntentionCurTime> intentionCurTimeList, List<Long> bmClassroomIdList, List<Long> teacherIdList) {
+
+    }
+
+    public static void main(String[] args) {
+        List<Long> list = Arrays.asList(1L, 2L, 3L, 4L);
+
+        System.out.println(list.subList(0, 3));
+
+
+//        1651460565631136,
+//        1651475497353376,
+//        1651475612696736,
+//        1651475673514144,
+//        1651475698679968,
+//        1651475728040032,
+//        1651475755303072,
+//        1651475793051808,
+//        1651475816120480,
+//        1651475843383456
 
     }
 }

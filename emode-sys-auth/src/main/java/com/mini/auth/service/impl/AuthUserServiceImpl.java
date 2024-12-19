@@ -59,7 +59,10 @@ public class AuthUserServiceImpl implements IAuthUserService {
         // 校验用户名是否重复
         checkExistUsername(authUser.getUsername());
 
-        authUser.setId(IDGenerator.next());
+        if (Objects.isNull(authUser.getId())) {
+            authUser.setId(IDGenerator.next());
+        }
+        authUser.setDelFlag(Delete.NO);
         int b = authUserMapper.insert(authUser);
         if (b <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "插入失败");

@@ -9,22 +9,26 @@ import java.util.Arrays;
 
 /**
  * 课程类型
+ *
  * @author zhl
  * @create 2024-11-19 22:38
  */
 @Getter
 public enum CourseType implements StringEnum {
     // python
-    PYTHON("python"),
+    PYTHON("python", 1),
     // c++
-    CPP("cpp"),
+    CPP("cpp", 2),
     // scratch
-    SCRATCH("scratch");
+    SCRATCH("scratch", 3);
 
     private final String value;
 
-    CourseType(String value) {
+    private final Integer sort;
+
+    CourseType(String value, Integer sort) {
         this.value = value;
+        this.sort = sort;
     }
 
     @JsonCreator

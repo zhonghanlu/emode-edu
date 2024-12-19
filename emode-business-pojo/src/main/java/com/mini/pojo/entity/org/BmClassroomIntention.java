@@ -40,6 +40,9 @@ public class BmClassroomIntention extends CommonEntity implements Serializable {
     @Schema(title = "教室名称")
     private String classroomName;
 
+    @Schema(title = "房间大小")
+    private Integer roomSize;
+
     @Schema(title = "意向上课时间")
     private IntentionCurTime intentionCurTime;
 

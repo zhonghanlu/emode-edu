@@ -43,6 +43,6 @@ public class BmHandlerClassDTO {
     @Schema(name = "课程归属类型 长期 短期")
     private ProductType productType;
 
-    @Schema(name = "分班状态：待分班、已分班")
+    @Schema(name = "分班状态：待分班、待确认、已分班")
     private HandlerClassStatus handlerClassStatus;
 }

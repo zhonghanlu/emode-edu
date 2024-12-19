@@ -1,7 +1,5 @@
 package com.mini.web.runner;
 
-import java.time.LocalDateTime;
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.mini.biz.base.SysConfigBiz;
@@ -28,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -225,6 +222,7 @@ public class ModeAppRunner implements ApplicationRunner {
         bmClassroomIntention.setId(IDGenerator.next());
         bmClassroomIntention.setClassroomId(bmClassroom.getId());
         bmClassroomIntention.setClassroomName(bmClassroom.getRoomName());
+        bmClassroomIntention.setRoomSize(bmClassroom.getRoomSize());
         bmClassroomIntention.setIntentionCurTime(intentionCurTime);
         bmClassroomIntention.setDelFlag(Delete.NO);
         return bmClassroomIntention;
