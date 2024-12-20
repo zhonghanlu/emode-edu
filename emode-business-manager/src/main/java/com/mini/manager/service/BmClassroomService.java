@@ -7,6 +7,8 @@ import com.mini.pojo.entity.org.BmClassroom;
 import com.mini.pojo.model.dto.org.BmClassroomDTO;
 import com.mini.pojo.model.query.org.BmClassroomQuery;
 
+import java.util.List;
+
 /**
  * <p>
  * 教室表 服务类
@@ -41,5 +43,10 @@ public interface BmClassroomService extends IService<BmClassroom> {
      * 查分页
      */
     IPage<BmClassroomDTO> page(BmClassroomQuery query);
+
+    /**
+     * 获取当前所有教室数量
+     */
+    List<BmClassroomDTO> getAllClassroomByOrgId();
 
 }

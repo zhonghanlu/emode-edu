@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -132,5 +133,14 @@ public class BmTeacherServiceImpl extends ServiceImpl<BmTeacherMapper, BmTeacher
                 .last(LastSql.LIMIT_ONE);
         BmUserTeacher userTeacher = bmUserTeacherMapper.selectOne(wrapper1);
         return selectById(userTeacher.getTeaId());
+    }
+
+    @Override
+    public List<BmTeacherDTO> getAllTeacherByOrgId(Long orgId) {
+        LambdaQueryWrapper<BmTeacher> wrapper1 = Wrappers.lambdaQuery(BmTeacher.class);
+        wrapper1.eq(BmTeacher::getTeaOrgId, orgId)
+                .eq(BmTeacher::getDelFlag, Delete.NO);
+        List<BmTeacher> bmTeacherList = bmTeacherMapper.selectList(wrapper1);
+        return BmTeacherStructMapper.INSTANCE.entityList2DtoList(bmTeacherList);
     }
 }

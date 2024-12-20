@@ -7,6 +7,7 @@ import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.course.BmHandlerClassEdit;
 import com.mini.pojo.model.query.course.BmHandlerClassQuery;
 import com.mini.pojo.model.request.course.BmHandlerClassRequest;
+import com.mini.pojo.model.vo.course.BmHandlerClassResultVo;
 import com.mini.pojo.model.vo.course.BmHandlerClassVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * <p>
@@ -71,8 +73,7 @@ public class BmHandlerClassController {
 
     @Operation(summary = "一键分班")
     @PostMapping("/placement-class")
-    public Restful<Void> placementClass(@RequestBody @Valid BmHandlerClassRequest request) {
-        bmHandlerClassBiz.placementClass(request);
-        return Restful.SUCCESS().build();
+    public Restful<List<BmHandlerClassResultVo>> placementClass(@RequestBody @Valid BmHandlerClassRequest request) {
+        return Restful.OBJECT(bmHandlerClassBiz.placementClass(request)).build();
     }
 }

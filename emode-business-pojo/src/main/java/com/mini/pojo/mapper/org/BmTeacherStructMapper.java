@@ -8,6 +8,8 @@ import com.mini.pojo.model.vo.org.BmTeacherVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author zhl
  * @create 2024/8/30 15:48
@@ -41,4 +43,9 @@ public interface BmTeacherStructMapper {
      * edit2dto
      */
     BmTeacherDTO edit2Dto(BmTeacherEdit edit);
+
+    /**
+     * entityList2DtoList
+     */
+    List<BmTeacherDTO> entityList2DtoList(List<BmTeacher> entityList);
 }

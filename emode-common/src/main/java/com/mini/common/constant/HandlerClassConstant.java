@@ -18,5 +18,4 @@ public final class HandlerClassConstant {
 
     // 超出意向时间空闲教师的最大数  返回此类型的待分班数据
     public static final String EXCEED_INTENTION_TEACHER = "exceedIntentionTeacher";
-
 }

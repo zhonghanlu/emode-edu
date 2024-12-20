@@ -2,6 +2,8 @@ package com.mini.manager.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mini.common.enums.str.CourseType;
+import com.mini.common.enums.str.ProductType;
 import com.mini.pojo.entity.course.BmHandlerClass;
 import com.mini.pojo.model.dto.course.BmHandlerClassDTO;
 import com.mini.pojo.model.query.course.BmHandlerClassQuery;
@@ -46,5 +48,5 @@ public interface BmHandlerClassService extends IService<BmHandlerClass> {
     /**
      * 获取待分班数据
      */
-    List<BmHandlerClassDTO> getToHandlerClass(List<Long> handlerIdList);
+    List<BmHandlerClassDTO> getToHandlerClass(CourseType courseType, ProductType productType, List<Long> handlerIdList);
 }

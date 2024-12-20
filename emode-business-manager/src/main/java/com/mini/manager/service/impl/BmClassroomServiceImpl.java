@@ -1,6 +1,8 @@
 package com.mini.manager.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
@@ -18,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -103,5 +106,13 @@ public class BmClassroomServiceImpl extends ServiceImpl<BmClassroomMapper, BmCla
     @Override
     public IPage<BmClassroomDTO> page(BmClassroomQuery query) {
         return bmClassroomMapper.page(query, query.build());
+    }
+
+    @Override
+    public List<BmClassroomDTO> getAllClassroomByOrgId() {
+        LambdaQueryWrapper<BmClassroom> wrapper2 = Wrappers.lambdaQuery(BmClassroom.class);
+        wrapper2.eq(BmClassroom::getDelFlag, Delete.NO);
+        List<BmClassroom> bmClassroomList = bmClassroomMapper.selectList(wrapper2);
+        return BmClassroomStructMapper.INSTANCE.entityList2DtoList(bmClassroomList);
     }
 }

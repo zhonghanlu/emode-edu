@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.CourseType;
 import com.mini.common.enums.str.HandlerClassStatus;
+import com.mini.common.enums.str.ProductType;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.mybatis.CommonMybatisUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
@@ -20,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -104,10 +105,12 @@ public class BmHandlerClassServiceImpl extends ServiceImpl<BmHandlerClassMapper,
     }
 
     @Override
-    public List<BmHandlerClassDTO> getToHandlerClass(List<Long> handlerIdList) {
+    public List<BmHandlerClassDTO> getToHandlerClass(CourseType courseType, ProductType productType, List<Long> handlerIdList) {
         LambdaQueryWrapper<BmHandlerClass> wrapper = Wrappers.lambdaQuery(BmHandlerClass.class);
         wrapper.in(BmHandlerClass::getId, handlerIdList)
                 .eq(BmHandlerClass::getHandlerClassStatus, HandlerClassStatus.TO_HANDLER_CLASS)
+                .eq(BmHandlerClass::getCurType, courseType)
+                .eq(BmHandlerClass::getProductType, productType)
                 .eq(BmHandlerClass::getDelFlag, Delete.NO);
         return BmHandlerClassStructMapper.INSTANCE.editList2DtoList(bmHandlerClassMapper.selectList(wrapper));
     }

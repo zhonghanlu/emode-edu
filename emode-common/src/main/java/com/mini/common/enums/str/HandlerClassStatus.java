@@ -14,7 +14,7 @@ import java.util.Arrays;
 public enum HandlerClassStatus implements StringEnum {
     // 待分班
     TO_HANDLER_CLASS("to_handler_class"),
-    // 待分班
+    // 待确认
     TO_CONFIRMED("to_confirmed"),
     // 已分班
     HANDLER_CLASS_ED("handler_class_ed");

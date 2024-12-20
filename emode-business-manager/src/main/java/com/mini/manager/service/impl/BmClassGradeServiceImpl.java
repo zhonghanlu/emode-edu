@@ -52,7 +52,9 @@ public class BmClassGradeServiceImpl extends ServiceImpl<BmClassGradeMapper, BmC
         // 校验名字是否重复，教室与教师是否存在
         checkExistParams(bmClassGrade);
 
-        bmClassGrade.setId(IDGenerator.next());
+        if (Objects.isNull(bmClassGrade.getId())) {
+            bmClassGrade.setId(IDGenerator.next());
+        }
         bmClassGrade.setDelFlag(Delete.NO);
 
         int b2 = bmClassGradeMapper.insert(bmClassGrade);

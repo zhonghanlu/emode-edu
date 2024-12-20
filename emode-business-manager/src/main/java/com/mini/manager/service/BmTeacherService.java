@@ -7,6 +7,8 @@ import com.mini.pojo.entity.org.BmTeacher;
 import com.mini.pojo.model.dto.org.BmTeacherDTO;
 import com.mini.pojo.model.query.org.BmTeacherQuery;
 
+import java.util.List;
+
 /**
  * <p>
  * 老师表 服务类
@@ -46,4 +48,9 @@ public interface BmTeacherService extends IService<BmTeacher> {
      * 获取当前教师信息
      */
     BmTeacherDTO getCurrentTeacher();
+
+    /**
+     * 获取机构下所有教师数量
+     */
+    List<BmTeacherDTO> getAllTeacherByOrgId(Long orgId);
 }

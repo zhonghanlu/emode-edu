@@ -2,6 +2,8 @@ package com.mini.pojo.entity.course;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.mini.common.enums.str.CourseType;
+import com.mini.common.enums.str.ProductType;
 import com.mini.common.model.CommonEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -25,7 +27,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @TableName("bm_class_grade")
-public class BmClassGrade  extends CommonEntity implements Serializable {
+public class BmClassGrade extends CommonEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,4 +49,10 @@ public class BmClassGrade  extends CommonEntity implements Serializable {
 
     @Schema(name = "教室名")
     private String classroomName;
+
+    @Schema(name = "课程类型")
+    private CourseType curType;
+
+    @Schema(name = "课程归属类型 长期 短期")
+    private ProductType classGardeType;
 }

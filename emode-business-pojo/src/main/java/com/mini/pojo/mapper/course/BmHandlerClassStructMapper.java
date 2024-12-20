@@ -48,4 +48,9 @@ public interface BmHandlerClassStructMapper {
      * editList2dtoList
      */
     List<BmHandlerClassDTO> editList2DtoList(List<BmHandlerClass> entityList);
+
+    /**
+     * dtoList2EntityList
+     */
+    List<BmHandlerClass> dtoList2EntityList(List<BmHandlerClassDTO> dtoList);
 }
