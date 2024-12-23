@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -23,13 +24,16 @@ public class BmHandlerClassRequest {
     /**
      * 待分班数据 id
      */
-    @Schema(name = "待分班数据 id")
+    @NotNull(message = "待分班数据 id 不能为空")
+    @Schema(title = "待分班数据 id")
     private List<Long> handlerIdList;
 
-    @Schema(name = "课程类型")
+    @NotNull(message = "课程类型不可为空")
+    @Schema(title = "课程类型")
     private CourseType curType;
 
-    @Schema(name = "课程归属类型 长期 短期")
+    @NotNull(message = "课程归属类型不能为空")
+    @Schema(title = "课程归属类型 长期 短期")
     private ProductType productType;
 
 }

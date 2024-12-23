@@ -4,6 +4,7 @@ package com.mini.web.controller.manager.course;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.biz.manager.course.BmHandlerClassBiz;
 import com.mini.common.annotation.RateLimiter;
+import com.mini.common.enums.LimitType;
 import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.course.BmHandlerClassEdit;
 import com.mini.pojo.model.query.course.BmHandlerClassQuery;
@@ -73,7 +74,7 @@ public class BmHandlerClassController {
     }
 
     @Operation(summary = "一键分班")
-    @RateLimiter(time = 1, count = 1)
+    @RateLimiter(time = 1, count = 1, limitType = LimitType.IP)
     @PostMapping("/placement-class")
     public Restful<List<BmHandlerClassResultVo>> placementClass(@RequestBody @Valid BmHandlerClassRequest request) {
         return Restful.OBJECT(bmHandlerClassBiz.placementClass(request)).build();

@@ -3,6 +3,7 @@ package com.mini.common.utils.redis;
 import com.mini.common.utils.bean.SpringBean;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.*;
 
 import java.time.Duration;
@@ -19,6 +20,7 @@ import java.util.stream.Stream;
  * @source_auth ruoyi-plus
  * redis 工具类
  */
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 public class RedisUtils {

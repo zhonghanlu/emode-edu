@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  * @create 2024/7/31 15:17
  */
 @Slf4j
-@Order(value = 2)
+@Order(value = 0)
 @Component
 @RequiredArgsConstructor
 public class ModeAppRunner implements ApplicationRunner {

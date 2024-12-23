@@ -11,7 +11,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RateType;
-import org.springframework.stereotype.Component;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -22,12 +23,12 @@ import java.util.Objects;
  * @source_auth ruoyi-plus
  */
 @Slf4j
+@Order(2)
 @Aspect
-@Component
-public class RateLimiterAspect {
+public class RateLimiterAspect implements Ordered {
 
-    @Before("@annotation(rateLimiter)")
-    public void doBefore(JoinPoint point, RateLimiter rateLimiter) throws Throwable {
+    @Before("@annotation(rateLimiter) && execution(public * com.mini.web.controller..*Controller.*(..))")
+    public void doBefore(JoinPoint point, RateLimiter rateLimiter) {
         int time = rateLimiter.time();
         int count = rateLimiter.count();
         String combineKey = getCombineKey(rateLimiter, point);
@@ -64,4 +65,8 @@ public class RateLimiterAspect {
         return stringBuffer.toString();
     }
 
+    @Override
+    public int getOrder() {
+        return 2;
+    }
 }
