@@ -22,10 +22,8 @@ import com.mini.manager.service.impl.BmStuClassGradeServiceImpl;
 import com.mini.pojo.entity.course.BmClassGrade;
 import com.mini.pojo.entity.course.BmHandlerClass;
 import com.mini.pojo.entity.course.BmStuClassGrade;
-import com.mini.pojo.entity.org.BmClassroom;
-import com.mini.pojo.entity.org.BmClassroomIntention;
-import com.mini.pojo.entity.org.BmTeacher;
-import com.mini.pojo.entity.org.BmTeacherIntention;
+import com.mini.pojo.entity.org.*;
+import com.mini.pojo.mapper.course.BmClassGradeStructMapper;
 import com.mini.pojo.mapper.course.BmHandlerClassStructMapper;
 import com.mini.pojo.model.dto.course.BmClassGradeDTO;
 import com.mini.pojo.model.dto.course.BmHandlerClassDTO;
@@ -117,92 +115,170 @@ public class BmHandlerClassBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public List<BmHandlerClassResultVo> placementClass(BmHandlerClassRequest request) {
-        // 声明未能正常分班数据map   声明可以正常处理数据最终map
+        // 声明未能正常分班数据map   声明可以正常处理数据最终List
         Map<String, List<BmHandlerClassDTO>> unableHandlerClass = new HashMap<>();
         List<BmHandlerClassPlacementDTO> bmHandlerClassPlacementDTOList = new ArrayList<>();
+
         List<Long> handlerIdList = request.getHandlerIdList();
 
         // 1.获取待分班数据
         List<BmHandlerClassDTO> bmHandlerClassDTOList = bmHandlerClassService.getToHandlerClass(request.getCurType(), request.getProductType(), handlerIdList);
 
-        // 基础参数校验
+        // 2.基础参数校验
         List<BmClassroomIntention> bmClassroomIntentionList = verifyBaseParam(bmHandlerClassDTOList, handlerIdList);
 
-        // 4.处理分班数据
+        // 3.处理分班数据
         Map<IntentionCurTime, List<BmHandlerClassDTO>> intentionCurTimeListMap = bmHandlerClassDTOList
                 .stream()
                 .collect(Collectors.groupingBy(BmHandlerClassDTO::getIntentionCurTime));
 
-        // 5.根据分班数据意向时间，针对对应的教师与教室进行划分班级
-        handlerHandlerClassDTOList(intentionCurTimeListMap, bmClassroomIntentionList, unableHandlerClass, bmHandlerClassPlacementDTOList);
+        // 4.根据分班数据意向时间，针对对应的教师与教室进行划分班级
+        processHandlerClassDTOList(intentionCurTimeListMap, bmClassroomIntentionList, unableHandlerClass, bmHandlerClassPlacementDTOList);
 
-        // 保存数据 为预分班数据  TODO 根据待分班数据 一次减一班级的，直接为<=0
-//        bmHandlerClassPlacementDTOList.forEach(bmHandlerClassPlacementDTO -> {
-//            List<BmClassroomIntention> classroomIntentionList = bmHandlerClassPlacementDTO.getClassroomIntentionList();
-//            List<BmTeacherIntention> bmTeacherIntentionList2 = bmHandlerClassPlacementDTO.getBmTeacherIntentionList();
-//            List<BmHandlerClassDTO> bmHandlerClassDTOList1 = bmHandlerClassPlacementDTO.getBmHandlerClassDTOList();
-//
-//            for (int b = 0; b < classroomIntentionList.size(); b++) {
-//                BmTeacherIntention bmTeacherIntention = bmTeacherIntentionList2.get(b);
-//                BmClassroomIntention bmClassroomIntention = classroomIntentionList.get(b);
-//
-//                // 创建班级
-//                BmClassGradeDTO bmClassGradeDTO = new BmClassGradeDTO();
-//                bmClassGradeDTO.setId(IDGenerator.next());
-//                long classSize = RedisUtils.incrAtomicValue(request.getCurType().getStringValue());
-//                bmClassGradeDTO.setClassGradeName(request.getCurType().getStringValue() + classSize + "班");
-//                bmClassGradeDTO.setTeaId(bmTeacherIntention.getId());
-//                bmClassGradeDTO.setTeaName(bmTeacherIntention.getTeacherName());
-//                bmClassGradeDTO.setClassroomId(bmClassroomIntention.getClassroomId());
-//                bmClassGradeDTO.setClassroomName(bmClassroomIntention.getClassroomName());
-//                bmClassGradeService.add(bmClassGradeDTO);
-//
-//                // 更新教师 教室意向列表数据
-//                bmTeacherIntention.setClassGradeId(bmClassGradeDTO.getId());
-//                bmTeacherIntention.setClassGradeName(bmClassGradeDTO.getClassGradeName());
-//                bmTeacherIntentionService.updateById(bmTeacherIntention);
-//
-//                bmClassroomIntention.setClassGradeId(bmClassGradeDTO.getId());
-//                bmClassroomIntention.setClassGradeName(bmClassGradeDTO.getClassGradeName());
-//                bmClassroomIntentionService.updateById(bmClassroomIntention);
-//
-//
-//                // 创建学生与班级关系
-//                int toHandlerSize = bmHandlerClassDTOList1.size();
-//                int roomSize = bmClassroomIntention.getRoomSize();
-//                if (roomSize > 0 && toHandlerSize > 0) {
-//                    for (BmHandlerClassDTO bmHandlerClassDTO : bmHandlerClassDTOList1) {
-//                        BmStuClassGrade bmStuClassGrade = new BmStuClassGrade();
-//                        bmStuClassGrade.setId(IDGenerator.next());
-//                        bmStuClassGrade.setStuId(bmHandlerClassDTO.getStuId());
-//                        bmStuClassGrade.setStuName(bmHandlerClassDTO.getStuName());
-//                        bmStuClassGrade.setCourseType(bmHandlerClassDTO.getCurType());
-//                        bmStuClassGrade.setClassGradeId(bmClassGradeDTO.getId());
-//                        bmStuClassGrade.setClassGradeName(bmClassGradeDTO.getClassGradeName());
-//                        bmStuClassGrade.setDelFlag(Delete.NO);
-//                        boolean save = bmStuClassGradeService.save(bmStuClassGrade);
-//                        if (!save) {
-//                            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "新增学生班级关系失败");
-//                        }
-//                        roomSize--;
-//                        toHandlerSize--;
-//                    }
-//                }
-//                bmHandlerClassDTOList1 = bmHandlerClassDTOList1.subList(0, toHandlerSize);
-//            }
-//        });
-//        // 更新此批学生的分班状态
-//        List<BmHandlerClassDTO> toUpdate = bmHandlerClassPlacementDTOList.stream()
-//                .flatMap(bmHandlerClassPlacementDTO -> bmHandlerClassPlacementDTO.getBmHandlerClassDTOList().stream())
-//                .collect(Collectors.toList());
-//        toUpdate.forEach(item -> item.setHandlerClassStatus(HandlerClassStatus.TO_CONFIRMED));
-//        List<BmHandlerClass> bmHandlerClassList = BmHandlerClassStructMapper.INSTANCE.dtoList2EntityList(toUpdate);
-//        boolean b = bmHandlerClassService.updateBatchById(bmHandlerClassList);
-//        if (!b) {
-//            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "待确认分班数据更新失败");
-//        }
+        // 5.保存数据
+        saveDb(request, bmHandlerClassPlacementDTOList);
 
-        // 返回未能分配学员信息
+        // 6.返回未能分配学员信息
+        return getBmHandlerClassResultVoList(unableHandlerClass);
+    }
+
+    /**
+     * 保存班级数据、教师与教室意向时间数据、学生与班级数据、更新此批可分班学员数据
+     */
+    private void saveDb(BmHandlerClassRequest request, List<BmHandlerClassPlacementDTO> bmHandlerClassPlacementDTOList) {
+        List<BmClassGrade> bmClassGradeDbList = new ArrayList<>();
+        List<BmTeacherIntention> bmTeacherIntentionDbList = new ArrayList<>();
+        List<BmClassroomIntention> bmClassroomIntentionDbList = new ArrayList<>();
+        List<BmStuClassGrade> bmStuClassGradeDbList = new ArrayList<>();
+
+        // 更新待分班数据为待确认
+        List<BmHandlerClassDTO> toUpdate = bmHandlerClassPlacementDTOList.stream()
+                .flatMap(bmHandlerClassPlacementDTO -> bmHandlerClassPlacementDTO.getBmHandlerClassDTOList().stream())
+                .collect(Collectors.toList());
+        toUpdate.forEach(item -> item.setHandlerClassStatus(HandlerClassStatus.TO_CONFIRMED));
+        List<BmHandlerClass> bmHandlerClassList = BmHandlerClassStructMapper.INSTANCE.dtoList2EntityList(toUpdate);
+
+        bmHandlerClassPlacementDTOList.forEach(bmHandlerClassPlacementDTO -> {
+
+            List<BmClassroomIntention> classroomIntentionList = bmHandlerClassPlacementDTO.getClassroomIntentionList();
+            List<BmTeacherIntention> bmTeacherIntentionList = bmHandlerClassPlacementDTO.getBmTeacherIntentionList();
+            List<BmHandlerClassDTO> bmHandlerClassDTOList1 = bmHandlerClassPlacementDTO.getBmHandlerClassDTOList();
+
+            for (int b = 0; b < classroomIntentionList.size(); b++) {
+                BmTeacherIntention bmTeacherIntention = bmTeacherIntentionList.get(b);
+                BmClassroomIntention bmClassroomIntention = classroomIntentionList.get(b);
+
+                // 创建班级
+                BmClassGradeDTO bmClassGradeDTO = getBmClassGradeDTO(request, bmTeacherIntention, bmClassroomIntention, bmClassGradeDbList);
+
+                // 更新教师 教室意向列表数据
+                getTeaAndRoomIntention(bmTeacherIntention, bmClassGradeDTO, bmTeacherIntentionDbList, bmClassroomIntention, bmClassroomIntentionDbList);
+
+                // 创建学生与班级关系
+                int toHandlerSize = bmHandlerClassDTOList1.size();
+                int roomSize = bmClassroomIntention.getRoomSize();
+                if (roomSize > 0 && toHandlerSize > 0) {
+                    for (BmHandlerClassDTO bmHandlerClassDTO : bmHandlerClassDTOList1) {
+                        // 创建学生与班级数据
+                        getStuClassGrade(bmHandlerClassDTO, bmClassGradeDTO, bmStuClassGradeDbList);
+
+                        // 减少教室容量
+                        roomSize--;
+                        toHandlerSize--;
+                    }
+                }
+                bmHandlerClassDTOList1 = bmHandlerClassDTOList1.subList(0, toHandlerSize);
+            }
+        });
+
+        saveDb(bmHandlerClassList, bmClassGradeDbList, bmTeacherIntentionDbList, bmClassroomIntentionDbList, bmStuClassGradeDbList);
+    }
+
+    /**
+     * 实际进行新增与修改操作
+     */
+    private void saveDb(List<BmHandlerClass> bmHandlerClassList, List<BmClassGrade> bmClassGradeDbList, List<BmTeacherIntention> bmTeacherIntentionDbList, List<BmClassroomIntention> bmClassroomIntentionDbList, List<BmStuClassGrade> bmStuClassGradeDbList) {
+        // 更新此批学生的分班状态
+        boolean b = bmHandlerClassService.updateBatchById(bmHandlerClassList);
+        if (!b) {
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "待确认分班数据更新失败");
+        }
+
+        // 新增班级数据
+        boolean b1 = bmClassGradeService.saveBatch(bmClassGradeDbList);
+        if (!b1) {
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "班级数据新增失败");
+        }
+
+        // 修改教师意向时间数据
+        boolean b2 = bmTeacherIntentionService.updateBatchById(bmTeacherIntentionDbList);
+        if (!b2) {
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "教师意向时间数据修改失败");
+        }
+
+        // 修改教室意向时间数据
+        boolean b3 = bmClassroomIntentionService.updateBatchById(bmClassroomIntentionDbList);
+        if (!b3) {
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "教室意向时间数据修改失败");
+        }
+
+        // 新增学生与班级数据
+        boolean b4 = bmStuClassGradeService.saveBatch(bmStuClassGradeDbList);
+        if (!b4) {
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "学生与班级数据新增失败");
+        }
+    }
+
+    /**
+     * 封装学生与班级数据
+     */
+    private void getStuClassGrade(BmHandlerClassDTO bmHandlerClassDTO, BmClassGradeDTO bmClassGradeDTO, List<BmStuClassGrade> bmStuClassGradeDbList) {
+        BmStuClassGrade bmStuClassGrade = new BmStuClassGrade();
+        bmStuClassGrade.setId(IDGenerator.next());
+        bmStuClassGrade.setStuId(bmHandlerClassDTO.getStuId());
+        bmStuClassGrade.setStuName(bmHandlerClassDTO.getStuName());
+        bmStuClassGrade.setCourseType(bmHandlerClassDTO.getCurType());
+        bmStuClassGrade.setClassGradeId(bmClassGradeDTO.getId());
+        bmStuClassGrade.setClassGradeName(bmClassGradeDTO.getClassGradeName());
+        bmStuClassGrade.setDelFlag(Delete.NO);
+        bmStuClassGradeDbList.add(bmStuClassGrade);
+    }
+
+    /**
+     * 封装教师与教室意向数据
+     */
+    private void getTeaAndRoomIntention(BmTeacherIntention bmTeacherIntention, BmClassGradeDTO bmClassGradeDTO, List<BmTeacherIntention> bmTeacherIntentionDbList, BmClassroomIntention bmClassroomIntention, List<BmClassroomIntention> bmClassroomIntentionDbList) {
+        bmTeacherIntention.setClassGradeId(bmClassGradeDTO.getId());
+        bmTeacherIntention.setClassGradeName(bmClassGradeDTO.getClassGradeName());
+        bmTeacherIntentionDbList.add(bmTeacherIntention);
+
+        bmClassroomIntention.setClassGradeId(bmClassGradeDTO.getId());
+        bmClassroomIntention.setClassGradeName(bmClassGradeDTO.getClassGradeName());
+        bmClassroomIntentionDbList.add(bmClassroomIntention);
+    }
+
+    /**
+     * 封装班级数据
+     */
+    private BmClassGradeDTO getBmClassGradeDTO(BmHandlerClassRequest request, BmTeacherIntention bmTeacherIntention, BmClassroomIntention bmClassroomIntention, List<BmClassGrade> bmClassGradeDbList) {
+        BmClassGradeDTO bmClassGradeDTO = new BmClassGradeDTO();
+        bmClassGradeDTO.setId(IDGenerator.next());
+        long classSize = RedisUtils.incrAtomicValue(request.getCurType().getStringValue());
+        bmClassGradeDTO.setClassGradeName(request.getCurType().getStringValue() + classSize + "班");
+        bmClassGradeDTO.setTeaId(bmTeacherIntention.getTeacherId());
+        bmClassGradeDTO.setTeaName(bmTeacherIntention.getTeacherName());
+        bmClassGradeDTO.setClassroomId(bmClassroomIntention.getClassroomId());
+        bmClassGradeDTO.setClassroomName(bmClassroomIntention.getClassroomName());
+        BmClassGrade bmClassGrade = BmClassGradeStructMapper.INSTANCE.dto2Entity(bmClassGradeDTO);
+        bmClassGrade.setDelFlag(Delete.NO);
+        bmClassGradeDbList.add(bmClassGrade);
+        return bmClassGradeDTO;
+    }
+
+    /**
+     * 封装返回数据
+     */
+    private List<BmHandlerClassResultVo> getBmHandlerClassResultVoList(Map<String, List<BmHandlerClassDTO>> unableHandlerClass) {
         List<BmHandlerClassResultVo> bmHandlerClassResultVoList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(unableHandlerClass)) {
             unableHandlerClass.forEach((key, value) -> value.forEach(item -> {
@@ -222,7 +298,7 @@ public class BmHandlerClassBiz {
     /**
      * 处理待分班数据
      */
-    private void handlerHandlerClassDTOList(Map<IntentionCurTime, List<BmHandlerClassDTO>> intentionCurTimeListMap,
+    private void processHandlerClassDTOList(Map<IntentionCurTime, List<BmHandlerClassDTO>> intentionCurTimeListMap,
                                             List<BmClassroomIntention> bmClassroomIntentionList, Map<String,
             List<BmHandlerClassDTO>> unableHandlerClass,
                                             List<BmHandlerClassPlacementDTO> bmHandlerClassPlacementDTOList) {
@@ -399,26 +475,6 @@ public class BmHandlerClassBiz {
         }
         return bmClassroomIntentionList;
     }
-
-    public static void main(String[] args) {
-        List<Long> list = Arrays.asList(1L, 2L, 3L, 4L);
-
-        System.out.println(list.subList(0, 3));
-
-
-//        1651460565631136,
-//                1651475497353376,
-//                1651475612696736,
-//                1651475673514144,
-//                1651475698679968,
-//                1651475728040032,
-//                1651475755303072,
-//                1651475793051808,
-//                1651475816120480,
-//                1651475843383456
-
-    }
-
 
 //    // TODO  获取结果数据，将结果数据根据课程类型进行分批，根据数量进行排序，根据教室数量分配 一个教室分配一个教室与教室，多出数据返回
 //    // 根据课程类型进行分组，根据教室数量取分组数据
