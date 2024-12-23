@@ -1,28 +1,21 @@
 package com.mini.biz.manager.course;
 
-import com.mini.common.enums.str.ProductType;
-
-import java.time.LocalDateTime;
-
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.constant.HandlerClassConstant;
 import com.mini.common.enums.number.Delete;
-import com.mini.common.enums.str.CourseType;
 import com.mini.common.enums.str.HandlerClassStatus;
 import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.redis.RedisUtils;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.service.*;
-import com.mini.manager.service.impl.BmStuClassGradeServiceImpl;
 import com.mini.pojo.entity.course.BmClassGrade;
 import com.mini.pojo.entity.course.BmHandlerClass;
 import com.mini.pojo.entity.course.BmStuClassGrade;
-import com.mini.pojo.entity.org.*;
+import com.mini.pojo.entity.org.BmClassroomIntention;
+import com.mini.pojo.entity.org.BmTeacherIntention;
 import com.mini.pojo.mapper.course.BmClassGradeStructMapper;
 import com.mini.pojo.mapper.course.BmHandlerClassStructMapper;
 import com.mini.pojo.model.dto.course.BmClassGradeDTO;
@@ -37,8 +30,6 @@ import com.mini.pojo.model.vo.course.BmHandlerClassResultVo;
 import com.mini.pojo.model.vo.course.BmHandlerClassVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -115,6 +106,9 @@ public class BmHandlerClassBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public List<BmHandlerClassResultVo> placementClass(BmHandlerClassRequest request) {
+
+        // TODO  分两步走，这步只负责洗数据
+
         // 声明未能正常分班数据map   声明可以正常处理数据最终List
         Map<String, List<BmHandlerClassDTO>> unableHandlerClass = new HashMap<>();
         List<BmHandlerClassPlacementDTO> bmHandlerClassPlacementDTOList = new ArrayList<>();
@@ -269,6 +263,8 @@ public class BmHandlerClassBiz {
         bmClassGradeDTO.setTeaName(bmTeacherIntention.getTeacherName());
         bmClassGradeDTO.setClassroomId(bmClassroomIntention.getClassroomId());
         bmClassGradeDTO.setClassroomName(bmClassroomIntention.getClassroomName());
+        bmClassGradeDTO.setCurType(request.getCurType());
+        bmClassGradeDTO.setClassGardeType(request.getProductType());
         BmClassGrade bmClassGrade = BmClassGradeStructMapper.INSTANCE.dto2Entity(bmClassGradeDTO);
         bmClassGrade.setDelFlag(Delete.NO);
         bmClassGradeDbList.add(bmClassGrade);
@@ -300,7 +296,7 @@ public class BmHandlerClassBiz {
      */
     private void processHandlerClassDTOList(Map<IntentionCurTime, List<BmHandlerClassDTO>> intentionCurTimeListMap,
                                             List<BmClassroomIntention> bmClassroomIntentionList, Map<String,
-            List<BmHandlerClassDTO>> unableHandlerClass,
+                    List<BmHandlerClassDTO>> unableHandlerClass,
                                             List<BmHandlerClassPlacementDTO> bmHandlerClassPlacementDTOList) {
         for (Map.Entry<IntentionCurTime, List<BmHandlerClassDTO>> entry : intentionCurTimeListMap.entrySet()) {
             // 意向时间
@@ -333,7 +329,7 @@ public class BmHandlerClassBiz {
      * 校验当前校区教师是否满足
      */
     private List<BmHandlerClassDTO> checkExceedTeacherSize(Map.Entry<IntentionCurTime,
-            List<BmHandlerClassDTO>> entry,
+                                                                   List<BmHandlerClassDTO>> entry,
                                                            List<BmClassroomIntention> bmClassroomIntentionList2,
                                                            List<BmTeacherIntention> bmTeacherIntentionList2,
                                                            List<BmHandlerClassDTO> handlerClassDTOList,
@@ -361,10 +357,10 @@ public class BmHandlerClassBiz {
      * 校验空闲教室的容量是否满足
      */
     private List<BmHandlerClassDTO> checkExceedTotalSize(Map.Entry<IntentionCurTime,
-            List<BmHandlerClassDTO>> entry,
+                                                                 List<BmHandlerClassDTO>> entry,
                                                          List<BmClassroomIntention> bmClassroomIntentionList2,
                                                          List<BmHandlerClassDTO> handlerClassDTOList, Map<String,
-            List<BmHandlerClassDTO>> unableHandlerClass,
+                    List<BmHandlerClassDTO>> unableHandlerClass,
                                                          IntentionCurTime intentionCurTime) {
         // 当前意向时间最大空闲教室承载量
         int sumRoomSize = bmClassroomIntentionList2.stream().mapToInt(BmClassroomIntention::getRoomSize).sum();
@@ -476,58 +472,18 @@ public class BmHandlerClassBiz {
         return bmClassroomIntentionList;
     }
 
-//    // TODO  获取结果数据，将结果数据根据课程类型进行分批，根据数量进行排序，根据教室数量分配 一个教室分配一个教室与教室，多出数据返回
-//    // 根据课程类型进行分组，根据教室数量取分组数据
-//    List<BmHandlerClassPlacementDTO> resultDTOList = new ArrayList<>();
-//        bmHandlerClassPlacementDTOList.forEach(item -> {
-//        List<BmHandlerClassDTO> bmHandlerClassDTOList1 = item.getBmHandlerClassDTOList();
-//        // 根据课程类型进行分组 ，待分班数据最多的放在最前面，有序map
-//        Map<CourseType, List<BmHandlerClassDTO>> courseTypeListMap = bmHandlerClassDTOList1
-//                .stream()
-//                .collect(Collectors.groupingBy(BmHandlerClassDTO::getCurType));
-//
-//        // 将分组后的结果转换为 List 并按照 value 的 size 大小进行排序
-//        List<Map.Entry<CourseType, List<BmHandlerClassDTO>>> sortedEntries = new ArrayList<>(courseTypeListMap.entrySet());
-//        sortedEntries.sort((entry1, entry2) -> Integer.compare(entry2.getValue().size(), entry1.getValue().size()));
-//
-//        // 将排序后的结果放入 LinkedHashMap 中
-//        Map<CourseType, List<BmHandlerClassDTO>> orderedMap = new LinkedHashMap<>();
-//        for (Map.Entry<CourseType, List<BmHandlerClassDTO>> entry : sortedEntries) {
-//            orderedMap.put(entry.getKey(), entry.getValue());
-//        }
-//
-//        // 对结果数据进行选择班级 与教师  已知当前的教师与教室完全足够分班
-//        orderedMap.forEach((key, value) -> {
-//            // 需要的教室
-//            List<BmClassroomIntention> needClassroomList = new ArrayList<>();
-//            int needHandlerClassSize = value.size();
-//
-//            List<BmClassroomIntention> classroomIntentionList = item.getClassroomIntentionList();
-//            Iterator<BmClassroomIntention> iterator = classroomIntentionList.iterator();
-//
-//            while (needHandlerClassSize > 0 && iterator.hasNext()) {
-//                BmClassroomIntention classroomIntention = iterator.next();
-//                Integer roomSize = classroomIntention.getRoomSize();
-//                if (roomSize >= needHandlerClassSize) {
-//                    needClassroomList.add(classroomIntention);
-//
-//                    // 封装入库数据
-//
-//
-//                    break; // 分配完所需的所有学生后退出循环
-//                } else {
-//                    needHandlerClassSize -= roomSize;
-//                    needClassroomList.add(classroomIntention);
-//                }
-//                iterator.remove(); // 移除已分配的教室意图
-//            }
-//            // 如果还有剩余的学生，记录无法分配的数据
-//            if (needHandlerClassSize > 0) {
-//                unableHandlerClass.computeIfAbsent(key.toString(), k -> new ArrayList<>()).addAll(value.subList(value.size() - needHandlerClassSize, value.size()));
-//                log.warn("无法分配所有学生到教室，课程类型：【{}】 - 剩余人数：【{}】", key, needHandlerClassSize);
-//            }
-//
-//            // 封装结果数据
-//        });
-//    });
+//            1,
+//            2,
+//            1651460565631136,
+//            1651475497353376,
+//            1651475612696736,
+//            1651475673514144,
+//            1651475698679968,
+//            1651475728040032,
+//            1651475755303072,
+//            1651475793051808,
+//            1651475816120480,
+//            1651475843383456
+
+
 }
