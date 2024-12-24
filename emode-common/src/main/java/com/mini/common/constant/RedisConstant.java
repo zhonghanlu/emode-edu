@@ -34,7 +34,7 @@ public final class RedisConstant {
     public static final String SM2_CACHE_KEY_PREFIX = "sm2-decrypt-cache:";
 
 
-    /// ////////////////////////////////////业务-机构管理-学生管理//////////////////////////////////////////////
+    ////////////////////////////////////////业务-机构管理-学生管理//////////////////////////////////////////////
     public static final String SCHOOL_OR_GRADE = "school_or_grade:";
 
     /**
@@ -42,4 +42,10 @@ public final class RedisConstant {
      */
     public static final String SYS_CONFIG_INIT_PASSWORD = "init_password";
 
+    ////////////////////////////////////////业务-课程管理-待分班管理//////////////////////////////////////////////
+
+    /**
+     * 确认分班机构id
+     */
+    public static final String CONFIRMED_CLASS_ORG_ID = "confirmed_class_org_id";
 }

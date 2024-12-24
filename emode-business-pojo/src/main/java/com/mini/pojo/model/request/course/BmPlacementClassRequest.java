@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class BmHandlerClassRequest {
+public class BmPlacementClassRequest {
 
     /**
      * 待分班数据 id

@@ -1,10 +1,11 @@
 package com.mini.biz.manager.course;
 
-import com.google.common.collect.Lists;
-
+import com.baomidou.lock.LockInfo;
+import com.baomidou.lock.LockTemplate;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.constant.HandlerClassConstant;
+import com.mini.common.constant.RedisConstant;
 import com.mini.common.enums.number.Delete;
 import com.mini.common.enums.str.HandlerClassStatus;
 import com.mini.common.enums.str.IntentionCurTime;
@@ -26,7 +27,8 @@ import com.mini.pojo.model.dto.org.BmClassroomDTO;
 import com.mini.pojo.model.dto.org.BmTeacherDTO;
 import com.mini.pojo.model.edit.course.BmHandlerClassEdit;
 import com.mini.pojo.model.query.course.BmHandlerClassQuery;
-import com.mini.pojo.model.request.course.BmHandlerClassRequest;
+import com.mini.pojo.model.request.course.BmPlacementClassRequest;
+import com.mini.pojo.model.request.course.BmPlacementConfirmedClassRequest;
 import com.mini.pojo.model.vo.course.BmFailHandlerClassVo;
 import com.mini.pojo.model.vo.course.BmHandlerClassResultVo;
 import com.mini.pojo.model.vo.course.BmHandlerClassVo;
@@ -63,7 +65,7 @@ public class BmHandlerClassBiz {
 
     private final BmStuClassGradeService bmStuClassGradeService;
 
-    public static final String PLACEHOLDER = ":";
+    private final LockTemplate lockTemplate;
 
     /**
      * 分页
@@ -84,10 +86,10 @@ public class BmHandlerClassBiz {
     /**
      * 新增待分班信息
      */
-    @Transactional(rollbackFor = Exception.class)
-    public void insert(BmHandlerClassRequest request) {
-        bmHandlerClassService.add(BmHandlerClassStructMapper.INSTANCE.req2Dto(request));
-    }
+//    @Transactional(rollbackFor = Exception.class)
+//    public void insert(BmHandlerClassRequest request) {
+//        bmHandlerClassService.add(BmHandlerClassStructMapper.INSTANCE.req2Dto(request));
+//    }
 
     /**
      * 删除单条信息
@@ -106,10 +108,14 @@ public class BmHandlerClassBiz {
     }
 
     /**
-     * 一键分班！！！
+     * 一键分班
+     * 1.基础参数校验
+     * 2.校验是否有意向空闲班级
+     * 3.校验班级容量是否满足
+     * 4.校验教师数量是否满足
+     * 5.封装数据返回
      */
-    @Transactional(rollbackFor = Exception.class)
-    public BmHandlerClassResultVo placementClass(BmHandlerClassRequest request) {
+    public BmHandlerClassResultVo placementClass(BmPlacementClassRequest request) {
         // 声明未能正常分班数据map   声明可以正常处理数据最终List
         Map<String, List<BmHandlerClassDTO>> unableHandlerClass = new HashMap<>();
         List<BmHandlerClassPlacementDTO> bmHandlerClassPlacementDTOList = new ArrayList<>();
@@ -138,9 +144,56 @@ public class BmHandlerClassBiz {
     }
 
     /**
+     * 一键确认分班
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void placementConfirmedClass(List<BmPlacementConfirmedClassRequest> request) {
+        List<BmClassGrade> bmClassGradeDbList = new ArrayList<>();
+        List<BmTeacherIntention> bmTeacherIntentionDbList = new ArrayList<>();
+        List<BmClassroomIntention> bmClassroomIntentionDbList = new ArrayList<>();
+        List<BmStuClassGrade> bmStuClassGradeDbList = new ArrayList<>();
+
+        //1.针对校区进行上锁、保证每个校区同时仅有一名教师可以进行确认分班
+        BmTeacherDTO currentTeacher = bmTeacherService.getCurrentTeacher();
+        if (Objects.isNull(currentTeacher)) {
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前用户信息不存在");
+        }
+
+        // 机构id
+        Long teaOrgId = currentTeacher.getTeaOrgId();
+
+        String redisLockKey = RedisConstant.CONFIRMED_CLASS_ORG_ID + RedisConstant.PLACEHOLDER + teaOrgId;
+        LockInfo lockInfo = lockTemplate.lock(redisLockKey, 30000L, 5000L);
+
+        // 未获取到锁
+        if (Objects.isNull(lockInfo)) {
+            return;
+        }
+
+        try {
+            // 获取到锁
+            //2.校验待分班学生数据是否为 待分班状态
+            List<BmPlacementConfirmedClassRequest.BmStuInfo> bmStuInfoList = request.stream()
+                    .flatMap(item -> item.getStuInfoList().stream())
+                    .collect(Collectors.toList());
+            List<Long> handlerIdList = bmStuInfoList.stream()
+                    .map(BmPlacementConfirmedClassRequest.BmStuInfo::getStuId)
+                    .collect(Collectors.toList());
+            // TODO 校验
+            //3.判断当前教室是否满足学生数量
+            //3.1.教师目前不允许确认时修改，需先确认分班，到班级处单独更改
+            //4.入库数据
+        } finally {
+            // 释放锁
+            lockTemplate.releaseLock(lockInfo);
+        }
+    }
+
+
+    /**
      * 封装返回成功分班数据
      */
-    private List<BmPreHandlerClassVo> processPreClassVo(BmHandlerClassRequest request, List<BmHandlerClassPlacementDTO> bmHandlerClassPlacementDTOList) {
+    private List<BmPreHandlerClassVo> processPreClassVo(BmPlacementClassRequest request, List<BmHandlerClassPlacementDTO> bmHandlerClassPlacementDTOList) {
         List<BmPreHandlerClassVo> bmPreHandlerClassVoList = new ArrayList<>();
 
         bmHandlerClassPlacementDTOList.forEach(bmHandlerClassPlacementDTO -> {
@@ -160,6 +213,7 @@ public class BmHandlerClassBiz {
 
                 long classSize = RedisUtils.incrAtomicValue(request.getCurType().getStringValue());
                 bmPreHandlerClassVo.setClassGradeName(request.getCurType().getStringValue() + classSize + "班");
+                bmPreHandlerClassVo.setRoomSize(bmClassroomIntention.getRoomSize());
                 bmPreHandlerClassVo.setIntentionCurTime(bmHandlerClassPlacementDTO.getIntentionCurTime());
                 bmPreHandlerClassVo.setTeacherId(bmTeacherIntention.getTeacherId());
                 bmPreHandlerClassVo.setTeacherName(bmTeacherIntention.getTeacherName());
@@ -171,7 +225,7 @@ public class BmHandlerClassBiz {
                     roomSize = bmHandlerClassDTOList1.size();
                 }
                 List<BmPreHandlerClassVo.BmStuInfo> bmStuInfoList = bmHandlerClassDTOList1.subList(0, roomSize)
-                        .stream().map(dto -> new BmPreHandlerClassVo.BmStuInfo(dto.getStuId(), dto.getStuName()))
+                        .stream().map(dto -> new BmPreHandlerClassVo.BmStuInfo(dto.getId(), dto.getStuId(), dto.getStuName()))
                         .collect(Collectors.toList());
                 bmPreHandlerClassVo.setStuInfoList(bmStuInfoList);
                 bmPreHandlerClassVoList.add(bmPreHandlerClassVo);
@@ -187,7 +241,7 @@ public class BmHandlerClassBiz {
     /**
      * 保存班级数据、教师与教室意向时间数据、学生与班级数据、更新此批可分班学员数据
      */
-    private void saveDb(BmHandlerClassRequest request, List<BmHandlerClassPlacementDTO> bmHandlerClassPlacementDTOList) {
+    private void saveDb(BmPlacementClassRequest request, List<BmHandlerClassPlacementDTO> bmHandlerClassPlacementDTOList) {
         List<BmClassGrade> bmClassGradeDbList = new ArrayList<>();
         List<BmTeacherIntention> bmTeacherIntentionDbList = new ArrayList<>();
         List<BmClassroomIntention> bmClassroomIntentionDbList = new ArrayList<>();
@@ -304,7 +358,7 @@ public class BmHandlerClassBiz {
     /**
      * 封装班级数据
      */
-    private BmClassGradeDTO getBmClassGradeDTO(BmHandlerClassRequest request, BmTeacherIntention bmTeacherIntention, BmClassroomIntention bmClassroomIntention, List<BmClassGrade> bmClassGradeDbList) {
+    private BmClassGradeDTO getBmClassGradeDTO(BmPlacementClassRequest request, BmTeacherIntention bmTeacherIntention, BmClassroomIntention bmClassroomIntention, List<BmClassGrade> bmClassGradeDbList) {
         BmClassGradeDTO bmClassGradeDTO = new BmClassGradeDTO();
         bmClassGradeDTO.setId(IDGenerator.next());
         long classSize = RedisUtils.incrAtomicValue(request.getCurType().getStringValue());
@@ -328,20 +382,21 @@ public class BmHandlerClassBiz {
         List<BmFailHandlerClassVo> bmHandlerClassResultVoList = new ArrayList<>();
         if (Objects.nonNull(unableHandlerClass) && !unableHandlerClass.isEmpty()) {
             unableHandlerClass.forEach((key, value) -> value.forEach(item -> {
-                BmFailHandlerClassVo bmHandlerClassResultVo = new BmFailHandlerClassVo();
-                bmHandlerClassResultVo.setStuId(item.getStuId());
-                bmHandlerClassResultVo.setStuName(item.getStuName());
-                bmHandlerClassResultVo.setIntentionCurTime(item.getIntentionCurTime());
-                bmHandlerClassResultVo.setCurType(item.getCurType());
-                bmHandlerClassResultVo.setProductType(item.getProductType());
+                BmFailHandlerClassVo bmFailHandlerClassVo = new BmFailHandlerClassVo();
+                bmFailHandlerClassVo.setHandlerId(item.getId());
+                bmFailHandlerClassVo.setStuId(item.getStuId());
+                bmFailHandlerClassVo.setStuName(item.getStuName());
+                bmFailHandlerClassVo.setIntentionCurTime(item.getIntentionCurTime());
+                bmFailHandlerClassVo.setCurType(item.getCurType());
+                bmFailHandlerClassVo.setProductType(item.getProductType());
                 if (HandlerClassConstant.NONE_INTENTION_CLASSROOM.equals(key)) {
-                    bmHandlerClassResultVo.setErrorReason("当前意向时间没有空闲教室");
+                    bmFailHandlerClassVo.setErrorReason("当前意向时间没有空闲教室");
                 } else if (HandlerClassConstant.EXCEED_INTENTION_CLASSROOM.equals(key)) {
-                    bmHandlerClassResultVo.setErrorReason("超出教室最大承载量");
+                    bmFailHandlerClassVo.setErrorReason("超出教室最大承载量");
                 } else if (HandlerClassConstant.EXCEED_INTENTION_TEACHER.equals(key)) {
-                    bmHandlerClassResultVo.setErrorReason("超出校区最大教师数");
+                    bmFailHandlerClassVo.setErrorReason("超出校区最大教师数");
                 }
-                bmHandlerClassResultVoList.add(bmHandlerClassResultVo);
+                bmHandlerClassResultVoList.add(bmFailHandlerClassVo);
             }));
         }
         return bmHandlerClassResultVoList;
@@ -350,7 +405,10 @@ public class BmHandlerClassBiz {
     /**
      * 处理待分班数据
      */
-    private void processHandlerClassDTOList(Map<IntentionCurTime, List<BmHandlerClassDTO>> intentionCurTimeListMap, List<BmClassroomIntention> bmClassroomIntentionList, Map<String, List<BmHandlerClassDTO>> unableHandlerClass, List<BmHandlerClassPlacementDTO> bmHandlerClassPlacementDTOList) {
+    private void processHandlerClassDTOList(Map<IntentionCurTime, List<BmHandlerClassDTO>> intentionCurTimeListMap,
+                                            List<BmClassroomIntention> bmClassroomIntentionList,
+                                            Map<String, List<BmHandlerClassDTO>> unableHandlerClass,
+                                            List<BmHandlerClassPlacementDTO> bmHandlerClassPlacementDTOList) {
         for (Map.Entry<IntentionCurTime, List<BmHandlerClassDTO>> entry : intentionCurTimeListMap.entrySet()) {
             // 意向时间
             IntentionCurTime intentionCurTime = entry.getKey();

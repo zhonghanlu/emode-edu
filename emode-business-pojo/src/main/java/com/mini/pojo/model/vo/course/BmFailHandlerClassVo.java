@@ -16,6 +16,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class BmFailHandlerClassVo {
 
+    @Schema(title = "待分班id")
+    private Long handlerId;
+
     @Schema(name = "学生 id")
     private Long stuId;
 
