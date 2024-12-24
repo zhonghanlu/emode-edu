@@ -8,7 +8,8 @@
         <result column="tea_avatar_id" property="teaAvatarId"/>
         <result column="teaAvatarUrl" property="teaAvatarUrl"/>
         <result column="tea_name" property="teaName"/>
-        <result column="tea_iphone" property="teaIphone"/>
+        <result column="tea_phone" property="teaPhone"/>
+        <result column="sex" property="sex"/>
         <result column="tea_email" property="teaEmail"/>
         <result column="tea_org_id" property="teaOrgId"/>
         <result column="tea_org_name" property="teaOrgName"/>
@@ -18,7 +19,8 @@
         SELECT bt.id,
         bt.tea_avatar_id,
         bt.tea_name,
-        bt.tea_iphone,
+        bt.tea_phone,
+        bt.sex,
         bt.tea_email,
         bt.tea_org_id,
         bt.tea_org_name,

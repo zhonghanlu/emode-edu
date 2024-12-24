@@ -8,7 +8,8 @@ import com.mini.common.enums.LimitType;
 import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.course.BmHandlerClassEdit;
 import com.mini.pojo.model.query.course.BmHandlerClassQuery;
-import com.mini.pojo.model.request.course.BmHandlerClassRequest;
+import com.mini.pojo.model.request.course.BmPlacementClassRequest;
+import com.mini.pojo.model.request.course.BmPlacementConfirmedClassRequest;
 import com.mini.pojo.model.vo.course.BmHandlerClassResultVo;
 import com.mini.pojo.model.vo.course.BmHandlerClassVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,12 +53,12 @@ public class BmHandlerClassController {
         return Restful.OBJECT(bmHandlerClassBiz.getEntityById(id)).build();
     }
 
-    @Operation(summary = "新增待分班信息")
-    @PostMapping("/add")
-    public Restful<Void> insert(@RequestBody @Valid BmHandlerClassRequest request) {
-        bmHandlerClassBiz.insert(request);
-        return Restful.SUCCESS().build();
-    }
+//    @Operation(summary = "新增待分班信息")
+//    @PostMapping("/add")
+//    public Restful<Void> insert(@RequestBody @Valid BmHandlerClassRequest request) {
+//        bmHandlerClassBiz.insert(request);
+//        return Restful.SUCCESS().build();
+//    }
 
     @Operation(summary = "删除待分班信息")
     @PostMapping("/del")
@@ -76,7 +77,15 @@ public class BmHandlerClassController {
     @Operation(summary = "一键分班")
     @RateLimiter(time = 1, count = 1, limitType = LimitType.IP)
     @PostMapping("/placement-class")
-    public Restful<List<BmHandlerClassResultVo>> placementClass(@RequestBody @Valid BmHandlerClassRequest request) {
+    public Restful<BmHandlerClassResultVo> placementClass(@RequestBody @Valid BmPlacementClassRequest request) {
         return Restful.OBJECT(bmHandlerClassBiz.placementClass(request)).build();
+    }
+
+    @Operation(summary = "一键确认分班")
+    @RateLimiter(time = 1, count = 1, limitType = LimitType.IP)
+    @PostMapping("/placement-confirmed-class")
+    public Restful<Void> placementConfirmedClass(@RequestBody @Valid List<BmPlacementConfirmedClassRequest> request) {
+        bmHandlerClassBiz.placementConfirmedClass(request);
+        return Restful.SUCCESS().build();
     }
 }
