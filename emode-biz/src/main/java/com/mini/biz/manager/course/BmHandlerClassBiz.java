@@ -36,7 +36,6 @@ import com.mini.pojo.model.vo.course.BmHandlerClassVo;
 import com.mini.pojo.model.vo.course.BmPreHandlerClassVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -117,10 +116,7 @@ public class BmHandlerClassBiz {
      * 5.封装数据返回
      */
     @Transactional(rollbackFor = Exception.class)
-    public List<BmHandlerClassResultVo> placementClass(BmHandlerClassRequest request) {
-
-        // TODO  分两步走，这步只负责洗数据
-
+    public BmHandlerClassResultVo placementClass(BmPlacementClassRequest request) {
         // 声明未能正常分班数据map   声明可以正常处理数据最终List
         Map<String, List<BmHandlerClassDTO>> unableHandlerClass = new HashMap<>();
         List<BmHandlerClassPlacementDTO> bmHandlerClassPlacementDTOList = new ArrayList<>();

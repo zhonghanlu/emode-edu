@@ -3,7 +3,6 @@ package com.mini.pojo.mapper.course;
 import com.mini.pojo.entity.course.BmHandlerClass;
 import com.mini.pojo.model.dto.course.BmHandlerClassDTO;
 import com.mini.pojo.model.edit.course.BmHandlerClassEdit;
-import com.mini.pojo.model.request.course.BmHandlerClassRequest;
 import com.mini.pojo.model.vo.course.BmHandlerClassVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -37,7 +36,7 @@ public interface BmHandlerClassStructMapper {
     /**
      * req2dto
      */
-    BmHandlerClassDTO req2Dto(BmHandlerClassRequest request);
+//    BmHandlerClassDTO req2Dto(BmHandlerClassRequest request);
 
     /**
      * edit2dto
