@@ -20,7 +20,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * <p>
@@ -76,7 +75,7 @@ public class BmHandlerClassController {
     @Operation(summary = "一键分班")
     @RateLimiter(time = 1, count = 1, limitType = LimitType.IP)
     @PostMapping("/placement-class")
-    public Restful<List<BmHandlerClassResultVo>> placementClass(@RequestBody @Valid BmHandlerClassRequest request) {
+    public Restful<BmHandlerClassResultVo> placementClass(@RequestBody @Valid BmHandlerClassRequest request) {
         return Restful.OBJECT(bmHandlerClassBiz.placementClass(request)).build();
     }
 }
