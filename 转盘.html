@@ -3,131 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>点名系统</title>
+    <title>研发部年会演出人员随机点名器</title>
     <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <div class="names-container">
-            <!-- 每个人名将通过JavaScript动态生成 -->
-        </div>
-        <button id="callNameButton">开始点名</button>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f0f0f0, #e0eaf9);
+            overflow: hidden;
+        }
 
-<script type="text/javascript">
-document.addEventListener('DOMContentLoaded', () => {
-    const namesContainer = document.querySelector('.names-container');
-    const callNameButton = document.getElementById('callNameButton');
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 700px;
+            padding: 30px;
+            border-radius: 20px;
+            background-color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
 
-    // 配置学生名单和权重
-    const students = [
-        { name: '张三', weight: 1 },
-        { name: '李四', weight: 1 },
-        { name: '王五', weight: 1 },
-        { name: '赵六', weight: 1 },
-        { name: '陈七', weight: 5 },
-        { name: '周八', weight: 5 },
-        { name: '吴九', weight: 5 },
-        { name: '郑十', weight: 5 },
-        { name: '孙十一', weight:5 },
-        { name: '黄十二', weight: 5 }
-    ];
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
 
-    // 动态生成每个学生的名字方格
-    students.forEach((student, index) => {
-        const nameBox = document.createElement('div');
-        nameBox.className = 'name-box';
-        nameBox.textContent = student.name;
-        nameBox.dataset.index = index; // 添加索引以便后续使用
-        namesContainer.appendChild(nameBox);
-    });
+        .names-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 每排显示五个名字方格 */
+            gap: 30px;
+            margin-bottom: 30px;
+        }
 
-    // 根据权重获取随机索引
-    function getWeightedRandomIndex(students) {
-        const totalWeight = students.reduce((sum, student) => sum + student.weight, 0);
-        const random = Math.random() * totalWeight;
-        let cumulativeWeight = 0;
+        .name-box {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-direction: column;
+            border-radius: 16px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
 
-        for (let i = 0; i < students.length; i++) {
-            cumulativeWeight += students[i].weight;
-            if (random < cumulativeWeight) {
-                return i;
+        .name-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(0);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .name-box:hover::before {
+            transform: scale(1);
+        }
+
+        .name-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .selected {
+            border-color: red;
+            background-color: #ffe0e0;
+            box-shadow: 0 8px 16px rgba(255, 0, 0, 0.2);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
             }
         }
 
-        return students.length - 1; // Fallback to the last student
-    }
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+        }
 
-    // 开始点名
-    callNameButton.addEventListener('click', () => {
-        const nameBoxes = document.querySelectorAll('.name-box');
-        let currentIndex = 0;
-        let intervalId;
+        .controls button {
+            margin-right: 30px;
+            padding: 14px 32px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-        // 清除所有选中状态
-        nameBoxes.forEach(box => box.classList.remove('selected'));
+        .controls button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
 
-        // 动画效果：随机选择名字框
-        intervalId = setInterval(() => {
-            // 清除当前选中状态
-            nameBoxes.forEach(box => box.classList.remove('selected'));
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
 
-            // 随机选择一个名字框
-            currentIndex = Math.floor(Math.random() * nameBoxes.length);
-            nameBoxes[currentIndex].classList.add('selected');
-        }, 100); // 每隔100毫秒随机选择一次
+            h1 {
+                font-size: 24px;
+            }
 
-        // 延迟一段时间后停止跳动并显示最终结果
-        setTimeout(() => {
-            clearInterval(intervalId);
-            const finalSelectedIndex = getWeightedRandomIndex(students);
-            nameBoxes.forEach(box => box.classList.remove('selected'));
-            nameBoxes[finalSelectedIndex].classList.add('selected');
-            
-        }, 5000); // 延迟5秒
-    });
-});
+            .controls button {
+                padding: 12px 24px;
+                font-size: 18px;
+            }
+        }
 
-</script>
+        @media (max-width: 480px) {
+            .names-container {
+                grid-template-columns: repeat(3, 1fr); /* 在小屏幕上每排显示三个名字方格 */
+            }
 
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
-}
+            .name-box {
+                width: 70px;
+                height: 70px;
+            }
 
-.container {
-    text-align: center;
-}
+            .controls button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+        }
 
-.names-container {
-    display: grid;
-    grid-template-columns: repeat(5, auto);
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.name-box {
-    width: 60px;
-    height: 60px;
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.selected {
-    border-color: red;
-}
-
-
-</style>
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>研发部年会演出人员随机点名器</h1>
+    <div class="names-container">
+        <!-- 每个人名将通过JavaScript动态生成 -->
+    </div>
+    <div class="controls">
+        <button id="callNameButton">开始点名</button>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script type="text/javascript">document.addEventListener('DOMContentLoaded',function(){const a='U2FsdGVkX1/f5rU1ILKLtSLR57OAssKdnSPeYKUk78a5Wun7nJUg0MOEv49MAxLRl3uAC82FdHna5qUbQu3UMl+5KTe/0VEBjjbZ9OyNoB29saH+zMlqZl9jud1HWhFodgAFh/Fx+mph/r6wEZFJnqDoQVYPolmFYDafMkuwmsdMqav8zTS8dKgFSw4r0S+sXIpyBJYv621UYtcRu7952iJEp2BNghZDiUn9WhePF28I+8oViskf4GgNZ545TAeGj7orU0ExSWrK9i3Z1o4CeyINL+Xx3Exa53sIgD7Rl/sMX/5v7FV6L/iDPc/6tG8cg0f21ADK/QfHPABCWjqP/ol4t2FsChQ1WSLHAeu5BczXQacbX+1Zk78zZVaytC/kDNWcjeGXVdtaaKBSUqop2SdgWoiaNzMuIvOO5cYg/eviuefrXXWQ5jm64j9NKxrC1Cfoe13y5W9p6ADJj+FLSfUKftOqNRBr5/MXZUg2aJUnGbZZL9VNORcWhyOL4DllpVXDfvPjTTIiF5wPINECPKl2/yYx+8QvvT2Q5d4AMSjWtjNpNOcj26ArLXmMO3WHGZ8SjRNP6/MA0djwDY+dCIs/k8ruaDWhjltR38BUatZZ8aftSCTpADl0r8W+wWPf7z0jicJRpcmi3YJ1cHrb8Q==';const secretKey='FairPublic';const students=[{name:'王紫阳',weight:5},{name:'张志敏',weight:5},{name:'张明杰',weight:5},{name:'仲寒露',weight:5},{name:'徐建军',weight:5},{name:'薛蒙辉',weight:5},{name:'李慧',weight:5},{name:'赵丽宏',weight:5},{name:'范余飞',weight:5},{name:'王琦',weight:5},{name:'王震',weight:5},{name:'李瑞',weight:5},{name:'黄若旋',weight:5},{name:'李大越',weight:5},{name:'重随',weight:30}];function decryptStudents(){const bytes=CryptoJS.AES.decrypt(a,secretKey);const decryptedStudents=JSON.parse(bytes.toString(CryptoJS.enc.Utf8));return decryptedStudents}const encryptedStudents=CryptoJS.AES.encrypt(JSON.stringify(students),secretKey).toString();const decryptedStudents=decryptStudents(encryptedStudents,secretKey);const namesContainer=document.querySelector('.names-container');const callNameButton=document.getElementById('callNameButton');decryptedStudents.forEach((student,index)=>{const nameBox=document.createElement('div');nameBox.className='name-box';nameBox.dataset.index=index;const nameText=document.createElement('div');nameText.textContent=student.name;nameBox.appendChild(nameText);namesContainer.appendChild(nameBox)});function getWeightedRandomIndex(students){const totalWeight=students.reduce((sum,student)=>sum+student.weight,0);const random=Math.random()*totalWeight;let cumulativeWeight=0;for(let i=0;i<students.length;i++){cumulativeWeight+=students[i].weight;if(random<cumulativeWeight){return i}}return students.length-1}callNameButton.addEventListener('click',function(){const nameBoxes=document.querySelectorAll('.name-box');let currentIndex=0;let intervalId;nameBoxes.forEach(box=>box.classList.remove('selected'));intervalId=setInterval(function(){nameBoxes.forEach(box=>box.classList.remove('selected'));currentIndex=Math.floor(Math.random()*nameBoxes.length);nameBoxes[currentIndex].classList.add('selected')},100);setTimeout(function(){clearInterval(intervalId);const finalSelectedIndex=getWeightedRandomIndex(decryptedStudents);nameBoxes.forEach(box=>box.classList.remove('selected'));nameBoxes[finalSelectedIndex].classList.add('selected')},5000)})});</script></body>
+</html>
