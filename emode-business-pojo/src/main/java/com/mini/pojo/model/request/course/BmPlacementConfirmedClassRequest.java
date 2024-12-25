@@ -1,6 +1,8 @@
 package com.mini.pojo.model.request.course;
 
+import com.mini.common.enums.str.CourseType;
 import com.mini.common.enums.str.IntentionCurTime;
+import com.mini.common.enums.str.ProductType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -59,6 +61,20 @@ public class BmPlacementConfirmedClassRequest {
     @NotBlank(message = "教室名不可为空")
     @Schema(title = "教室名")
     private String classroomName;
+
+    /**
+     * 课程类型
+     */
+    @NotNull(message = "课程类型不可为空")
+    @Schema(title = "课程类型")
+    private CourseType curType;
+
+    /**
+     * 课程归属类型 长期 短期
+     */
+    @NotNull(message = "课程归属类型不能为空")
+    @Schema(title = "课程归属类型 长期 短期")
+    private ProductType productType;
 
     /**
      * 学生信息

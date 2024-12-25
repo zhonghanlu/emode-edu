@@ -6,6 +6,8 @@ import com.mini.pojo.entity.course.BmClassGrade;
 import com.mini.pojo.model.dto.course.BmClassGradeDTO;
 import com.mini.pojo.model.query.course.BmClassGradeQuery;
 
+import java.util.List;
+
 /**
  * <p>
  * 班级数据表 服务类
@@ -20,6 +22,11 @@ public interface BmClassGradeService extends IService<BmClassGrade> {
      * 增
      */
     void add(BmClassGradeDTO dto);
+
+    /**
+     * 批量增
+     */
+    void batchAdd(List<BmClassGradeDTO> dtoList);
 
     /**
      * 删

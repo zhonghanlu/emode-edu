@@ -1,6 +1,7 @@
 package com.mini.manager.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -113,5 +114,31 @@ public class BmHandlerClassServiceImpl extends ServiceImpl<BmHandlerClassMapper,
                 .eq(BmHandlerClass::getProductType, productType)
                 .eq(BmHandlerClass::getDelFlag, Delete.NO);
         return BmHandlerClassStructMapper.INSTANCE.editList2DtoList(bmHandlerClassMapper.selectList(wrapper));
+    }
+
+    @Override
+    public void verifyStuStatus(List<Long> handlerIdList) {
+        LambdaQueryWrapper<BmHandlerClass> wrapper = Wrappers.lambdaQuery(BmHandlerClass.class);
+        wrapper.in(BmHandlerClass::getId, handlerIdList)
+                .eq(BmHandlerClass::getHandlerClassStatus, HandlerClassStatus.TO_HANDLER_CLASS)
+                .eq(BmHandlerClass::getDelFlag, Delete.NO);
+
+        List<BmHandlerClass> bmHandlerClassList = bmHandlerClassMapper.selectList(wrapper);
+        if (bmHandlerClassList.size() != handlerIdList.size()) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "参数错误，部分数据不存在");
+        }
+    }
+
+    @Override
+    public void confirmedHandlerClass(List<Long> handlerIdList) {
+        LambdaUpdateWrapper<BmHandlerClass> wrapper = Wrappers.lambdaUpdate(BmHandlerClass.class);
+
+        wrapper.in(BmHandlerClass::getId, handlerIdList)
+                .set(BmHandlerClass::getHandlerClassStatus, HandlerClassStatus.HANDLER_CLASS_ED);
+
+        int b = bmHandlerClassMapper.update(wrapper);
+        if (b <= 0) {
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "更新待分班数据失败");
+        }
     }
 }

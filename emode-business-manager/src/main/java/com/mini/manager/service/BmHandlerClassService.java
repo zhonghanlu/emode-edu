@@ -49,4 +49,14 @@ public interface BmHandlerClassService extends IService<BmHandlerClass> {
      * 获取待分班数据
      */
     List<BmHandlerClassDTO> getToHandlerClass(CourseType courseType, ProductType productType, List<Long> handlerIdList);
+
+    /**
+     * 验证学生状态
+     */
+    void verifyStuStatus(List<Long> handlerIdList);
+
+    /**
+     * 确认此批分班数据
+     */
+    void confirmedHandlerClass(List<Long> handlerIdList);
 }

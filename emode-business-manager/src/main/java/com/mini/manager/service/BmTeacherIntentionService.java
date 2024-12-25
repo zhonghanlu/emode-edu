@@ -27,4 +27,9 @@ public interface BmTeacherIntentionService extends IService<BmTeacherIntention> 
     List<BmTeacherIntention> getTeacherIntentionListByListParam(List<Long> teacherIdList, List<IntentionCurTime> intentionCurTimeList);
 
     List<BmTeacherIntention> getClassIntentionListByIntentionCurTime(IntentionCurTime intentionCurTime);
+
+    /**
+     * 批量更新教师意向时间信息
+     */
+    void batchUpdateClassGrade(List<BmTeacherIntention> bmTeacherIntentionDbList);
 }

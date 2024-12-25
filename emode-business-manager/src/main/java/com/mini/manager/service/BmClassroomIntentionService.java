@@ -30,4 +30,9 @@ public interface BmClassroomIntentionService extends IService<BmClassroomIntenti
      * 根据意向时间查询 所有满足的教室
      */
     List<BmClassroomIntention> getClassIntentionListByIntentionCurTime(IntentionCurTime intentionCurTime);
+
+    /**
+     * 批量修改教室意向时间的班级
+     */
+    void batchUpdateClassGrade(List<BmClassroomIntention> bmClassroomIntentionDbList);
 }

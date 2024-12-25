@@ -8,6 +8,7 @@ import com.mini.pojo.model.dto.org.BmClassroomDTO;
 import com.mini.pojo.model.query.org.BmClassroomQuery;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -49,4 +50,8 @@ public interface BmClassroomService extends IService<BmClassroom> {
      */
     List<BmClassroomDTO> getAllClassroomByOrgId();
 
+    /**
+     * 根据教室集合获取以教室id为key的map集合
+     */
+    Map<Long, BmClassroom> selectByIdList(List<Long> classroomIdList);
 }

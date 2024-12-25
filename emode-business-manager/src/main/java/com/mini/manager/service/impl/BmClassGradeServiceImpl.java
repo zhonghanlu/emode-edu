@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -61,6 +62,24 @@ public class BmClassGradeServiceImpl extends ServiceImpl<BmClassGradeMapper, BmC
 
         if (b2 <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "新增失败");
+        }
+    }
+
+    @Override
+    public void batchAdd(List<BmClassGradeDTO> dtoList) {
+        List<BmClassGrade> bmClassGradeList = BmClassGradeStructMapper.INSTANCE.dtoList2EntityList(dtoList);
+        bmClassGradeList.forEach(bmClassGrade -> {
+            checkExistParams(bmClassGrade);
+            if (Objects.isNull(bmClassGrade.getId())) {
+                bmClassGrade.setId(IDGenerator.next());
+            }
+            bmClassGrade.setDelFlag(Delete.NO);
+        });
+
+        boolean b = saveBatch(bmClassGradeList);
+
+        if (!b) {
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "批量新增失败");
         }
     }
 

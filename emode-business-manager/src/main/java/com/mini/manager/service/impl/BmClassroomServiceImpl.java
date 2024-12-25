@@ -18,10 +18,15 @@ import com.mini.pojo.model.dto.org.BmClassroomDTO;
 import com.mini.pojo.model.query.org.BmClassroomQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -110,9 +115,22 @@ public class BmClassroomServiceImpl extends ServiceImpl<BmClassroomMapper, BmCla
 
     @Override
     public List<BmClassroomDTO> getAllClassroomByOrgId() {
-        LambdaQueryWrapper<BmClassroom> wrapper2 = Wrappers.lambdaQuery(BmClassroom.class);
-        wrapper2.eq(BmClassroom::getDelFlag, Delete.NO);
-        List<BmClassroom> bmClassroomList = bmClassroomMapper.selectList(wrapper2);
+        LambdaQueryWrapper<BmClassroom> wrapper = Wrappers.lambdaQuery(BmClassroom.class);
+        wrapper.eq(BmClassroom::getDelFlag, Delete.NO);
+        List<BmClassroom> bmClassroomList = bmClassroomMapper.selectList(wrapper);
         return BmClassroomStructMapper.INSTANCE.entityList2DtoList(bmClassroomList);
+    }
+
+    @Override
+    public Map<Long, BmClassroom> selectByIdList(List<Long> classroomIdList) {
+        LambdaQueryWrapper<BmClassroom> wrapper = Wrappers.lambdaQuery(BmClassroom.class);
+        wrapper.in(BmClassroom::getId, classroomIdList)
+                .eq(BmClassroom::getDelFlag, Delete.NO);
+        List<BmClassroom> bmClassroomList = bmClassroomMapper.selectList(wrapper);
+        if (CollectionUtils.isNotEmpty(bmClassroomList)) {
+            return bmClassroomList.stream()
+                    .collect(Collectors.toMap(BmClassroom::getId, Function.identity()));
+        }
+        return Collections.emptyMap();
     }
 }
