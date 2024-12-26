@@ -194,7 +194,7 @@ public class BmHandlerClassBiz {
                 .flatMap(item -> item.getStuInfoList().stream())
                 .collect(Collectors.toList());
         List<Long> handlerIdList = bmStuInfoList.stream()
-                .map(BmPlacementConfirmedClassRequest.BmStuInfo::getStuId)
+                .map(BmPlacementConfirmedClassRequest.BmStuInfo::getHandlerId)
                 .collect(Collectors.toList());
         bmHandlerClassService.verifyStuStatus(handlerIdList);
 

@@ -33,7 +33,7 @@ public class BmCourseScheduleBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取当条课表详情
      */
     public BmCourseScheduleVo getEntityById(Long id) {
         BmCourseScheduleDTO bmCourseScheduleDTO = bmCourseScheduleService.selectById(id);
@@ -41,7 +41,7 @@ public class BmCourseScheduleBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增课表信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmCourseScheduleRequest request) {
