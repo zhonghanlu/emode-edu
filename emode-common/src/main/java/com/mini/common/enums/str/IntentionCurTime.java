@@ -146,6 +146,14 @@ public enum IntentionCurTime implements StringEnum {
         return intentionCurTimeList;
     }
 
+    public static String extractSubstringByDelimiter(String original, String delimiter, int index) {
+        String[] parts = original.split(delimiter);
+        if (index < 0 || index >= parts.length) {
+            return ""; // 或者抛出异常，根据你的需求
+        }
+        return parts[index];
+    }
+
     @JsonValue
     public String getStringValue() {
         return value;

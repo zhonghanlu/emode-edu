@@ -6,6 +6,10 @@ import com.mini.manager.service.BmStuClassGradeService;
 import com.mini.pojo.entity.course.BmStuClassGrade;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 学生和班级关系 服务实现类
@@ -17,4 +21,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class BmStuClassGradeServiceImpl extends ServiceImpl<BmStuClassGradeMapper, BmStuClassGrade> implements BmStuClassGradeService {
 
+    @Override
+    public Map<Long, List<BmStuClassGrade>> mapForClassGradeIdList(List<Long> classGradeIdList) {
+        return Collections.emptyMap();
+    }
 }
