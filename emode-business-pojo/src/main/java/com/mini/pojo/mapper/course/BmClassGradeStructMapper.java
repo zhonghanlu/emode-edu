@@ -48,4 +48,9 @@ public interface BmClassGradeStructMapper {
      * dtoList2EntityList
      */
     List<BmClassGrade> dtoList2EntityList(List<BmClassGradeDTO> dtoList);
+
+    /**
+     * entityList2DtoList
+     */
+    List<BmClassGradeDTO> entityList2DtoList(List<BmClassGrade> bmClassGradeList);
 }

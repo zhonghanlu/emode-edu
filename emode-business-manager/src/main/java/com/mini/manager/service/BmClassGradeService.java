@@ -2,6 +2,7 @@ package com.mini.manager.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.pojo.entity.course.BmClassGrade;
 import com.mini.pojo.model.dto.course.BmClassGradeDTO;
 import com.mini.pojo.model.query.course.BmClassGradeQuery;
@@ -48,4 +49,8 @@ public interface BmClassGradeService extends IService<BmClassGrade> {
      */
     IPage<BmClassGradeDTO> page(BmClassGradeQuery query);
 
+    /**
+     * 根据意向时间筛选出来所有正常运行的班级
+     */
+    List<BmClassGradeDTO> getNormalClassGradeList(List<IntentionCurTime> intentionCurTimeList);
 }

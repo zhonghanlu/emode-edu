@@ -11,7 +11,9 @@
         <result column="classroom_id" property="classroomId"/>
         <result column="classroom_name" property="classroomName"/>
         <result column="cur_type" property="curType"/>
-        <result column="class_garde_type" property="classGardeType"/>
+        <result column="class_garde_type" property="classGradeType"/>
+        <result column="intention_cur_time" property="intentionCurTime"/>
+        <result column="class_grade_status" property="classGradeStatus"/>
     </resultMap>
 
     <select id="page" resultMap="BaseResultMap">
@@ -22,7 +24,9 @@
         bcg.classroom_id,
         bcg.classroom_name,
         bcg.cur_type,
-        bcg.class_garde_type
+        bcg.class_grade_type,
+        bcg.intention_cur_time,
+        bcg.class_grade_status
         FROM bm_class_grade bcg
         <where>
             bcg.del_flag = 1

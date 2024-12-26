@@ -2,7 +2,9 @@ package com.mini.pojo.entity.course;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.mini.common.enums.str.ClassGradeStatus;
 import com.mini.common.enums.str.CourseType;
+import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.common.enums.str.ProductType;
 import com.mini.common.model.CommonEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -54,5 +56,11 @@ public class BmClassGrade extends CommonEntity implements Serializable {
     private CourseType curType;
 
     @Schema(name = "课程归属类型 长期 短期")
-    private ProductType classGardeType;
+    private ProductType classGradeType;
+
+    @Schema(title = "意向上课时间")
+    private IntentionCurTime intentionCurTime;
+
+    @Schema(title = "班级状态")
+    private ClassGradeStatus classGradeStatus;
 }

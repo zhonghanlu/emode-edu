@@ -1,5 +1,6 @@
 package com.mini.pojo.model.query.course;
 
+import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.common.utils.webmvc.PageQuery;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,4 +28,7 @@ public class BmClassGradeQuery extends PageQuery {
 
     @Parameter(description = "教室名")
     private String classroomName;
+
+    @Parameter(description = "意向上课时间")
+    private IntentionCurTime intentionCurTime;
 }

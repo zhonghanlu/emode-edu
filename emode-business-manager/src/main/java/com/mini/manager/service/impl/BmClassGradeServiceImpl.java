@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.constant.LastSql;
 import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.ClassGradeStatus;
+import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.mybatis.CommonMybatisUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
@@ -24,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -132,6 +135,17 @@ public class BmClassGradeServiceImpl extends ServiceImpl<BmClassGradeMapper, BmC
     @Override
     public IPage<BmClassGradeDTO> page(BmClassGradeQuery query) {
         return bmClassGradeMapper.page(query, query.build());
+    }
+
+    @Override
+    public List<BmClassGradeDTO> getNormalClassGradeList(List<IntentionCurTime> intentionCurTimeList) {
+        LambdaQueryWrapper<BmClassGrade> wrapper = Wrappers.lambdaQuery(BmClassGrade.class);
+        wrapper.in(BmClassGrade::getIntentionCurTime, intentionCurTimeList)
+                .eq(BmClassGrade::getClassGradeStatus, ClassGradeStatus.NORMAL)
+                .eq(BmClassGrade::getDelFlag, Delete.NO);
+
+        List<BmClassGrade> bmClassGradeList = bmClassGradeMapper.selectList(wrapper);
+        return BmClassGradeStructMapper.INSTANCE.entityList2DtoList(bmClassGradeList);
     }
 
 

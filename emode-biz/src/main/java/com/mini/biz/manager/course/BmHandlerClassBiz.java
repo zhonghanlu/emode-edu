@@ -8,6 +8,7 @@ import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.constant.HandlerClassConstant;
 import com.mini.common.constant.RedisConstant;
 import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.ClassGradeStatus;
 import com.mini.common.enums.str.HandlerClassStatus;
 import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.common.exception.service.EModeServiceException;
@@ -388,7 +389,9 @@ public class BmHandlerClassBiz {
             bmClassGradeDTO.setClassroomId(item.getClassroomId());
             bmClassGradeDTO.setClassroomName(item.getClassroomName());
             bmClassGradeDTO.setCurType(item.getCurType());
-            bmClassGradeDTO.setClassGardeType(item.getProductType());
+            bmClassGradeDTO.setClassGradeType(item.getProductType());
+            bmClassGradeDTO.setIntentionCurTime(item.getIntentionCurTime());
+            bmClassGradeDTO.setClassGradeStatus(ClassGradeStatus.NORMAL);
 
             bmClassGradeDbList.add(bmClassGradeDTO);
 
@@ -609,7 +612,9 @@ public class BmHandlerClassBiz {
         bmClassGradeDTO.setClassroomId(bmClassroomIntention.getClassroomId());
         bmClassGradeDTO.setClassroomName(bmClassroomIntention.getClassroomName());
         bmClassGradeDTO.setCurType(request.getCurType());
-        bmClassGradeDTO.setClassGardeType(request.getProductType());
+        bmClassGradeDTO.setClassGradeType(request.getProductType());
+        bmClassGradeDTO.setIntentionCurTime(bmTeacherIntention.getIntentionCurTime());
+        bmClassGradeDTO.setClassGradeStatus(ClassGradeStatus.NORMAL);
         BmClassGrade bmClassGrade = BmClassGradeStructMapper.INSTANCE.dto2Entity(bmClassGradeDTO);
         bmClassGrade.setDelFlag(Delete.NO);
         bmClassGradeDbList.add(bmClassGrade);

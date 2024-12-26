@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.mini.common.enums.converter.StringEnum;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -135,6 +136,14 @@ public enum IntentionCurTime implements StringEnum {
     @JsonCreator
     public static List<IntentionCurTime> getListValByType(String type) {
         return Arrays.stream(values()).filter(e -> e.getStringValue().startsWith(type)).collect(Collectors.toList());
+    }
+
+    @JsonCreator
+    public static List<IntentionCurTime> getListValByWeek(List<String> weekOneList) {
+        List<IntentionCurTime> intentionCurTimeList = new ArrayList<>();
+        weekOneList.forEach(w -> intentionCurTimeList.addAll(Arrays.stream(values())
+                .filter(e -> e.getStringValue().contains(w)).collect(Collectors.toList())));
+        return intentionCurTimeList;
     }
 
     @JsonValue
