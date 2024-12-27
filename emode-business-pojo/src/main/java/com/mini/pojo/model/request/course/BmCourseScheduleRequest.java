@@ -1,10 +1,12 @@
 package com.mini.pojo.model.request.course;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -19,13 +21,15 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 public class BmCourseScheduleRequest {
 
-    @NotBlank(message = "课表名称不可为空")
-    @Schema(title = "课表名称")
-    private String curScheduleName;
-
+    @NotNull(message = "课表开始时间不能为空")
     @Schema(title = "课表开始时间")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime curScheduleStarTime;
 
+    @NotNull(message = "课表结束时间不能为空")
     @Schema(title = "课表结束时间")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime curScheduleEndTime;
 }

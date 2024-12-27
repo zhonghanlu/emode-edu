@@ -7,6 +7,7 @@ import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.course.BmCourseScheduleEdit;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
 import com.mini.pojo.model.request.course.BmCourseScheduleRequest;
+import com.mini.pojo.model.vo.course.BmCourseScheduleNewVo;
 import com.mini.pojo.model.vo.course.BmCourseScheduleVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,11 +49,10 @@ public class BmCourseScheduleController {
         return Restful.OBJECT(bmCourseScheduleBiz.getEntityById(id)).build();
     }
 
-    @Operation(summary = "新增课程表信息")
-    @PostMapping("/add")
-    public Restful<Void> insert(@RequestBody @Valid BmCourseScheduleRequest request) {
-        bmCourseScheduleBiz.insert(request);
-        return Restful.SUCCESS().build();
+    @Operation(summary = "预览课表信息")
+    @PostMapping("/preview-course-schedule")
+    public Restful<BmCourseScheduleNewVo> previewCourseSchedule(@RequestBody @Valid BmCourseScheduleRequest request) {
+        return Restful.OBJECT(bmCourseScheduleBiz.previewCourseSchedule(request)).build();
     }
 
     @Operation(summary = "删除课程表信息")

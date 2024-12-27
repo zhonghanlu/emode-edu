@@ -1,6 +1,8 @@
 package com.mini.manager.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
@@ -15,8 +17,11 @@ import com.mini.pojo.model.dto.course.BmCourseScheduleDTO;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -104,5 +109,16 @@ public class BmCourseScheduleServiceImpl extends ServiceImpl<BmCourseScheduleMap
     @Override
     public IPage<BmCourseScheduleDTO> page(BmCourseScheduleQuery query) {
         return bmCourseScheduleMapper.page(query, query.build());
+    }
+
+    @Override
+    public boolean existsTime(LocalDateTime curScheduleStarTime) {
+        LambdaQueryWrapper<BmCourseSchedule> wrapper = Wrappers.lambdaQuery(BmCourseSchedule.class);
+
+        wrapper.gt(BmCourseSchedule::getCurScheduleEndTime, curScheduleStarTime)
+                .eq(BmCourseSchedule::getDelFlag, Delete.NO);
+
+        List<BmCourseSchedule> bmCourseScheduleList = bmCourseScheduleMapper.selectList(wrapper);
+        return CollectionUtils.isNotEmpty(bmCourseScheduleList);
     }
 }

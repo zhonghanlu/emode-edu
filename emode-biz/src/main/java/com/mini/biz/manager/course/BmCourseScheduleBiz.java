@@ -13,11 +13,11 @@ import com.mini.manager.service.BmStuClassGradeService;
 import com.mini.pojo.entity.course.BmStuClassGrade;
 import com.mini.pojo.mapper.course.BmCourseScheduleStructMapper;
 import com.mini.pojo.model.dto.course.BmClassGradeDTO;
-import com.mini.pojo.model.dto.course.BmCourseDTO;
 import com.mini.pojo.model.dto.course.BmCourseScheduleDTO;
 import com.mini.pojo.model.edit.course.BmCourseScheduleEdit;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
 import com.mini.pojo.model.request.course.BmCourseScheduleRequest;
+import com.mini.pojo.model.vo.course.BmCourseScheduleNewVo;
 import com.mini.pojo.model.vo.course.BmCourseScheduleVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,10 +26,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -69,62 +69,110 @@ public class BmCourseScheduleBiz {
      * 新增课表信息
      */
     @Transactional(rollbackFor = Exception.class)
-    public void insert(BmCourseScheduleRequest request) {
+    public BmCourseScheduleNewVo previewCourseSchedule(BmCourseScheduleRequest request) {
+        LocalDateTime curScheduleStarTime = request.getCurScheduleStarTime();
+        LocalDateTime curScheduleEndTime = request.getCurScheduleEndTime();
+        Map<LocalDate, List<BmCourseScheduleNewVo.BmCourseNewVo>> curScheduleMap = new HashMap<>();
+
         // 1.校验入参时间是否小于当前时间
-        if (LocalDateTime.now().isAfter(request.getCurScheduleStarTime())) {
+        if (LocalDateTime.now().isAfter(curScheduleStarTime)) {
+            // 无法分配当天的课表
+            LocalDate startDate = curScheduleStarTime.toLocalDate();
+            if (LocalDate.now().equals(startDate)) {
+                throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "无法分配当天课表");
+            }
             throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "开始时间不能小于当前时间");
         }
+
+        if (curScheduleStarTime.isAfter(curScheduleEndTime)) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "开始时间不能大于结束时间");
+        }
+
         // 2.校验入参时间是有有已分配课表
-//        boolean flag = bmCourseScheduleService.existsTime(request.getCurScheduleStarTime(), request.getCurScheduleEndTime());
-//        if (flag) {
-//            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "时间段已存在课表");
-//        }
+        boolean flag = bmCourseScheduleService.existsTime(curScheduleStarTime);
+        if (flag) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "时间段已存在课表");
+        }
 
         // 3.根据入参时间段 获取周次
-        List<DayOfWeek> dayOfWeekList = DateUtil.getWeekdaysBetween(request.getCurScheduleStarTime(), request.getCurScheduleEndTime());
+        List<DayOfWeek> dayOfWeekList = DateUtil.getWeekdaysBetween(curScheduleStarTime, curScheduleEndTime);
         // 3.1.根据周次获取对应意向上课枚举值
         List<String> weekOneList = dayOfWeekList.stream().map(item -> item.toString().toLowerCase()).collect(Collectors.toList());
         List<IntentionCurTime> intentionCurTimeList = IntentionCurTime.getListValByWeek(weekOneList);
+        List<LocalDate> datesBetween = DateUtil.getDatesBetween(curScheduleStarTime, curScheduleEndTime);
 
         // 4.获取开启班级信息
         List<BmClassGradeDTO> bmClassGradeDTOList = bmClassGradeService.getNormalClassGradeList(intentionCurTimeList);
+
+        if (CollectionUtils.isEmpty(bmClassGradeDTOList)) {
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前时间段没有需要分班的数据");
+        }
+
+        // 根据意向时间进行分组
+        Map<IntentionCurTime, List<BmClassGradeDTO>> intentionCurTimeMap = bmClassGradeDTOList.stream()
+                .collect(Collectors.groupingBy(BmClassGradeDTO::getIntentionCurTime));
+
         // 5.根据班级创建课程信息
         List<Long> classGradeIdList = bmClassGradeDTOList.stream().map(BmClassGradeDTO::getId).collect(Collectors.toList());
         Map<Long, List<BmStuClassGrade>> bmStuClassGradeMap = bmStuClassGradeService.mapForClassGradeIdList(classGradeIdList);
 
-        bmClassGradeDTOList.forEach(item -> {
-            BmCourseDTO bmCourseDTO = new BmCourseDTO();
+        // 封装数据
+        handlerCourseSchedule(datesBetween, intentionCurTimeMap, bmStuClassGradeMap, curScheduleMap);
 
-            bmCourseDTO.setCourseType(item.getCurType());
-            bmCourseDTO.setCourseName("");
-            // 获取周
-            String weekOne = IntentionCurTime.extractSubstringByDelimiter(item.getIntentionCurTime().getStringValue(), "_", 1);
-            bmCourseDTO.setWeekOne(CourseTime.weekOneMap.get(weekOne));
+        return BmCourseScheduleNewVo.builder()
+                .curScheduleName("")
+                .curScheduleStarTime(curScheduleStarTime)
+                .curScheduleEndTime(curScheduleEndTime)
+                .curScheduleMap(curScheduleMap)
+                .build();
+    }
 
-            // 获取上课开始时间与结束时间
-            String upOrDown = IntentionCurTime.extractSubstringByDelimiter(item.getIntentionCurTime().getStringValue(), "_", 2);
-            String oneOrTwo = IntentionCurTime.extractSubstringByDelimiter(item.getIntentionCurTime().getStringValue(), "_", 3);
-            List<LocalTime> localTimeList = CourseTime.courseTimeMap.get(upOrDown + oneOrTwo);
-            if (CollectionUtils.isNotEmpty(localTimeList)) {
-                // TODO 类型不一致
-                bmCourseDTO.setCourseStartTime(LocalDateTime.from(localTimeList.get(0)));
-                bmCourseDTO.setCourseEndTime(LocalDateTime.from(localTimeList.get(1)));
+    /**
+     *
+     */
+    private void handlerCourseSchedule(List<LocalDate> datesBetween, Map<IntentionCurTime, List<BmClassGradeDTO>> intentionCurTimeMap, Map<Long, List<BmStuClassGrade>> bmStuClassGradeMap, Map<LocalDate, List<BmCourseScheduleNewVo.BmCourseNewVo>> curScheduleMap) {
+        datesBetween.forEach(date -> {
+            List<BmCourseScheduleNewVo.BmCourseNewVo> bmCourseNewVoList = new ArrayList<>();
+            List<IntentionCurTime> intentionCurTimeList = IntentionCurTime.getValByTime(date);
+            // 根据时间 换周几，根据周几取对应的意向时间
+            List<BmClassGradeDTO> bmClassGradeDTOList1 = new ArrayList<>();
+            intentionCurTimeMap.forEach((key, val) -> {
+                if (intentionCurTimeList.contains(key)) {
+                    bmClassGradeDTOList1.addAll(val);
+                }
+            });
+
+            if (CollectionUtils.isNotEmpty(bmClassGradeDTOList1)) {
+                // 封装数据
+                bmClassGradeDTOList1.forEach(item -> {
+                    BmCourseScheduleNewVo.BmCourseNewVo bmCourseNewVo = new BmCourseScheduleNewVo.BmCourseNewVo();
+                    bmCourseNewVo.setCourseType(item.getCurType());
+                    bmCourseNewVo.setCourseName("");
+
+                    String upOrDown = IntentionCurTime.extractSubstringByDelimiter(item.getIntentionCurTime().getStringValue(), "_", 2);
+                    String oneOrTwo = IntentionCurTime.extractSubstringByDelimiter(item.getIntentionCurTime().getStringValue(), "_", 3);
+                    List<LocalTime> localTimeList = CourseTime.courseTimeMap.get(upOrDown + "_" + oneOrTwo);
+                    if (CollectionUtils.isNotEmpty(localTimeList)) {
+                        bmCourseNewVo.setCourseStartTime(LocalDateTime.of(date, localTimeList.get(0)));
+                        bmCourseNewVo.setCourseEndTime(LocalDateTime.of(date, localTimeList.get(1)));
+                    }
+
+                    List<BmStuClassGrade> bmStuClassGradeList = bmStuClassGradeMap.get(item.getId());
+                    bmCourseNewVo.setClassPersonSize(bmStuClassGradeList.size());
+                    bmCourseNewVo.setClassRoomId(item.getClassroomId());
+                    bmCourseNewVo.setClassRoomName(item.getClassroomName());
+                    bmCourseNewVo.setTeaId(item.getTeaId());
+                    bmCourseNewVo.setTeaName(item.getTeaName());
+                    bmCourseNewVo.setClassGradeId(item.getId());
+                    bmCourseNewVo.setClassGradeName(item.getClassGradeName());
+
+                    bmCourseNewVoList.add(bmCourseNewVo);
+                });
             }
-
-            // 班级人数信息
-            List<BmStuClassGrade> bmStuClassGradeList = bmStuClassGradeMap.get(item.getId());
-            bmCourseDTO.setClassPersonSize(bmStuClassGradeList.size());
-            bmCourseDTO.setClassRoomId(item.getClassroomId());
-            bmCourseDTO.setClassRoomName(item.getClassroomName());
-            bmCourseDTO.setTeaId(item.getTeaId());
-            bmCourseDTO.setTeaName(item.getTeaName());
-            bmCourseDTO.setClassGradeId(item.getId());
-            bmCourseDTO.setClassGradeName(item.getClassGradeName());
+            // 塞入汇总数据 根据课程开始时间进行排序
+            bmCourseNewVoList.sort(Comparator.comparing(BmCourseScheduleNewVo.BmCourseNewVo::getCourseStartTime));
+            curScheduleMap.put(date, bmCourseNewVoList);
         });
-
-
-        // 3.封装课表基础信息 6.封装返回课表信息
-        bmCourseScheduleService.add(BmCourseScheduleStructMapper.INSTANCE.req2Dto(request));
     }
 
     /**

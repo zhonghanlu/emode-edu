@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.mini.common.enums.converter.StringEnum;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -141,15 +143,21 @@ public enum IntentionCurTime implements StringEnum {
     @JsonCreator
     public static List<IntentionCurTime> getListValByWeek(List<String> weekOneList) {
         List<IntentionCurTime> intentionCurTimeList = new ArrayList<>();
-        weekOneList.forEach(w -> intentionCurTimeList.addAll(Arrays.stream(values())
-                .filter(e -> e.getStringValue().contains(w)).collect(Collectors.toList())));
+        weekOneList.forEach(w -> intentionCurTimeList.addAll(Arrays.stream(values()).filter(e -> e.getStringValue().contains(w)).collect(Collectors.toList())));
         return intentionCurTimeList;
+    }
+
+    @JsonCreator
+    public static List<IntentionCurTime> getValByTime(LocalDate time) {
+        DayOfWeek dayOfWeek = time.getDayOfWeek();
+        String weekOne = dayOfWeek.toString().toLowerCase();
+        return Arrays.stream(values()).filter(e -> e.getStringValue().contains(weekOne)).collect(Collectors.toList());
     }
 
     public static String extractSubstringByDelimiter(String original, String delimiter, int index) {
         String[] parts = original.split(delimiter);
         if (index < 0 || index >= parts.length) {
-            return ""; // 或者抛出异常，根据你的需求
+            return "";
         }
         return parts[index];
     }

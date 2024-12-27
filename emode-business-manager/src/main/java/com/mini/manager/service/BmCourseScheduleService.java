@@ -6,6 +6,8 @@ import com.mini.pojo.entity.course.BmCourseSchedule;
 import com.mini.pojo.model.dto.course.BmCourseScheduleDTO;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
 
+import java.time.LocalDateTime;
+
 /**
  * <p>
  * 课表主表 服务类
@@ -40,4 +42,9 @@ public interface BmCourseScheduleService extends IService<BmCourseSchedule> {
      * 查分页
      */
     IPage<BmCourseScheduleDTO> page(BmCourseScheduleQuery query);
+
+    /**
+     * 校验是有有开始时间段在此区间的数据
+     */
+    boolean existsTime(LocalDateTime curScheduleStarTime);
 }

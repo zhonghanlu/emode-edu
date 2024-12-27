@@ -11,7 +11,7 @@
         <result column="classroom_id" property="classroomId"/>
         <result column="classroom_name" property="classroomName"/>
         <result column="cur_type" property="curType"/>
-        <result column="class_garde_type" property="classGradeType"/>
+        <result column="class_grade_type" property="classGradeType"/>
         <result column="intention_cur_time" property="intentionCurTime"/>
         <result column="class_grade_status" property="classGradeStatus"/>
     </resultMap>

@@ -422,6 +422,7 @@ public class BmHandlerClassBiz {
                 bmStuClassGrade.setCourseType(item.getCurType());
                 bmStuClassGrade.setClassGradeId(bmClassGradeDTO.getId());
                 bmStuClassGrade.setClassGradeName(bmClassGradeDTO.getClassGradeName());
+                bmStuClassGrade.setDelFlag(Delete.NO);
 
                 bmStuClassGradeDbList.add(bmStuClassGrade);
             });
