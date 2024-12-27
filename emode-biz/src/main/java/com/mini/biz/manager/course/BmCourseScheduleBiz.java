@@ -16,6 +16,7 @@ import com.mini.pojo.model.dto.course.BmClassGradeDTO;
 import com.mini.pojo.model.dto.course.BmCourseScheduleDTO;
 import com.mini.pojo.model.edit.course.BmCourseScheduleEdit;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
+import com.mini.pojo.model.request.course.BmCourseScheduleConfirmedRequest;
 import com.mini.pojo.model.request.course.BmCourseScheduleRequest;
 import com.mini.pojo.model.vo.course.BmCourseScheduleNewVo;
 import com.mini.pojo.model.vo.course.BmCourseScheduleVo;
@@ -191,4 +192,10 @@ public class BmCourseScheduleBiz {
         bmCourseScheduleService.update(BmCourseScheduleStructMapper.INSTANCE.edit2Dto(edit));
     }
 
+    /**
+     * 确认课表信息，入库
+     */
+    public void confirmedCourseSchedule(BmCourseScheduleConfirmedRequest request) {
+
+    }
 }

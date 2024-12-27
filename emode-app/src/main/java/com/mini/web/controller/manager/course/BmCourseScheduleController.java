@@ -6,6 +6,7 @@ import com.mini.biz.manager.course.BmCourseScheduleBiz;
 import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.course.BmCourseScheduleEdit;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
+import com.mini.pojo.model.request.course.BmCourseScheduleConfirmedRequest;
 import com.mini.pojo.model.request.course.BmCourseScheduleRequest;
 import com.mini.pojo.model.vo.course.BmCourseScheduleNewVo;
 import com.mini.pojo.model.vo.course.BmCourseScheduleVo;
@@ -53,6 +54,13 @@ public class BmCourseScheduleController {
     @PostMapping("/preview-course-schedule")
     public Restful<BmCourseScheduleNewVo> previewCourseSchedule(@RequestBody @Valid BmCourseScheduleRequest request) {
         return Restful.OBJECT(bmCourseScheduleBiz.previewCourseSchedule(request)).build();
+    }
+
+    @Operation(summary = "确认课表信息")
+    @PostMapping("/confirmed-course-schedule")
+    public Restful<Void> confirmedCourseSchedule(@RequestBody @Valid BmCourseScheduleConfirmedRequest request) {
+        bmCourseScheduleBiz.confirmedCourseSchedule(request);
+        return Restful.SUCCESS().build();
     }
 
     @Operation(summary = "删除课程表信息")
