@@ -48,7 +48,9 @@ public class BmCourseScheduleServiceImpl extends ServiceImpl<BmCourseScheduleMap
             throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "开始时间不能大于结束时间");
         }
 
-        bmCourseSchedule.setId(IDGenerator.next());
+        if (Objects.isNull(bmCourseSchedule.getId())) {
+            bmCourseSchedule.setId(IDGenerator.next());
+        }
         bmCourseSchedule.setDelFlag(Delete.NO);
 
         int b = bmCourseScheduleMapper.insert(bmCourseSchedule);

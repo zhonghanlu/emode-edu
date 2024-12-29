@@ -3,19 +3,22 @@ package com.mini.biz.manager.course;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.common.constant.CourseTime;
 import com.mini.common.constant.ErrorCodeConstant;
+import com.mini.common.enums.number.Delete;
 import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.date.DateUtil;
-import com.mini.manager.service.BmClassGradeService;
-import com.mini.manager.service.BmClassroomService;
-import com.mini.manager.service.BmCourseScheduleService;
-import com.mini.manager.service.BmStuClassGradeService;
+import com.mini.common.utils.webmvc.IDGenerator;
+import com.mini.manager.service.*;
+import com.mini.pojo.entity.course.BmCourseScheduleItem;
 import com.mini.pojo.entity.course.BmStuClassGrade;
 import com.mini.pojo.mapper.course.BmCourseScheduleStructMapper;
+import com.mini.pojo.mapper.course.BmCourseStructMapper;
 import com.mini.pojo.model.dto.course.BmClassGradeDTO;
+import com.mini.pojo.model.dto.course.BmCourseDTO;
 import com.mini.pojo.model.dto.course.BmCourseScheduleDTO;
 import com.mini.pojo.model.edit.course.BmCourseScheduleEdit;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
+import com.mini.pojo.model.request.course.BmCourseRequest;
 import com.mini.pojo.model.request.course.BmCourseScheduleConfirmedRequest;
 import com.mini.pojo.model.request.course.BmCourseScheduleRequest;
 import com.mini.pojo.model.vo.course.BmCourseScheduleNewVo;
@@ -46,9 +49,11 @@ public class BmCourseScheduleBiz {
 
     private final BmClassGradeService bmClassGradeService;
 
-    private final BmClassroomService bmClassroomService;
-
     private final BmStuClassGradeService bmStuClassGradeService;
+
+    private final BmCourseScheduleItemService bmCourseScheduleItemService;
+
+    private final BmCourseService bmCourseService;
 
     /**
      * 分页
@@ -76,24 +81,7 @@ public class BmCourseScheduleBiz {
         Map<LocalDate, List<BmCourseScheduleNewVo.BmCourseNewVo>> curScheduleMap = new HashMap<>();
 
         // 1.校验入参时间是否小于当前时间
-        if (LocalDateTime.now().isAfter(curScheduleStarTime)) {
-            // 无法分配当天的课表
-            LocalDate startDate = curScheduleStarTime.toLocalDate();
-            if (LocalDate.now().equals(startDate)) {
-                throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "无法分配当天课表");
-            }
-            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "开始时间不能小于当前时间");
-        }
-
-        if (curScheduleStarTime.isAfter(curScheduleEndTime)) {
-            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "开始时间不能大于结束时间");
-        }
-
-        // 2.校验入参时间是有有已分配课表
-        boolean flag = bmCourseScheduleService.existsTime(curScheduleStarTime);
-        if (flag) {
-            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "时间段已存在课表");
-        }
+        checkCourseScheduleTime(curScheduleStarTime, curScheduleEndTime);
 
         // 3.根据入参时间段 获取周次
         List<DayOfWeek> dayOfWeekList = DateUtil.getWeekdaysBetween(curScheduleStarTime, curScheduleEndTime);
@@ -126,6 +114,30 @@ public class BmCourseScheduleBiz {
                 .curScheduleEndTime(curScheduleEndTime)
                 .curScheduleMap(curScheduleMap)
                 .build();
+    }
+
+    /**
+     * 校验课表开始时间与结束时间
+     */
+    private void checkCourseScheduleTime(LocalDateTime curScheduleStarTime, LocalDateTime curScheduleEndTime) {
+        if (LocalDateTime.now().isAfter(curScheduleStarTime)) {
+            // 无法分配当天的课表
+            LocalDate startDate = curScheduleStarTime.toLocalDate();
+            if (LocalDate.now().equals(startDate)) {
+                throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "无法分配当天课表");
+            }
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "开始时间不能小于当前时间");
+        }
+
+        if (curScheduleStarTime.isAfter(curScheduleEndTime)) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "开始时间不能大于结束时间");
+        }
+
+        // 2.校验入参时间是有有已分配课表
+        boolean flag = bmCourseScheduleService.existsTime(curScheduleStarTime);
+        if (flag) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "时间段已存在课表");
+        }
     }
 
     /**
@@ -195,7 +207,47 @@ public class BmCourseScheduleBiz {
     /**
      * 确认课表信息，入库
      */
+    @Transactional(rollbackFor = Exception.class)
     public void confirmedCourseSchedule(BmCourseScheduleConfirmedRequest request) {
+        LocalDateTime curScheduleStarTime = request.getCurScheduleStarTime();
+        LocalDateTime curScheduleEndTime = request.getCurScheduleEndTime();
+        // 1.根据入参数据进行基础校验参数
+        checkCourseScheduleTime(curScheduleStarTime, curScheduleEndTime);
+        // 2.封装课表的主表与从表信息
+        BmCourseScheduleDTO bmCourseScheduleDTO = new BmCourseScheduleDTO();
+        bmCourseScheduleDTO.setId(IDGenerator.next());
+        bmCourseScheduleDTO.setCurScheduleName(request.getCurScheduleName());
+        bmCourseScheduleDTO.setCurScheduleStarTime(curScheduleStarTime);
+        bmCourseScheduleDTO.setCurScheduleEndTime(curScheduleEndTime);
+        bmCourseScheduleService.add(bmCourseScheduleDTO);
 
+        // 3.封装课程信息
+        List<BmCourseRequest> bmCourseRequestList = request.getBmCourseRequestList();
+        List<BmCourseDTO> bmCourseDTOList = BmCourseStructMapper.INSTANCE.reqList2DtoList(bmCourseRequestList);
+        bmCourseDTOList.forEach(item -> {
+            item.setWeekOne(item.getCourseStartTime().getDayOfWeek().getValue());
+            item.setId(IDGenerator.next());
+        });
+        bmCourseService.batchAdd(bmCourseDTOList);
+
+        // 课表从表
+        List<BmCourseScheduleItem> bmCourseScheduleItemList = new ArrayList<>();
+        bmCourseDTOList.forEach(item -> {
+            BmCourseScheduleItem bmCourseScheduleItem = new BmCourseScheduleItem();
+            bmCourseScheduleItem.setId(IDGenerator.next());
+            bmCourseScheduleItem.setRangeStartTime(item.getCourseStartTime());
+            bmCourseScheduleItem.setRangeEndTime(item.getCourseEndTime());
+            bmCourseScheduleItem.setCurId(item.getId());
+            bmCourseScheduleItem.setCurName(item.getCourseName());
+            bmCourseScheduleItem.setCurScheduleId(bmCourseScheduleDTO.getId());
+            bmCourseScheduleItem.setSort(0);
+            bmCourseScheduleItem.setDelFlag(Delete.NO);
+            bmCourseScheduleItemList.add(bmCourseScheduleItem);
+        });
+        // 事物失效问题  TODO
+        boolean b = bmCourseScheduleItemService.saveBatch(bmCourseScheduleItemList);
+        if (!b) {
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "批量新增失败");
+        }
     }
 }

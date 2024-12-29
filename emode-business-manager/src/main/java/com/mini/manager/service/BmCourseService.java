@@ -6,6 +6,8 @@ import com.mini.pojo.entity.course.BmCourse;
 import com.mini.pojo.model.dto.course.BmCourseDTO;
 import com.mini.pojo.model.query.course.BmCourseQuery;
 
+import java.util.List;
+
 /**
  * <p>
  * 课程表 服务类
@@ -40,4 +42,9 @@ public interface BmCourseService extends IService<BmCourse> {
      * 查分页
      */
     IPage<BmCourseDTO> page(BmCourseQuery query);
+
+    /**
+     * 课程批量新增
+     */
+    void batchAdd(List<BmCourseDTO> bmCourseDTOList);
 }

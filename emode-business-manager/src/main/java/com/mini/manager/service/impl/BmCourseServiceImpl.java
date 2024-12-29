@@ -16,8 +16,8 @@ import com.mini.manager.mapper.BmCourseMapper;
 import com.mini.manager.mapper.BmTeacherMapper;
 import com.mini.manager.service.BmCourseService;
 import com.mini.pojo.entity.course.BmClassGrade;
-import com.mini.pojo.entity.org.BmClassroom;
 import com.mini.pojo.entity.course.BmCourse;
+import com.mini.pojo.entity.org.BmClassroom;
 import com.mini.pojo.entity.org.BmTeacher;
 import com.mini.pojo.mapper.course.BmCourseStructMapper;
 import com.mini.pojo.model.dto.course.BmCourseDTO;
@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -125,6 +126,30 @@ public class BmCourseServiceImpl extends ServiceImpl<BmCourseMapper, BmCourse> i
     @Override
     public IPage<BmCourseDTO> page(BmCourseQuery query) {
         return bmCourseMapper.page(query, query.build());
+    }
+
+    @Override
+    public void batchAdd(List<BmCourseDTO> bmCourseDTOList) {
+        List<BmCourse> bmCourseList = BmCourseStructMapper.INSTANCE.dtoList2EntityList(bmCourseDTOList);
+
+        // 此处数据量少，直接进行循环验证，后续改成批处理 TODO
+        bmCourseList.forEach(item -> {
+            checkExistParams(item);
+            if (Objects.isNull(item.getId())) {
+                item.setId(IDGenerator.next());
+            }
+            item.setDelFlag(Delete.NO);
+            // 校验开始时间是否大于结束时间
+            if (item.getCourseStartTime().isAfter(item.getCourseEndTime())) {
+                throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "开始时间不能大于结束时间");
+            }
+        });
+
+        boolean b = saveBatch(bmCourseList);
+
+        if (!b) {
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "批量新增失败");
+        }
     }
 
 
