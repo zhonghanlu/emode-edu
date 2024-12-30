@@ -1,5 +1,6 @@
 package com.mini.pojo.model.query.course;
 
+import com.mini.common.enums.str.CourseStatus;
 import com.mini.common.enums.str.CourseType;
 import com.mini.common.utils.webmvc.PageQuery;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -45,4 +46,7 @@ public class BmCourseQuery extends PageQuery {
 
     @Parameter(description = "班级名称")
     private String classGradeName;
+
+    @Parameter(description = "课程状态 待上课 已上课 已结束 已过期")
+    private CourseStatus courseStatus;
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.common.constant.CourseTime;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.CourseStatus;
 import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.date.DateUtil;
@@ -225,6 +226,7 @@ public class BmCourseScheduleBiz {
         List<BmCourseRequest> bmCourseRequestList = request.getBmCourseRequestList();
         List<BmCourseDTO> bmCourseDTOList = BmCourseStructMapper.INSTANCE.reqList2DtoList(bmCourseRequestList);
         bmCourseDTOList.forEach(item -> {
+            item.setCourseStatus(CourseStatus.WAIT_FOR_CLASS);
             item.setWeekOne(item.getCourseStartTime().getDayOfWeek().getValue());
             item.setId(IDGenerator.next());
         });
