@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.biz.manager.course.BmCourseBiz;
 import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.course.BmCourseEdit;
+import com.mini.pojo.model.edit.course.BmCourseStuClassNotesEdit;
+import com.mini.pojo.model.edit.course.BmCourseStuClassPicEdit;
+import com.mini.pojo.model.edit.course.BmCourseStuSignEdit;
 import com.mini.pojo.model.query.course.BmCourseQuery;
 import com.mini.pojo.model.request.course.BmCourseRequest;
 import com.mini.pojo.model.vo.course.BmCourseVo;
@@ -68,5 +71,27 @@ public class BmCourseController {
         bmCourseBiz.update(edit);
         return Restful.SUCCESS().build();
     }
+
+    @Operation(summary = "学生课程签到")
+    @PostMapping("/stu-sign-in")
+    public Restful<Void> stuSignIn(@RequestBody @Valid BmCourseStuSignEdit edit) {
+        bmCourseBiz.stuSignIn(edit);
+        return Restful.SUCCESS().build();
+    }
+
+    @Operation(summary = "学生课中图片")
+    @PostMapping("/stu-class-pic")
+    public Restful<Void> stuClassPic(@RequestBody @Valid BmCourseStuClassPicEdit edit) {
+        bmCourseBiz.stuClassPic(edit);
+        return Restful.SUCCESS().build();
+    }
+
+    @Operation(summary = "课堂讲义与作业")
+    @PostMapping("/stu-class-notes")
+    public Restful<Void> stuClassNotes(@RequestBody @Valid BmCourseStuClassNotesEdit edit) {
+        bmCourseBiz.stuClassNotes(edit);
+        return Restful.SUCCESS().build();
+    }
+
 
 }
