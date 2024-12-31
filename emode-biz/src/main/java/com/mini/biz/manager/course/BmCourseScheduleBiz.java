@@ -232,6 +232,8 @@ public class BmCourseScheduleBiz {
         });
         bmCourseService.batchAdd(bmCourseDTOList);
 
+        // TODO 新增课程签到信息
+
         // 课表从表
         List<BmCourseScheduleItem> bmCourseScheduleItemList = new ArrayList<>();
         bmCourseDTOList.forEach(item -> {

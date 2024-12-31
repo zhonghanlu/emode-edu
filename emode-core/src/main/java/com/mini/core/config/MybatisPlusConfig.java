@@ -58,6 +58,8 @@ public class MybatisPlusConfig {
             registry.register(OrderType.class, StringEnumTypeHandler.class);
             registry.register(ClassGradeStatus.class, StringEnumTypeHandler.class);
             registry.register(CourseStatus.class, StringEnumTypeHandler.class);
+            registry.register(CourseFileType.class, StringEnumTypeHandler.class);
+            registry.register(SignStatus.class, StringEnumTypeHandler.class);
         };
     }
 
