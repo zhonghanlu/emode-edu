@@ -6,13 +6,11 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
 import com.mini.common.enums.str.CourseFileType;
+import com.mini.common.enums.str.CourseStatus;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.service.*;
-import com.mini.pojo.entity.course.BmCourseNotes;
-import com.mini.pojo.entity.course.BmCourseStuPic;
-import com.mini.pojo.entity.course.BmCourseStuSign;
-import com.mini.pojo.entity.course.BmStuClassGrade;
+import com.mini.pojo.entity.course.*;
 import com.mini.pojo.mapper.course.BmCourseStructMapper;
 import com.mini.pojo.model.dto.course.BmCourseDTO;
 import com.mini.pojo.model.edit.course.*;
@@ -141,6 +139,14 @@ public class BmCourseBiz {
 
         if (!b) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "签到信息入库失败");
+        }
+
+        // 签到完成更新课程状态信息
+        bmCourseDTO.setCourseStatus(CourseStatus.CLASS_HAS_STARTED);
+        BmCourse bmCourse = BmCourseStructMapper.INSTANCE.dto2Entity(bmCourseDTO);
+        boolean b1 = bmCourseService.updateById(bmCourse);
+        if (!b1) {
+            throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "更新课程状态信息失败");
         }
     }
 
