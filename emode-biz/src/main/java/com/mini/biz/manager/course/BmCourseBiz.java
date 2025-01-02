@@ -15,10 +15,7 @@ import com.mini.pojo.entity.course.BmCourseStuSign;
 import com.mini.pojo.entity.course.BmStuClassGrade;
 import com.mini.pojo.mapper.course.BmCourseStructMapper;
 import com.mini.pojo.model.dto.course.BmCourseDTO;
-import com.mini.pojo.model.edit.course.BmCourseEdit;
-import com.mini.pojo.model.edit.course.BmCourseStuClassNotesEdit;
-import com.mini.pojo.model.edit.course.BmCourseStuClassPicEdit;
-import com.mini.pojo.model.edit.course.BmCourseStuSignEdit;
+import com.mini.pojo.model.edit.course.*;
 import com.mini.pojo.model.query.course.BmCourseQuery;
 import com.mini.pojo.model.request.course.BmCourseRequest;
 import com.mini.pojo.model.vo.course.BmCourseVo;
@@ -28,6 +25,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -212,6 +210,16 @@ public class BmCourseBiz {
         if (!b) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "批量新增失败");
         }
+    }
+
+    /**
+     * 课程结束
+     * 1.签到学生扣除课时
+     * 2.未签到学生录入补课数据
+     * TODO
+     */
+    public void finish(BmCourseFinishEdit edit) {
+
     }
 
     /**
