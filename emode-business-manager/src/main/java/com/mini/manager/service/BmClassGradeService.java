@@ -8,6 +8,7 @@ import com.mini.pojo.model.dto.course.BmClassGradeDTO;
 import com.mini.pojo.model.query.course.BmClassGradeQuery;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -53,4 +54,9 @@ public interface BmClassGradeService extends IService<BmClassGrade> {
      * 根据意向时间筛选出来所有正常运行的班级
      */
     List<BmClassGradeDTO> getNormalClassGradeList(List<IntentionCurTime> intentionCurTimeList);
+
+    /**
+     * 根据班级id获取以班级为key 学生id为value的map
+     */
+    Map<Long, List<Long>> selectByIdListForMap(List<Long> classGradeIdList);
 }

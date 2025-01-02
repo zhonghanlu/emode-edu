@@ -11,6 +11,7 @@
         <result column="consume_time" property="consumeTime"/>
         <result column="cur_type" property="curType"/>
         <result column="product_type" property="productType"/>
+        <result column="handler_class_status" property="handlerClassStatus"/>
     </resultMap>
 
     <select id="page" resultMap="BaseResultMap">
@@ -21,7 +22,8 @@
         bhc.intention_cur_time,
         bhc.consume_time,
         bhc.cur_type,
-        bhc.product_type
+        bhc.product_type,
+        bhc.handler_class_status
         FROM bm_handler_class bhc
         <where>
             <if test="query.stuName != null and query.stuName != ''">

@@ -15,4 +15,17 @@
         <result column="del_flag" property="delFlag"/>
     </resultMap>
 
+    <update id="batchUpdate">
+        <if test="itemList != null and itemList.size() > 0">
+            <foreach collection="itemList" item="item" separator=",">
+                UPDATE bm_course_stu_sign bcss
+                <set>
+                    bcss.sign_status = #{item.signStatus}
+                </set>
+                WHERE bcss.course_id = #{courseId}
+                AND bcss.stu_id = #{item.stuId}
+            </foreach>
+        </if>
+    </update>
+
 </mapper>

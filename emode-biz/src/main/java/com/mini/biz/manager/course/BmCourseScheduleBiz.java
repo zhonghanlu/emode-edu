@@ -56,6 +56,8 @@ public class BmCourseScheduleBiz {
 
     private final BmCourseService bmCourseService;
 
+    private final BmCourseStuSignService bmCourseStuSignService;
+
     /**
      * 分页
      */
@@ -231,8 +233,6 @@ public class BmCourseScheduleBiz {
             item.setId(IDGenerator.next());
         });
         bmCourseService.batchAdd(bmCourseDTOList);
-
-        // TODO 新增课程签到信息
 
         // 课表从表
         List<BmCourseScheduleItem> bmCourseScheduleItemList = new ArrayList<>();

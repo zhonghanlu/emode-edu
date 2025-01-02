@@ -14,9 +14,11 @@ import com.mini.common.utils.mybatis.CommonMybatisUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.mapper.BmClassGradeMapper;
 import com.mini.manager.mapper.BmClassroomMapper;
+import com.mini.manager.mapper.BmStuClassGradeMapper;
 import com.mini.manager.mapper.BmTeacherMapper;
 import com.mini.manager.service.BmClassGradeService;
 import com.mini.pojo.entity.course.BmClassGrade;
+import com.mini.pojo.entity.course.BmStuClassGrade;
 import com.mini.pojo.entity.org.BmClassroom;
 import com.mini.pojo.entity.org.BmTeacher;
 import com.mini.pojo.mapper.course.BmClassGradeStructMapper;
@@ -26,9 +28,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -48,6 +51,8 @@ public class BmClassGradeServiceImpl extends ServiceImpl<BmClassGradeMapper, BmC
     private final BmTeacherMapper bmTeacherMapper;
 
     private final BmClassroomMapper bmClassroomMapper;
+
+    private final BmStuClassGradeMapper bmStuClassGradeMapper;
 
     @Override
     public void add(BmClassGradeDTO dto) {
@@ -146,6 +151,19 @@ public class BmClassGradeServiceImpl extends ServiceImpl<BmClassGradeMapper, BmC
 
         List<BmClassGrade> bmClassGradeList = bmClassGradeMapper.selectList(wrapper);
         return BmClassGradeStructMapper.INSTANCE.entityList2DtoList(bmClassGradeList);
+    }
+
+    @Override
+    public Map<Long, List<Long>> selectByIdListForMap(List<Long> classGradeIdList) {
+
+        LambdaQueryWrapper<BmStuClassGrade> wrapper = Wrappers.lambdaQuery(BmStuClassGrade.class);
+        wrapper.in(BmStuClassGrade::getClassGradeId, classGradeIdList)
+                .eq(BmStuClassGrade::getDelFlag, Delete.NO);
+        List<BmStuClassGrade> bmStuClassGradeList = bmStuClassGradeMapper.selectList(wrapper);
+
+        return bmStuClassGradeList.stream()
+                .collect(Collectors.groupingBy(BmStuClassGrade::getClassGradeId,
+                        Collectors.mapping(BmStuClassGrade::getStuId, Collectors.toList())));
     }
 
 

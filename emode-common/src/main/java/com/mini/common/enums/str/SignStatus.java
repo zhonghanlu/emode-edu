@@ -12,6 +12,8 @@ import java.util.Arrays;
  */
 public enum SignStatus implements StringEnum {
 
+    // 待签到
+    WAIT_ARRIVED("wait_arrived"),
     // 已到
     ARRIVED("arrived"),
     // 未到
