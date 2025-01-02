@@ -17,6 +17,7 @@
         <result column="tea_name" property="teaName" />
         <result column="class_grade_id" property="classGradeId" />
         <result column="class_grade_name" property="classGradeName" />
+        <result column="course_status" property="courseStatus"/>
     </resultMap>
 
     <select id="page" resultMap="BaseResultMap">
@@ -33,7 +34,8 @@
         bc.tea_id,
         bc.tea_name,
         bc.class_grade_id,
-        bc.class_grade_name
+        bc.class_grade_name,
+        bc.course_status
         FROM
         bm_course bc
         <where>

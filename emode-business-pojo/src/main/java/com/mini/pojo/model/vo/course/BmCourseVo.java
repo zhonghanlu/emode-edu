@@ -1,5 +1,6 @@
 package com.mini.pojo.model.vo.course;
 
+import com.mini.common.enums.str.CourseStatus;
 import com.mini.common.enums.str.CourseType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -58,4 +59,7 @@ public class BmCourseVo {
 
     @Schema(title = "班级名称")
     private String classGradeName;
+
+    @Schema(name = "课程状态 待上课 已上课 已结束 已过期")
+    private CourseStatus courseStatus;
 }
