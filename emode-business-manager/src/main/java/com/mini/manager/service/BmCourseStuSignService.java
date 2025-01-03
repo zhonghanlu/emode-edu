@@ -1,6 +1,7 @@
 package com.mini.manager.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mini.common.enums.str.SignStatus;
 import com.mini.pojo.entity.course.BmCourseStuSign;
 import com.mini.pojo.model.edit.course.BmCourseStuSignEdit;
 
@@ -26,4 +27,9 @@ public interface BmCourseStuSignService extends IService<BmCourseStuSign> {
      * 根据学生id获取map
      */
     Map<Long, BmCourseStuSign> selectByIdListForMap(Long courseId, List<Long> stuIdList);
+
+    /**
+     * 根据课程id获取map
+     */
+    Map<SignStatus, List<BmCourseStuSign>> selectByCourseIdForMap(Long courseId);
 }

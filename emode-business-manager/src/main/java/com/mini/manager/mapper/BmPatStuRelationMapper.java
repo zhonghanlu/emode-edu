@@ -2,6 +2,10 @@ package com.mini.manager.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mini.pojo.entity.org.BmPatStuRelation;
+import com.mini.pojo.model.dto.org.BmPatStuRelationDTO;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.mini.pojo.entity.org.BmPatStuRelation;
  */
 public interface BmPatStuRelationMapper extends BaseMapper<BmPatStuRelation> {
 
+    List<BmPatStuRelationDTO> selectByStuIdList(@Param("stuIdList") List<Long> stuIdList);
 }

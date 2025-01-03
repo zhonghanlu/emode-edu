@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.SignStatus;
 import com.mini.manager.mapper.BmCourseStuSignMapper;
 import com.mini.manager.service.BmCourseStuSignService;
 import com.mini.pojo.entity.course.BmCourseStuSign;
@@ -45,5 +46,15 @@ public class BmCourseStuSignServiceImpl extends ServiceImpl<BmCourseStuSignMappe
 
         return bmCourseStuSignList1.stream()
                 .collect(Collectors.toMap(BmCourseStuSign::getStuId, Function.identity()));
+    }
+
+    @Override
+    public Map<SignStatus, List<BmCourseStuSign>> selectByCourseIdForMap(Long courseId) {
+        LambdaQueryWrapper<BmCourseStuSign> wrapper = Wrappers.lambdaQuery(BmCourseStuSign.class);
+        wrapper.eq(BmCourseStuSign::getCourseId, courseId)
+                .eq(BmCourseStuSign::getDelFlag, Delete.NO);
+        List<BmCourseStuSign> bmCourseStuSignList = bmCourseStuSignMapper.selectList(wrapper);
+        return bmCourseStuSignList.stream()
+                .collect(Collectors.groupingBy(BmCourseStuSign::getSignStatus));
     }
 }

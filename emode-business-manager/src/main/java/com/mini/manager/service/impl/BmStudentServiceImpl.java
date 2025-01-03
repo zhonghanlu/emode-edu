@@ -1,6 +1,8 @@
 package com.mini.manager.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
@@ -17,7 +19,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -96,5 +102,14 @@ public class BmStudentServiceImpl extends ServiceImpl<BmStudentMapper, BmStudent
     @Override
     public IPage<BmStudentDTO> page(BmStudentQuery query) {
         return bmStudentMapper.page(query, query.build());
+    }
+
+    @Override
+    public Map<Long, BmStudent> selectByIdListForMap(List<Long> stuIdList) {
+        LambdaQueryWrapper<BmStudent> wrapper = Wrappers.lambdaQuery(BmStudent.class);
+        wrapper.in(BmStudent::getId, stuIdList)
+                .eq(BmStudent::getDelFlag, Delete.NO);
+        List<BmStudent> bmStudentList = bmStudentMapper.selectList(wrapper);
+        return bmStudentList.stream().collect(Collectors.toMap(BmStudent::getId, Function.identity()));
     }
 }

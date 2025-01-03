@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.manager.mapper.BmPatStuRelationMapper">
+
+    <select id="selectByStuIdList" resultType="com.mini.pojo.model.dto.org.BmPatStuRelationDTO">
+        SELECT bpsr.student_id AS stuId,
+        bp.id AS patId,
+        bp.pat_avatar_id,
+        bp.pat_name,
+        bp.pat_phone,
+        bp.pat_wx,
+        bp.pat_address
+        FROM bm_pat_stu_relation bpsr
+        LEFT JOIN bm_patriarch bp ON bpsr.patriarch_id = bp.id
+        <where>
+            bpsr.student_id IN
+            <foreach collection="stuIdList" item="stuId" open="(" separator="," close=")">
+                #{stuId}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>

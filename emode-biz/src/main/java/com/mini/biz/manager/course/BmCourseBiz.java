@@ -14,10 +14,10 @@ import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.service.*;
 import com.mini.pojo.entity.course.*;
-import com.mini.pojo.entity.org.BmPatriarch;
 import com.mini.pojo.entity.org.BmStudent;
 import com.mini.pojo.mapper.course.BmCourseStructMapper;
 import com.mini.pojo.model.dto.course.BmCourseDTO;
+import com.mini.pojo.model.dto.org.BmPatStuRelationDTO;
 import com.mini.pojo.model.edit.course.*;
 import com.mini.pojo.model.query.course.BmCourseQuery;
 import com.mini.pojo.model.request.course.BmCourseRequest;
@@ -235,33 +235,45 @@ public class BmCourseBiz {
      * 1.签到学生扣除课时
      * 2.未签到学生录入补课数据
      */
+    @Transactional(rollbackFor = Exception.class)
     public void finish(BmCourseFinishEdit edit) {
         Long courseId = edit.getCourseId();
         // 校验课程信息是否存在
         BmCourseDTO bmCourseDTO = checkCourseExist(courseId);
 
+        if (!CourseStatus.CLASS_HAS_STARTED.equals(bmCourseDTO.getCourseStatus())) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "课程未开始");
+        }
+
         // 根据课程 id 查询出根据签到信息分组的学生签到信息
         Map<SignStatus, List<BmCourseStuSign>> signStatusListMap = bmCourseStuSignService.selectByCourseIdForMap(courseId);
         List<BmCourseStuSign> consumeClassHourList = signStatusListMap.get(SignStatus.ARRIVED);
         if (CollectionUtils.isNotEmpty(consumeClassHourList)) {
-            // 根据学生 id  获取以学生 id 为 key  家长信息为 value 的 map TODO
+            // 根据学生 id  获取以学生 id 为 key  家长信息为 value 的 map
             List<Long> stuIdList = signStatusListMap.values().stream()
                     .flatMap(List::stream) // 将多个列表合并为一个流
                     .map(BmCourseStuSign::getStuId) // 提取学生ID
                     .collect(Collectors.toList()); // 收集到List<Long>中
-            Map<Long, BmPatriarch> bmPatriarchMap = bmPatStuRelationService.selectByStuIdListForMap(stuIdList);
+            Map<Long, BmPatStuRelationDTO> bmPatriarchMap = bmPatStuRelationService.selectByStuIdListForMap(stuIdList);
 
             consumeClassHourList.forEach(item -> {
-                BmPatriarch bmPatriarch = bmPatriarchMap.get(item.getStuId());
+                BmPatStuRelationDTO bmPatStuRelationDTO = bmPatriarchMap.get(item.getStuId());
                 // 根据课程开始时间与结束时间计算课时
-                bmStuClassHourService.handlerStuClassHour(item.getStuId(), bmCourseDTO.getCourseType(), StuClassHourConstant.SUBTRACT, 20000, bmPatriarch.getPatPhone());
+                bmStuClassHourService.handlerStuClassHour(item.getStuId(), bmCourseDTO.getCourseType(), StuClassHourConstant.SUBTRACT, 20000, bmPatStuRelationDTO.getPatPhone());
             });
         }
 
         // 已到进行扣取课时 未到进行缺课数据新增
         batchInsertLackCourse(signStatusListMap, bmCourseDTO);
+
+        // 更新课程状态
+        bmCourseDTO.setCourseStatus(CourseStatus.CLASS_HAS_END);
+        bmCourseService.update(bmCourseDTO);
     }
 
+    /**
+     * 未到学生塞入缺课数据
+     */
     private void batchInsertLackCourse(Map<SignStatus, List<BmCourseStuSign>> signStatusListMap, BmCourseDTO bmCourseDTO) {
         List<BmCourseStuSign> addLackCourseList = signStatusListMap.get(SignStatus.NON_ARRIVED);
         if (CollectionUtils.isNotEmpty(addLackCourseList)) {
