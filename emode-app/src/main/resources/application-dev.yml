@@ -48,10 +48,12 @@ spring:
   redis:
     # 地址
     host: 127.0.0.1
+#    host: 8.153.97.212
     # 端口，默认为6379
     port: 6379
     # 数据库索引
     database: 0
+#    password: qzbm123456
     # 密码
     #    password: Aa123456
     # 连接超时时间
@@ -156,8 +158,8 @@ mybatis-plus:
 #   文件存储
 minio:
   accessKey: minioadmin
-  secretKey: minioadmin
-  endPoint: http://124.220.79.217:9000
+  secretKey: qzbmadmin
+  endPoint: http://8.153.97.212:9000
   defaultBucketName: e-mode-bucket
   appStaticBucketName: e-mode-app-static
 
