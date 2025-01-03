@@ -33,7 +33,7 @@ public class BmOrderBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取当条订单详情
      */
     public BmOrderVo getEntityById(Long id) {
         BmOrderDTO bmOrderDTO = bmOrderService.selectById(id);
@@ -41,7 +41,7 @@ public class BmOrderBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增订单信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmOrderRequest request) {

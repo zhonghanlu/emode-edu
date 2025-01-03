@@ -33,7 +33,7 @@ public class BmPullNewBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取当条拉新详情
      */
     public BmPullNewVo getEntityById(Long id) {
         BmPullNewDTO bmPullNewDTO = bmPullNewService.selectById(id);
@@ -41,7 +41,7 @@ public class BmPullNewBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增拉新信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmPullNewRequest request) {

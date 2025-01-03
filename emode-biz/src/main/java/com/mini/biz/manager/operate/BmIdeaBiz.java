@@ -33,7 +33,7 @@ public class BmIdeaBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取当条意见详情
      */
     public BmIdeaVo getEntityById(Long id) {
         BmIdeaDTO bmIdeaDTO = bmIdeaService.selectById(id);
@@ -41,7 +41,7 @@ public class BmIdeaBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增意见信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmIdeaRequest request) {

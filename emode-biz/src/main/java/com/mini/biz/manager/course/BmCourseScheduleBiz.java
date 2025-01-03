@@ -56,8 +56,6 @@ public class BmCourseScheduleBiz {
 
     private final BmCourseService bmCourseService;
 
-    private final BmCourseStuSignService bmCourseStuSignService;
-
     /**
      * 分页
      */

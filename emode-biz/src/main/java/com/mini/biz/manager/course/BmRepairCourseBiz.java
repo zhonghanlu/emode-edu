@@ -33,7 +33,7 @@ public class BmRepairCourseBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取当条补课详情
      */
     public BmRepairCourseVo getEntityById(Long id) {
         BmRepairCourseDTO bmRepairCourseDTO = bmRepairCourseService.selectById(id);
@@ -41,7 +41,7 @@ public class BmRepairCourseBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增补课信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmRepairCourseRequest request) {

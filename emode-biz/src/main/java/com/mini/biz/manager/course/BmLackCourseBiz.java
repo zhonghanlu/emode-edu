@@ -33,7 +33,7 @@ public class BmLackCourseBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取当条缺课详情
      */
     public BmLackCourseVo getEntityById(Long id) {
         BmLackCourseDTO bmLackCourseDTO = bmLackCourseService.selectById(id);
@@ -41,7 +41,7 @@ public class BmLackCourseBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增缺课信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmLackCourseRequest request) {

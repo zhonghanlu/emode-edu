@@ -33,7 +33,7 @@ public class BmTutorApplyBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取当条家教详情
      */
     public BmTutorApplyVo getEntityById(Long id) {
         BmTutorApplyDTO bmTutorApplyDTO = bmTutorApplyService.selectById(id);
@@ -41,7 +41,7 @@ public class BmTutorApplyBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增家教信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmTutorApplyRequest request) {

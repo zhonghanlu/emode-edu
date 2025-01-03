@@ -33,7 +33,7 @@ public class BmClassGradeBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取当条班级详情
      */
     public BmClassGradeVo getEntityById(Long id) {
         BmClassGradeDTO bmClassGradeDTO = bmClassGradeService.selectById(id);
@@ -41,7 +41,7 @@ public class BmClassGradeBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增班级信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmClassGradeRequest request) {

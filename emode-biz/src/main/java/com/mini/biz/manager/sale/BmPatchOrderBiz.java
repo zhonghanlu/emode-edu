@@ -72,7 +72,7 @@ public class BmPatchOrderBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取当条补单详情
      */
     public BmPatchOrderVo getEntityById(Long id) {
         BmPatchOrderDTO bmPatchOrderDTO = bmPatchOrderService.selectById(id);
@@ -80,7 +80,7 @@ public class BmPatchOrderBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增补单信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmPatchOrderRequest request) {

@@ -33,7 +33,7 @@ public class BmClassroomBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取当条教室详情
      */
     public BmClassroomVo getEntityById(Long id) {
         BmClassroomDTO bmClassroomDTO = bmClassroomService.selectById(id);
@@ -41,7 +41,7 @@ public class BmClassroomBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增教室信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmClassroomRequest request) {

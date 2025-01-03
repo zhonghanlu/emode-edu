@@ -33,7 +33,7 @@ public class BmPosterBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取当条海报详情
      */
     public BmPosterVo getEntityById(Long id) {
         BmPosterDTO bmPosterDTO = bmPosterService.selectById(id);
@@ -41,7 +41,7 @@ public class BmPosterBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增海报信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmPosterRequest request) {

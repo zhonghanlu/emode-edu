@@ -33,7 +33,7 @@ public class BmProductBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取当条商品详情
      */
     public BmProductVo getEntityById(Long id) {
         BmProductDTO bmProductDTO = bmProductService.selectById(id);
@@ -41,7 +41,7 @@ public class BmProductBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增商品信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmProductRequest request) {

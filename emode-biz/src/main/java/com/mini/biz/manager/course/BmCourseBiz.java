@@ -70,7 +70,7 @@ public class BmCourseBiz {
     }
 
     /**
-     * 获取当条机构详情
+     * 获取当条课程详情
      */
     public BmCourseVo getEntityById(Long id) {
         BmCourseDTO bmCourseDTO = bmCourseService.selectById(id);
@@ -78,7 +78,7 @@ public class BmCourseBiz {
     }
 
     /**
-     * 新增机构信息
+     * 新增课程信息
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmCourseRequest request) {
