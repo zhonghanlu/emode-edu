@@ -47,13 +47,13 @@ spring:
   # redis 配置
   redis:
     # 地址
-    host: 10.0.16.3
+    host: 172.24.214.57
     # 端口，默认为6379
     port: 6379
     # 数据库索引
     database: 0
     # 密码
-    password: Aa123456
+    password: qzbm123456
     # 连接超时时间
     timeout: 10s
     lettuce:
@@ -156,8 +156,8 @@ mybatis-plus:
 #   文件存储
 minio:
   accessKey: minioadmin
-  secretKey: minioadmin
-  endPoint: http://10.0.16.3:9000
+  secretKey: qzbmadmin
+  endPoint: http://172.24.214.57:9000
   defaultBucketName: e-mode-bucket
   appStaticBucketName: e-mode-app-static
 
