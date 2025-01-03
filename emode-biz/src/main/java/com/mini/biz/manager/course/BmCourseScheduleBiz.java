@@ -165,7 +165,7 @@ public class BmCourseScheduleBiz {
 
                     String upOrDown = IntentionCurTime.extractSubstringByDelimiter(item.getIntentionCurTime().getStringValue(), "_", 2);
                     String oneOrTwo = IntentionCurTime.extractSubstringByDelimiter(item.getIntentionCurTime().getStringValue(), "_", 3);
-                    List<LocalTime> localTimeList = CourseTime.courseTimeMap.get(upOrDown + "_" + oneOrTwo);
+                    List<LocalTime> localTimeList = CourseTime.COURSE_TIME_MAP.get(upOrDown + "_" + oneOrTwo);
                     if (CollectionUtils.isNotEmpty(localTimeList)) {
                         bmCourseNewVo.setCourseStartTime(LocalDateTime.of(date, localTimeList.get(0)));
                         bmCourseNewVo.setCourseEndTime(LocalDateTime.of(date, localTimeList.get(1)));

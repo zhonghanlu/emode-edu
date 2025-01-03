@@ -227,7 +227,9 @@ public class BmHandlerClassBiz {
             // 意向时间对应的分班数据
             List<BmHandlerClassDTO> handlerClassDTOList = entry.getValue();
             // 根据意向时间获取教室数据
-            if (checkIntentionRoom(entry, bmClassroomIntentionList, intentionCurTime, unableHandlerClass)) continue;
+            if (checkIntentionRoom(entry, bmClassroomIntentionList, intentionCurTime, unableHandlerClass)){
+                continue;
+            }
 
             // 校验教室容量是否满足
             List<BmClassroomIntention> bmClassroomIntentionList2 = bmClassroomIntentionService.getClassIntentionListByIntentionCurTime(intentionCurTime);
