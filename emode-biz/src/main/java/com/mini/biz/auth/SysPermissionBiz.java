@@ -12,6 +12,7 @@ import com.mini.common.enums.str.MenuType;
 import com.mini.common.utils.TreeUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,9 +60,9 @@ public class SysPermissionBiz {
      * 权限分页
      */
     public IPage<AuthPermissionVo> page(AuthPermissionQuery query) {
-        if (Objects.isNull(query.getMenuType()) && Objects.isNull(query.getPermissions())
-                && Objects.isNull(query.getMenuName())
-                && Objects.isNull(query.getMenuPath()) && Objects.isNull(query.getMenuUrl())) {
+        if (Objects.isNull(query.getMenuType()) && StringUtils.isBlank(query.getPermissions())
+                && StringUtils.isBlank(query.getMenuName())
+                && StringUtils.isBlank(query.getMenuPath()) && StringUtils.isBlank(query.getMenuUrl())) {
             query.setMenuType(MenuType.DIRECTORY);
         }
         IPage<AuthPermissionDTO> dtoIPage = authPermissionService.pagePermission(query);
