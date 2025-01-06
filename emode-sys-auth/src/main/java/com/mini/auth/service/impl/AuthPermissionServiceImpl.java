@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author zhl
@@ -32,7 +33,6 @@ import java.util.Objects;
 public class AuthPermissionServiceImpl implements IAuthPermissionService {
 
     private final AuthPermissionMapper authPermissionMapper;
-
 
     @Override
     public void insert(AuthPermissionDTO dto) {
@@ -110,14 +110,49 @@ public class AuthPermissionServiceImpl implements IAuthPermissionService {
     @Override
     public IPage<AuthPermissionDTO> pagePermission(AuthPermissionQuery query) {
         IPage<AuthPermissionDTO> page = query.build();
-        return authPermissionMapper.selectPage(query, page);
+        IPage<AuthPermissionDTO> authPermissionDTOIPage = authPermissionMapper.selectPage(query, page);
+
+        List<AuthPermissionDTO> records = authPermissionDTOIPage.getRecords();
+        List<AuthPermissionDTO> permissionDTOList = getTree(records, records);
+
+        return page.setRecords(permissionDTOList);
     }
+
+    /**
+     * 递归获取树结构
+     */
+    private List<AuthPermissionDTO> getTree(List<AuthPermissionDTO> records, List<AuthPermissionDTO> valList) {
+        List<Long> idList = records.stream().map(AuthPermissionDTO::getId).collect(Collectors.toList());
+        if (CollectionUtils.isNotEmpty(idList)) {
+            LambdaQueryWrapper<AuthPermission> queryWrapper = Wrappers.lambdaQuery(AuthPermission.class);
+            queryWrapper.in(AuthPermission::getParentId, idList)
+                    .eq(AuthPermission::getDelFlag, Delete.NO);
+            List<AuthPermission> authPermissionList = authPermissionMapper.selectList(queryWrapper);
+            List<AuthPermissionDTO> authPermissionDTOList = AuthPermissionStructMapper.INSTANCE.entityList2DtoList(authPermissionList);
+            // 将子节点添加到当前层级的节点列表中
+            valList.addAll(authPermissionDTOList);
+
+            // 递归处理子节点
+            getTree(authPermissionDTOList, valList);
+        }
+        return valList;
+    }
+
 
     @Override
     public List<AuthPermissionDTO> selectAll() {
         LambdaQueryWrapper<AuthPermission> wrapper = Wrappers.lambdaQuery(AuthPermission.class);
         wrapper.eq(AuthPermission::getDelFlag, Delete.NO);
         return AuthPermissionStructMapper.INSTANCE.entityList2DtoList(authPermissionMapper.selectList(wrapper));
+    }
+
+    @Override
+    public AuthPermissionDTO selectById(long id) {
+        LambdaQueryWrapper<AuthPermission> wrapper = Wrappers.lambdaQuery(AuthPermission.class);
+        wrapper.eq(AuthPermission::getId, id)
+                .eq(AuthPermission::getDelFlag, Delete.NO)
+                .last(LastSql.LIMIT_ONE);
+        return AuthPermissionStructMapper.INSTANCE.entity2Dto(authPermissionMapper.selectOne(wrapper));
     }
 
     /**

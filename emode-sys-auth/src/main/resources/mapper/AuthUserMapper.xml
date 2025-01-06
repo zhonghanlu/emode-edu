@@ -30,6 +30,13 @@
             <result column="sort" property="sort"/>
         </collection>
 
+        <collection property="permissionList" ofType="string">
+            <result column="permissions"/>
+        </collection>
+
+        <collection property="roleList" ofType="string">
+            <result column="role_code"/>
+        </collection>
     </resultMap>
 
     <select id="selectPage" resultType="com.mini.auth.model.dto.AuthUserDTO">
@@ -116,7 +123,9 @@
                ap.permissions,
                ap.menu_type,
                ap.icon,
-               ap.sort
+               ap.sort,
+               -- 这参数为了偷懒不想写resultMap
+               ar.role_code
         FROM auth_user au
                  LEFT JOIN auth_user_role aur ON au.id = aur.user_id AND aur.del_flag = 1
                  LEFT JOIN auth_role ar ON aur.role_id = ar.id AND ar.del_flag = 1
@@ -127,7 +136,7 @@
           AND au.del_flag = 1
     </select>
 
-    <select id="getUserById" resultMap="rolePermissionMap">
+    <select id="getUserById" resultType="com.mini.auth.model.dto.AuthUserDetailDTO">
         SELECT au.id,
                au.username,
                au.nickname,

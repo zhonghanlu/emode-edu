@@ -41,6 +41,13 @@ public class SysPermissionController {
     }
 
     @OptLog
+    @Operation(summary = "权限详情")
+    @GetMapping("/detail/{permissionId}")
+    public Restful<AuthPermissionVo> getPermissionIdById(@PathVariable("permissionId") Long permissionId) {
+        return Restful.OBJECT(sysPermissionBiz.getPermissionIdById(permissionId)).build();
+    }
+
+    @OptLog
     @Operation(summary = "所有权限")
     @GetMapping("/all")
     public Restful<List<AuthPermissionVo>> all() {

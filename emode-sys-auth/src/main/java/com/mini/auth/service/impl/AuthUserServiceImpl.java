@@ -33,6 +33,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.mini.common.constant.UserConstant.SUPER_ADMIN_PERMISSION;
 import static com.mini.common.constant.UserConstant.SUPER_ADMIN_ROLE;
@@ -178,7 +179,6 @@ public class AuthUserServiceImpl implements IAuthUserService {
 
     @Override
     public AuthUserDetailDTO getUserById(long id) {
-        checkUserExist(id);
         return authUserMapper.getUserById(id);
     }
 
@@ -242,6 +242,14 @@ public class AuthUserServiceImpl implements IAuthUserService {
         if (b <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "修改密码错误");
         }
+    }
+
+    @Override
+    public List<String> selectNameListByIdList(List<Long> receiveIdList) {
+        LambdaQueryWrapper<AuthUser> wrapper = Wrappers.lambdaQuery(AuthUser.class);
+        wrapper.in(AuthUser::getId, receiveIdList)
+                .eq(AuthUser::getDelFlag, Delete.NO);
+        return authUserMapper.selectList(wrapper).stream().map(AuthUser::getNickname).collect(Collectors.toList());
     }
 
     /**

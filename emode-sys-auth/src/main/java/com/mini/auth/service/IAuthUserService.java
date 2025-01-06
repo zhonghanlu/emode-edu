@@ -8,6 +8,7 @@ import com.mini.auth.model.edit.AuthUserPasswordEdit;
 import com.mini.auth.model.query.AuthUserQuery;
 import com.mini.common.enums.str.UserType;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -80,4 +81,9 @@ public interface IAuthUserService {
      * 更新密码
      */
     void updatePassword(AuthUserPasswordEdit edit);
+
+    /**
+     * 根据id列表查询用户名称列表
+     */
+    List<String> selectNameListByIdList(List<Long> receiveIdList);
 }

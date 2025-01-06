@@ -153,6 +153,11 @@ public class SysConfigServiceImpl implements ISysConfigService {
         return Collections.emptyMap();
     }
 
+    @Override
+    public SysConfigDTO getConfigById(Long configId) {
+        return SysConfigStructMapper.INSTANCE.entity2Dto(CommonMybatisUtil.getById(configId, sysConfigMapper));
+    }
+
     /**
      * 获取redis key
      */

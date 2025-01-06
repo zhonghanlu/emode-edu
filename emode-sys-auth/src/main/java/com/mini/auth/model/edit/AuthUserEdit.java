@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author zhl
@@ -43,4 +44,9 @@ public class AuthUserEdit {
      */
     @Schema(title = "手机号")
     private String phone;
+    /**
+     * 权限码集合
+     */
+    @Schema(title = "权限码集合")
+    private List<String> roleList;
 }

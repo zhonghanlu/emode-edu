@@ -42,4 +42,8 @@ public interface ISysConfigService {
      */
     Map<String, String> selectAllForMap();
 
+    /**
+     * 根据id查询
+     */
+    SysConfigDTO getConfigById(Long configId);
 }

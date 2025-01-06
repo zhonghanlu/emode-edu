@@ -8,6 +8,7 @@ import com.mini.auth.model.query.AuthPermissionQuery;
 import com.mini.auth.model.request.AuthPermissionRequest;
 import com.mini.auth.model.vo.AuthPermissionVo;
 import com.mini.auth.service.IAuthPermissionService;
+import com.mini.common.enums.str.MenuType;
 import com.mini.common.utils.TreeUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author zhl
@@ -57,6 +59,11 @@ public class SysPermissionBiz {
      * 权限分页
      */
     public IPage<AuthPermissionVo> page(AuthPermissionQuery query) {
+        if (Objects.isNull(query.getMenuType()) && Objects.isNull(query.getPermissions())
+                && Objects.isNull(query.getMenuName())
+                && Objects.isNull(query.getMenuPath()) && Objects.isNull(query.getMenuUrl())) {
+            query.setMenuType(MenuType.DIRECTORY);
+        }
         IPage<AuthPermissionDTO> dtoIPage = authPermissionService.pagePermission(query);
         IPage<AuthPermissionVo> voIPage = dtoIPage.convert(AuthPermissionStructMapper.INSTANCE::dto2Vo);
         return TreeUtils.buildByPage(voIPage);
@@ -67,5 +74,12 @@ public class SysPermissionBiz {
      */
     public List<AuthPermissionVo> all() {
         return TreeUtils.build(AuthPermissionStructMapper.INSTANCE.dtoList2VoList(authPermissionService.selectAll()));
+    }
+
+    /**
+     * 权限详情
+     */
+    public AuthPermissionVo getPermissionIdById(Long permissionId) {
+        return AuthPermissionStructMapper.INSTANCE.dto2Vo(authPermissionService.selectById(permissionId));
     }
 }

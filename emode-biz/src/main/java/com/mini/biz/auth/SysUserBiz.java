@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.auth.mapperstruct.AuthPermissionStructMapper;
 import com.mini.auth.mapperstruct.AuthUserRoleStructMapper;
 import com.mini.auth.mapperstruct.AuthUserStructMapper;
-import com.mini.auth.model.dto.AuthPermissionDTO;
-import com.mini.auth.model.dto.AuthUserDTO;
-import com.mini.auth.model.dto.AuthUserDetailDTO;
-import com.mini.auth.model.dto.AuthUserRoleDTO;
+import com.mini.auth.model.dto.*;
 import com.mini.auth.model.edit.AuthUserEdit;
 import com.mini.auth.model.edit.AuthUserPasswordEdit;
 import com.mini.auth.model.query.AuthUserQuery;
@@ -20,6 +17,7 @@ import com.mini.auth.model.vo.AuthUserDetailRouterVo;
 import com.mini.auth.model.vo.AuthUserDetailVo;
 import com.mini.auth.model.vo.AuthUserVo;
 import com.mini.auth.service.IAuthPermissionService;
+import com.mini.auth.service.IAuthRoleService;
 import com.mini.auth.service.IAuthUserService;
 import com.mini.base.model.dto.SysLoginOptDTO;
 import com.mini.base.service.ISysLoginOptService;
@@ -43,6 +41,7 @@ import com.mini.common.utils.redis.RedisUtils;
 import com.mini.core.config.properties.CaptchaProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -50,6 +49,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author zhl
@@ -67,6 +67,8 @@ public class SysUserBiz {
     private final ISysLoginOptService asyncLoginOptService;
 
     private final IAuthPermissionService authPermissionService;
+
+    private final IAuthRoleService authRoleService;
 
     /**
      * 新增用户
@@ -86,8 +88,23 @@ public class SysUserBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public void update(AuthUserEdit edit) {
+        if (LoginUtils.isSuperAdmin(edit.getId())) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "超级管理员不可修改");
+        }
+
         AuthUserDTO authUserDTO = AuthUserStructMapper.INSTANCE.edit2Dto(edit);
         authUserService.update(authUserDTO);
+        // 关联角色
+        if (CollectionUtils.isNotEmpty(edit.getRoleList())) {
+            AuthUserRoleDTO authUserRoleDTO = new AuthUserRoleDTO();
+            authUserRoleDTO.setId(edit.getId());
+
+            List<String> roleCodeList = edit.getRoleList();
+            List<AuthRoleDTO> authRoleDTOList = authRoleService.getRoleByCodeList(roleCodeList);
+            List<Long> roleIdList = authRoleDTOList.stream().map(AuthRoleDTO::getId).collect(Collectors.toList());
+            authUserRoleDTO.setRoleIdList(roleIdList);
+            authUserService.relationUserAndRole(authUserRoleDTO);
+        }
     }
 
     /**
@@ -103,6 +120,9 @@ public class SysUserBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public void relationUserRole(AuthUserRoleRequest request) {
+        if (LoginUtils.isSuperAdmin(request.getId())) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "超级管理员不可修改");
+        }
         AuthUserRoleDTO authUserRoleDTO = AuthUserRoleStructMapper.INSTANCE.req2Dto(request);
         authUserService.relationUserAndRole(authUserRoleDTO);
     }
@@ -111,7 +131,6 @@ public class SysUserBiz {
      * 根据查询类型查询用户详细信息
      */
     public AuthUserDetailVo getUserRolePermissionById(long id, UserQueryType type) {
-        LoginUser loginUser = LoginUtils.getLoginUser();
         AuthUserDetailDTO authUserDetailDTO = new AuthUserDetailDTO();
         switch (type) {
             case ALL:
@@ -129,10 +148,7 @@ public class SysUserBiz {
             default:
                 break;
         }
-        AuthUserDetailVo authUserDetailVo = AuthUserStructMapper.INSTANCE.dtoDetail2Vo(authUserDetailDTO);
-        authUserDetailVo.setPermissionList(loginUser.getMenuPermission());
-        authUserDetailVo.setRoleList(loginUser.getRolePermission());
-        return authUserDetailVo;
+        return AuthUserStructMapper.INSTANCE.dtoDetail2Vo(authUserDetailDTO);
     }
 
     /**

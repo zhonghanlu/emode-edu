@@ -18,6 +18,7 @@ import com.mini.file.model.query.SysFileQuery;
 import com.mini.file.service.ISysFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -97,7 +98,12 @@ public class SysFileServiceImpl implements ISysFileService {
     @Override
     public IPage<SysFileDTO> page(SysFileQuery query) {
         LambdaQueryWrapper<SysFile> wrapper = Wrappers.lambdaQuery(SysFile.class);
-        wrapper.eq(SysFile::getDelFlag, Delete.NO);
+        wrapper.like(StringUtils.isNotBlank(query.getFileName()), SysFile::getFileName, query.getFileName())
+                .like(StringUtils.isNotBlank(query.getFileUrl()), SysFile::getFileUrl, query.getFileUrl())
+                .like(StringUtils.isNotBlank(query.getFileType()), SysFile::getFileType, query.getFileType())
+                .like(StringUtils.isNotBlank(query.getBucketName()), SysFile::getBucketName, query.getBucketName())
+                .eq(Objects.nonNull(query.getFileDeviceBy()), SysFile::getFileDeviceBy, query.getFileDeviceBy())
+                .eq(SysFile::getDelFlag, Delete.NO);
         Page<SysFile> sysFilePage = sysFileMapper.selectPage(query.build(), wrapper);
         return sysFilePage.convert(SysFileStructMapper.INSTANCE::entity2Dto);
     }

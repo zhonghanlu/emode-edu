@@ -36,4 +36,9 @@ public interface SysConfigStructMapper {
      * edit2dto
      */
     SysConfigDTO req2Edit(SysConfigEdit edit);
+
+    /**
+     * entity2Dto
+     */
+    SysConfigDTO entity2Dto(SysConfig entity);
 }

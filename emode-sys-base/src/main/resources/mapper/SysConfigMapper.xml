@@ -8,7 +8,6 @@
         <where>
             del_flag = 1
             AND show_status = 'yes'
-            AND config_status = 'yes'
             <if test="query.configName != '' and query.configName != null">
                 AND config_name LIKE CONCAT('%', #{query.configName}, '%')
             </if>

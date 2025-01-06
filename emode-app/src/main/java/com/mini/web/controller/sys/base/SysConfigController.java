@@ -60,4 +60,10 @@ public class SysConfigController {
     public Restful<IPage<SysConfigVo>> page(@ParameterObject SysConfigQuery query) {
         return Restful.OBJECT(sysConfigBiz.page(query)).build();
     }
-}
+
+    @OptLog
+    @Operation(summary = "参数详情")
+    @GetMapping("/detail/{configId}")
+    public Restful<SysConfigVo> getConfigById(@PathVariable("configId") Long configId) {
+        return Restful.OBJECT(sysConfigBiz.getConfigById(configId)).build();
+    }}

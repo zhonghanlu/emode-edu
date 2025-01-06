@@ -53,4 +53,8 @@ public interface IAuthRoleService {
      */
     boolean checkRoleByRoleCode(long id, String roleCode);
 
+    /**
+     * 根据角色码查询角色信息
+     */
+    List<AuthRoleDTO> getRoleByCodeList(List<String> roleCodeList);
 }

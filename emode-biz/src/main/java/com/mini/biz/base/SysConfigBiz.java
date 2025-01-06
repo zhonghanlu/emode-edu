@@ -67,4 +67,11 @@ public class SysConfigBiz {
         return sysConfigService.selectAllForMap();
     }
 
+
+    /**
+     * 获取参数详情
+     */
+    public SysConfigVo getConfigById(Long configId) {
+        return SysConfigStructMapper.INSTANCE.dto2Vo(sysConfigService.getConfigById(configId));
+    }
 }

@@ -20,4 +20,8 @@ public interface ISysNoticeService {
      */
     SysNoticeDTO selectLastBroadcastNotice();
 
+    /**
+     * 根据id查询详情数据
+     */
+    SysNoticeDTO selectById(Long noticeId);
 }

@@ -12,7 +12,7 @@
     </insert>
 
     <select id="selectPage" resultType="com.mini.auth.model.dto.AuthPermissionDTO">
-        SELECT id,parent_id,menu_name,menu_url,permissions,menu_type,icon,sort
+        SELECT id,parent_id,menu_name,menu_url,menu_path,permissions,menu_type,icon,sort
         FROM auth_permission
         WHERE del_flag = 1
         <if test="query.menuName != null and query.menuName != ''">
@@ -28,7 +28,7 @@
             AND permissions LIKE CONCAT('%', #{query.permissions}, '%')
         </if>
         <if test="query.menuType != null">
-            AND menu_type LIKE CONCAT('%', #{query.menuType}, '%')
+            AND menu_type = #{query.menuType}
         </if>
         ORDER BY sort
     </select>

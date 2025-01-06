@@ -37,4 +37,9 @@ public interface IAuthPermissionService {
      */
     List<AuthPermissionDTO> selectAll();
 
+    /**
+     * 查询详情
+     */
+    AuthPermissionDTO selectById(long id);
+
 }

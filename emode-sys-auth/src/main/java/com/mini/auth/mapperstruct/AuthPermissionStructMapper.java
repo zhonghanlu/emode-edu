@@ -58,4 +58,9 @@ public interface AuthPermissionStructMapper {
      * dto2routerVo
      */
     List<AuthUserDetailRouterVo> dtoList2RouterVoList(List<AuthPermissionDTO> authPermissionDTOList);
+
+    /**
+     * entity2dto
+     */
+    AuthPermissionDTO entity2Dto(AuthPermission entity);
 }

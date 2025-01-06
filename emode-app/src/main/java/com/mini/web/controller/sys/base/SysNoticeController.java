@@ -3,6 +3,7 @@ package com.mini.web.controller.sys.base;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.base.model.query.SysNoticeQuery;
 import com.mini.base.model.request.SysNoticeRequest;
+import com.mini.base.model.vo.SysNoticeDetailVo;
 import com.mini.base.model.vo.SysNoticeVo;
 import com.mini.biz.base.SysNoticeBiz;
 import com.mini.common.annotation.OptLog;
@@ -51,6 +52,13 @@ public class SysNoticeController {
     @GetMapping(path = "/last-broad")
     public Restful<SysNoticeVo> broad() {
         return Restful.OBJECT(sysNoticeBiz.selectLastBroadcastNotice()).build();
+    }
+
+    @OptLog
+    @Operation(summary = "站内信详情")
+    @GetMapping(path = "/detail/{noticeId}")
+    public Restful<SysNoticeDetailVo> getNoticeById(@PathVariable("noticeId") Long noticeId) {
+        return Restful.OBJECT(sysNoticeBiz.getNoticeById(noticeId)).build();
     }
 
 }

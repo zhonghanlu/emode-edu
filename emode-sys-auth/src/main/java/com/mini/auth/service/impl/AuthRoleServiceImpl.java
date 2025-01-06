@@ -217,6 +217,15 @@ public class AuthRoleServiceImpl implements IAuthRoleService {
         return Boolean.TRUE;
     }
 
+    @Override
+    public List<AuthRoleDTO> getRoleByCodeList(List<String> roleCodeList) {
+        LambdaQueryWrapper<AuthRole> wrapper = Wrappers.lambdaQuery(AuthRole.class);
+        wrapper.in(AuthRole::getRoleCode, roleCodeList)
+                .eq(AuthRole::getDelFlag, Delete.NO);
+        List<AuthRole> authRoleList = authRoleMapper.selectList(wrapper);
+        return AuthRoleStructMapper.INSTANCE.entityList2DtoList(authRoleList);
+    }
+
     /**
      * 根据角色id和权限id构建关联关系list
      */

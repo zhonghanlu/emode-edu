@@ -55,4 +55,16 @@ public class SysNoticeDTO {
      * 发送对象参数
      */
     private List<SysSendRequest> sysSendRequestList;
+
+    ///////////////////回执数据//////////////////
+
+    /**
+     * 消息接收人集合
+     */
+    private List<String> receiveNameList;
+
+    /**
+     * 消息接收人id集合
+     */
+    private List<Long> receiveIdList;
 }

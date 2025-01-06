@@ -5,6 +5,7 @@ import com.mini.common.enums.str.UserType;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author zhl
@@ -49,5 +50,14 @@ public class AuthUserDetailDTO {
      * 权限集合
      */
     private List<AuthPermissionDTO> authPermissionDTOList;
+
+    /**
+     * 角色集合
+     */
+    private Set<String> roleList;
+    /**
+     * 权限集合
+     */
+    private Set<String> permissionList;
 
 }
