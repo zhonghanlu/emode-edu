@@ -20,4 +20,44 @@
         </where>
     </select>
 
+    <resultMap id="relationStuInfo" type="com.mini.pojo.model.vo.org.BmPatRelationStuInfo">
+        <id column="student_id" property="stuId"/>
+        <result column="student_name" property="stuName"/>
+        <collection property="bmClassGradeVoList" ofType="com.mini.pojo.model.vo.course.BmSimpleClassGradeVo">
+            <id column="class_grade_id" property="id"/>
+            <result column="class_grade_name" property="classGradeName"/>
+            <result column="cur_type" property="curType"/>
+            <result column="class_grade_type" property="classGradeType"/>
+        </collection>
+        <collection property="bmStuClassHourVoList" ofType="com.mini.pojo.model.vo.org.BmStuClassHourVo">
+            <id column="id" property="id"/>
+            <result column="class_hour" property="classHour"/>
+            <result column="class_hour_type" property="classHourType"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectStuRelationStuInfo" resultMap="relationStuInfo">
+        SELECT bpsr.student_id,
+        bpsr.student_name,
+        bscg.class_grade_id,
+        bscg.class_grade_name,
+        bcg.cur_type,
+        bcg.class_grade_type,
+        bsch.id,
+        bsch.class_hour,
+        bsch.class_hour_type
+        FROM bm_pat_stu_relation bpsr
+        LEFT JOIN bm_stu_class_grade bscg ON bpsr.student_id = bscg.stu_id
+        LEFT JOIN bm_class_grade bcg ON bscg.class_grade_id = bcg.id
+        LEFT JOIN bm_stu_class_hour bsch ON bpsr.student_id = bsch.stu_id
+        <where>
+            bpsr.del_flag = 1
+            AND bscg.del_flag = 1
+            AND bpsr.student_id IN
+            <foreach collection="stuIdList" item="stuId" open="(" separator="," close=")">
+                #{stuId}
+            </foreach>
+        </where>
+    </select>
+
 </mapper>

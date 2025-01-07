@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mini.pojo.entity.org.BmPatriarch;
 import com.mini.pojo.model.dto.org.BmPatriarchDTO;
 import com.mini.pojo.model.query.org.BmPatriarchQuery;
+import com.mini.pojo.model.vo.org.BmPatRelationStuVo;
 
 /**
  * <p>
@@ -42,4 +43,8 @@ public interface BmPatriarchService extends IService<BmPatriarch> {
      */
     IPage<BmPatriarchDTO> page(BmPatriarchQuery query);
 
+    /**
+     * 根据家长id查询学生关联信息
+     */
+    BmPatRelationStuVo detailRelationStu(Long id);
 }

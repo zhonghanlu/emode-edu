@@ -27,5 +27,5 @@ public class BmPatriarchPullVo {
     private String patName;
 
     @Schema(title = "家长手机号")
-    private String patIphone;
+    private String patPhone;
 }

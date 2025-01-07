@@ -6,6 +6,7 @@ import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.org.BmPatriarchEdit;
 import com.mini.pojo.model.query.org.BmPatriarchQuery;
 import com.mini.pojo.model.request.org.BmPatriarchRequest;
+import com.mini.pojo.model.vo.org.BmPatRelationStuVo;
 import com.mini.pojo.model.vo.org.BmPatriarchPullVo;
 import com.mini.pojo.model.vo.org.BmPatriarchVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,6 +48,12 @@ public class BmPatriarchController {
     @GetMapping("/detail/{patriarchId}")
     public Restful<BmPatriarchVo> getDetailById(@PathVariable("patriarchId") Long id) {
         return Restful.OBJECT(patriarchBiz.getEntityById(id)).build();
+    }
+
+    @Operation(summary = "家长关联的孩子信息")
+    @GetMapping("/detail-relation-stu/{patriarchId}")
+    public Restful<BmPatRelationStuVo> detailRelationStu(@PathVariable("patriarchId") Long id) {
+        return Restful.OBJECT(patriarchBiz.detailRelationStu(id)).build();
     }
 
     @Operation(summary = "新增家长信息")

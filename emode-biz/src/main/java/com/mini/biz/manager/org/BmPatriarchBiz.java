@@ -12,6 +12,7 @@ import com.mini.pojo.model.dto.org.BmPatriarchDTO;
 import com.mini.pojo.model.edit.org.BmPatriarchEdit;
 import com.mini.pojo.model.query.org.BmPatriarchQuery;
 import com.mini.pojo.model.request.org.BmPatriarchRequest;
+import com.mini.pojo.model.vo.org.BmPatRelationStuVo;
 import com.mini.pojo.model.vo.org.BmPatriarchPullVo;
 import com.mini.pojo.model.vo.org.BmPatriarchVo;
 import lombok.RequiredArgsConstructor;
@@ -79,6 +80,7 @@ public class BmPatriarchBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public void del(long id) {
+        // 1.校验是否与学生进行关联，有关联不允许删除
         bmPatriarchService.del(id);
     }
 
@@ -99,5 +101,12 @@ public class BmPatriarchBiz {
                 .last(LIMIT_FIVE);
         List<BmPatriarch> patriarchList = bmPatriarchService.list(wrapper);
         return BmPatriarchStructMapper.INSTANCE.voList2PullVoList(patriarchList);
+    }
+
+    /**
+     * 家长关联孩子信息
+     */
+    public BmPatRelationStuVo detailRelationStu(Long id) {
+        return bmPatriarchService.detailRelationStu(id);
     }
 }
