@@ -9,7 +9,9 @@
         <result column="stu_sex" property="stuSex"/>
         <result column="stu_birth" property="stuBirth"/>
         <result column="stu_cur_school" property="stuCurSchool"/>
+        <result column="stu_cur_schoolId" property="stuCurSchoolId"/>
         <result column="stu_cur_grade" property="stuCurGrade"/>
+        <result column="stu_cur_gradeId" property="stuCurGradeId"/>
     </resultMap>
 
     <select id="page" resultMap="BaseResultMap">
@@ -38,6 +40,53 @@
                 AND stu_cur_grade = #{query.stuCurGrade}
             </if>
         </where>
+    </select>
+
+    <resultMap id="patInfo" type="com.mini.pojo.model.vo.org.BmStudentPatInfoVo">
+        <id column="student_id" property="id"/>
+        <result column="student_name" property="stuName"/>
+        <association property="bmPatriarchVo" javaType="com.mini.pojo.model.vo.org.BmPatriarchVo">
+            <id column="patriarch_id" property="id"/>
+            <result column="pat_name" property="patName"/>
+            <result column="pat_avatar_id" property="patAvatarId"/>
+            <result column="pat_avatar_url" property="patAvatarUrl"/>
+            <result column="pat_phone" property="patPhone"/>
+            <result column="pat_wx" property="patWx"/>
+            <result column="pat_address" property="patAddress"/>
+        </association>
+    </resultMap>
+
+    <select id="searchPatriarchInfo" resultMap="patInfo">
+        SELECT bpsr.student_id,
+               bpsr.student_name,
+               bp.id       AS patriarch_id,
+               bp.pat_name,
+               bp.pat_avatar_id,
+               sf.file_url AS pat_avatar_url,
+               bp.pat_phone,
+               bp.pat_wx,
+               bp.pat_address
+        FROM bm_pat_stu_relation bpsr
+                 LEFT JOIN bm_patriarch bp ON bpsr.patriarch_id = bp.id
+                 LEFT JOIN sys_file sf ON bp.pat_avatar_id = sf.id
+        WHERE bpsr.student_id = #{stuId} LIMIT 1
+    </select>
+
+
+    <resultMap id="stuClassTypeHour" type="com.mini.pojo.model.vo.org.BmStuClassTypeHourVo">
+        <id column="stu_id" property="id"/>
+        <result column="stu_name" property="stuName"/>
+        <collection property="bmStuClassHourVoList" ofType="com.mini.pojo.model.vo.org.BmStuClassHourVo">
+            <id column="id" property="id"/>
+            <result column="class_hour_type" property="classHourType"/>
+            <result column="class_hour" property="classHour"/>
+        </collection>
+    </resultMap>
+
+    <select id="searchStuClassTypeHour" resultMap="stuClassTypeHour">
+        SELECT bsch.id, bsch.class_hour_type, bsch.class_hour, bsch.stu_id, bsch.stu_name
+        FROM bm_stu_class_hour bsch
+        WHERE bsch.stu_id = #{stuId}
     </select>
 
 </mapper>

@@ -35,8 +35,14 @@ public class BmStudentQuery extends PageQuery {
     @Parameter(description = "学生生日（出生日期）")
     private LocalDateTime stuBirth;
 
+    @Parameter(description = "学生当前学校id")
+    private Long stuCurSchoolId;
+
     @Parameter(description = "学生当前学校")
     private String stuCurSchool;
+
+    @Parameter(description = "学生当前年级id")
+    private Long stuCurGradeId;
 
     @Parameter(description = "学生当前年级")
     private String stuCurGrade;

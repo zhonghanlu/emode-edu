@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mini.pojo.entity.org.BmStudent;
 import com.mini.pojo.model.dto.org.BmStudentDTO;
 import com.mini.pojo.model.query.org.BmStudentQuery;
+import com.mini.pojo.model.vo.org.BmStuClassTypeHourVo;
+import com.mini.pojo.model.vo.org.BmStudentPatInfoVo;
 
 import java.util.List;
 import java.util.Map;
@@ -49,4 +51,14 @@ public interface BmStudentService extends IService<BmStudent> {
      * 根据学生id查询map信息
      */
     Map<Long, BmStudent> selectByIdListForMap(List<Long> stuIdList);
+
+    /**
+     * 根据学生id查询家长信息
+     */
+    BmStudentPatInfoVo searchPatriarchInfo(Long id);
+
+    /**
+     * 根据学生id查询对应类型课时数据
+     */
+    BmStuClassTypeHourVo searchStuClassTypeHour(Long id);
 }

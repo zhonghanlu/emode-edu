@@ -38,8 +38,14 @@ public class BmStudentEdit {
     @Schema(title = "学生生日（出生日期）")
     private LocalDateTime stuBirth;
 
+    @Schema(title = "学生当前学校id")
+    private Long stuCurSchoolId;
+
     @Schema(title = "学生当前学校")
     private String stuCurSchool;
+
+    @Schema(title = "学生当前年级id")
+    private Long stuCurGradeId;
 
     @Schema(title = "学生当前年级")
     private String stuCurGrade;

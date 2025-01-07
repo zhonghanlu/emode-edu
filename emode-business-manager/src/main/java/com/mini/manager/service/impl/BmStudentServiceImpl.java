@@ -15,6 +15,8 @@ import com.mini.pojo.entity.org.BmStudent;
 import com.mini.pojo.mapper.org.BmStudentStructMapper;
 import com.mini.pojo.model.dto.org.BmStudentDTO;
 import com.mini.pojo.model.query.org.BmStudentQuery;
+import com.mini.pojo.model.vo.org.BmStuClassTypeHourVo;
+import com.mini.pojo.model.vo.org.BmStudentPatInfoVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -111,5 +113,15 @@ public class BmStudentServiceImpl extends ServiceImpl<BmStudentMapper, BmStudent
                 .eq(BmStudent::getDelFlag, Delete.NO);
         List<BmStudent> bmStudentList = bmStudentMapper.selectList(wrapper);
         return bmStudentList.stream().collect(Collectors.toMap(BmStudent::getId, Function.identity()));
+    }
+
+    @Override
+    public BmStudentPatInfoVo searchPatriarchInfo(Long id) {
+        return bmStudentMapper.searchPatriarchInfo(id);
+    }
+
+    @Override
+    public BmStuClassTypeHourVo searchStuClassTypeHour(Long id) {
+        return bmStudentMapper.searchStuClassTypeHour(id);
     }
 }

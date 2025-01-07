@@ -13,7 +13,9 @@ import com.mini.pojo.entity.org.BmStudentConstant;
 import com.mini.pojo.model.edit.org.BmStudentEdit;
 import com.mini.pojo.model.query.org.BmStudentQuery;
 import com.mini.pojo.model.request.org.BmStudentRequest;
+import com.mini.pojo.model.vo.org.BmStuClassTypeHourVo;
 import com.mini.pojo.model.vo.org.BmStudentConstantVo;
+import com.mini.pojo.model.vo.org.BmStudentPatInfoVo;
 import com.mini.pojo.model.vo.org.BmStudentVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -58,6 +60,18 @@ public class BmStudentController {
     @GetMapping("/detail/{stuId}")
     public Restful<BmStudentVo> getDetailById(@PathVariable("stuId") Long id) {
         return Restful.OBJECT(studentBiz.getEntityById(id)).build();
+    }
+
+    @Operation(summary = "查看学生家长信息")
+    @GetMapping("/patriarch-info/{stuId}")
+    public Restful<BmStudentPatInfoVo> patriarchInfo(@PathVariable("stuId") Long id) {
+        return Restful.OBJECT(studentBiz.patriarchInfo(id)).build();
+    }
+
+    @Operation(summary = "获取学生所有课程类型与对应课时")
+    @GetMapping("/stu—class-type-hour/{stuId}")
+    public Restful<BmStuClassTypeHourVo> stuClassTypeHour(@PathVariable("stuId") Long id) {
+        return Restful.OBJECT(studentBiz.stuClassTypeHour(id)).build();
     }
 
     @Operation(summary = "新增学生信息")

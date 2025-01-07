@@ -15,6 +15,8 @@ import com.mini.pojo.model.dto.org.BmStudentDTO;
 import com.mini.pojo.model.edit.org.BmStudentEdit;
 import com.mini.pojo.model.query.org.BmStudentQuery;
 import com.mini.pojo.model.request.org.BmStudentRequest;
+import com.mini.pojo.model.vo.org.BmStuClassTypeHourVo;
+import com.mini.pojo.model.vo.org.BmStudentPatInfoVo;
 import com.mini.pojo.model.vo.org.BmStudentVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -111,5 +113,19 @@ public class BmStudentBiz {
     @Transactional(rollbackFor = Exception.class)
     public void update(BmStudentEdit edit) {
         bmStudentService.update(BmStudentStructMapper.INSTANCE.edit2Dto(edit));
+    }
+
+    /**
+     * 学生对应家长信息
+     */
+    public BmStudentPatInfoVo patriarchInfo(Long id) {
+        return bmStudentService.searchPatriarchInfo(id);
+    }
+
+    /**
+     * 根据学生id获取对应课时信息
+     */
+    public BmStuClassTypeHourVo stuClassTypeHour(Long id) {
+        return bmStudentService.searchStuClassTypeHour(id);
     }
 }

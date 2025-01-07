@@ -38,9 +38,17 @@ public class BmStudentRequest {
     @Schema(title = "学生生日（出生日期）")
     private LocalDateTime stuBirth;
 
+    @NotNull(message = "学校id不可为空")
+    @Schema(title = "学生当前学校id")
+    private Long stuCurSchoolId;
+
     @NotBlank(message = "学校不可为空")
     @Schema(title = "学生当前学校")
     private String stuCurSchool;
+
+    @NotNull(message = "年级id不可为空")
+    @Schema(title = "学生当前年级id")
+    private Long stuCurGradeId;
 
     @NotBlank(message = "年级不可为空")
     @Schema(title = "学生当前年级")

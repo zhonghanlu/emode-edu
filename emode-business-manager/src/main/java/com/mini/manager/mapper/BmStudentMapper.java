@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mini.pojo.entity.org.BmStudent;
 import com.mini.pojo.model.dto.org.BmStudentDTO;
 import com.mini.pojo.model.query.org.BmStudentQuery;
+import com.mini.pojo.model.vo.org.BmStuClassTypeHourVo;
+import com.mini.pojo.model.vo.org.BmStudentPatInfoVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,4 +24,8 @@ import org.apache.ibatis.annotations.Param;
 public interface BmStudentMapper extends BaseMapper<BmStudent> {
 
     IPage<BmStudentDTO> page(@Param("query") BmStudentQuery query, Page<BmStudentDTO> build);
+
+    BmStudentPatInfoVo searchPatriarchInfo(@Param("stuId") Long id);
+
+    BmStuClassTypeHourVo searchStuClassTypeHour(@Param("stuId") Long id);
 }
