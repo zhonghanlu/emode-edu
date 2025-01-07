@@ -32,7 +32,7 @@ public class AuthUserDTO {
     /**
      * 头像id
      */
-    private Long avatar;
+    private Long avatarId;
 
     /**
      * 头像url

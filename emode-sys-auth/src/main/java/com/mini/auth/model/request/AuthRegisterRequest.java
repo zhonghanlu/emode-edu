@@ -36,7 +36,7 @@ public class AuthRegisterRequest {
      * 头像id
      */
     @Schema(title = "头像id")
-    private Long avatar;
+    private Long avatarId;
     /**
      * 手机号
      */

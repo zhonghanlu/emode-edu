@@ -51,7 +51,7 @@ public class AuthUser extends CommonEntity {
      * 头像id
      */
     @Schema(name = "头像id")
-    private Long avatar;
+    private Long avatarId;
     /**
      * 手机号
      */

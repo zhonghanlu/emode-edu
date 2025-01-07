@@ -91,7 +91,7 @@ public class BmTeacherBiz {
         authUserDTO.setPassword(SmCryptoUtil.doHashValue(sysConfigService.searchByKey(SYS_CONFIG_INIT_PASSWORD)));
         authUserDTO.setNickname(bmTeacherDTO.getTeaName());
         authUserDTO.setSex(bmTeacherDTO.getSex());
-        authUserDTO.setAvatar(bmTeacherDTO.getTeaAvatarId());
+        authUserDTO.setAvatarId(bmTeacherDTO.getTeaAvatarId());
         authUserDTO.setAvatarUrl(bmTeacherDTO.getTeaAvatarUrl());
         authUserDTO.setPhone(bmTeacherDTO.getTeaPhone());
         authUserDTO.setUserType(UserType.MANAGER);

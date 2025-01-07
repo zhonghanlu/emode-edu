@@ -33,6 +33,11 @@ public class AuthUserVo {
     @Schema(title = "性别")
     private Gender sex;
     /**
+     * 头像id
+     */
+    @Schema(title = "头像Id")
+    private String avatarId;
+    /**
      * 头像Url
      */
     @Schema(title = "头像Url")

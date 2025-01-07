@@ -43,6 +43,7 @@
     <select id="selectPage" resultType="com.mini.auth.model.dto.AuthUserDTO">
         SELECT
         au.id,
+        sf.id AS avatarId,
         sf.file_url AS avatarUrl,
         au.username,
         au.nickname,
@@ -50,7 +51,7 @@
         au.phone,
         au.user_type
         FROM auth_user au
-        LEFT JOIN sys_file sf ON au.avatar = sf.id
+        LEFT JOIN sys_file sf ON au.avatar_id = sf.id
         <where>
             <if test="query.username != null and query.username != ''">
                 AND username LIKE CONCAT('%', #{query.username}, '%')
@@ -87,7 +88,7 @@
                  LEFT JOIN auth_role ar ON aur.role_id = ar.id AND ar.del_flag = 1
                  LEFT JOIN auth_role_permission arp ON ar.id = arp.role_id AND arp.del_flag = 1
                  LEFT JOIN auth_permission ap ON arp.permission_id = ap.id AND ap.del_flag = 1
-                 LEFT JOIN sys_file sf ON au.avatar = sf.id
+                 LEFT JOIN sys_file sf ON au.avatar_id = sf.id
         WHERE au.id = ${id}
           AND au.del_flag = 1
     </select>
@@ -105,7 +106,7 @@
         FROM auth_user au
                  LEFT JOIN auth_user_role aur ON au.id = aur.user_id AND aur.del_flag = 1
                  LEFT JOIN auth_role ar ON aur.role_id = ar.id AND ar.del_flag = 1
-                 LEFT JOIN sys_file sf ON au.avatar = sf.id
+                 LEFT JOIN sys_file sf ON au.avatar_id = sf.id
         WHERE au.id = ${id}
           AND au.del_flag = 1
     </select>
@@ -133,9 +134,10 @@
                  LEFT JOIN auth_role ar ON aur.role_id = ar.id AND ar.del_flag = 1
                  LEFT JOIN auth_role_permission arp ON ar.id = arp.role_id AND arp.del_flag = 1
                  LEFT JOIN auth_permission ap ON arp.permission_id = ap.id AND ap.del_flag = 1
-                 LEFT JOIN sys_file sf ON au.avatar = sf.id
+                 LEFT JOIN sys_file sf ON au.avatar_id = sf.id
         WHERE au.id = ${id}
           AND au.del_flag = 1
+        ORDER BY ap.sort
     </select>
 
     <select id="getUserById" resultType="com.mini.auth.model.dto.AuthUserDetailDTO">
@@ -147,7 +149,7 @@
                sf.file_url AS avatarUrl
         FROM auth_user au
                  LEFT JOIN auth_user_role aur ON au.id = aur.user_id
-                 LEFT JOIN sys_file sf ON au.avatar = sf.id
+                 LEFT JOIN sys_file sf ON au.avatar_id = sf.id
         WHERE au.id = ${id}
           AND au.del_flag = 1
     </select>
