@@ -50,6 +50,8 @@ public class ModeAppRunner implements ApplicationRunner {
 
     private final BmTeacherIntentionService bmTeacherIntentionService;
 
+    private final BmCourseRationService bmCourseRationService;
+
     @Value("${server.port}")
     private String serverPort;
 
@@ -95,6 +97,14 @@ public class ModeAppRunner implements ApplicationRunner {
         handlerClassroomIntention(intentionCurTimeList);
         // 处理教师与意向时间数据默认数据
         handlerTeacherIntention(intentionCurTimeList);
+
+        // 课程比例缓存
+        List<BmCourseRation> bmCourseRationList = bmCourseRationService.list();
+        if (CollectionUtils.isNotEmpty(bmCourseRationList)) {
+            bmCourseRationList.forEach(bmCourseRation ->
+                    RedisUtils.setCacheObject(RedisConstant.COURSE_TYPE_RATIO + ":" + bmCourseRation.getCurType().getStringValue(),
+                    Double.valueOf(bmCourseRation.getRatio())));
+        }
 
     }
 

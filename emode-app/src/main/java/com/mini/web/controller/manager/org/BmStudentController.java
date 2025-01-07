@@ -12,6 +12,7 @@ import com.mini.manager.service.BmStudentConstantService;
 import com.mini.pojo.entity.org.BmStudentConstant;
 import com.mini.pojo.model.edit.org.BmStudentEdit;
 import com.mini.pojo.model.query.org.BmStudentQuery;
+import com.mini.pojo.model.request.org.BmStuHourConvertRequest;
 import com.mini.pojo.model.request.org.BmStudentRequest;
 import com.mini.pojo.model.vo.org.BmStuClassTypeHourVo;
 import com.mini.pojo.model.vo.org.BmStudentConstantVo;
@@ -72,6 +73,13 @@ public class BmStudentController {
     @GetMapping("/stu—class-type-hour/{stuId}")
     public Restful<BmStuClassTypeHourVo> stuClassTypeHour(@PathVariable("stuId") Long id) {
         return Restful.OBJECT(studentBiz.stuClassTypeHour(id)).build();
+    }
+
+    @Operation(summary = "学生课时全量转换")
+    @PostMapping("/stu-hour-convert")
+    public Restful<Void> stuHourConvert(@RequestBody @Valid BmStuHourConvertRequest request) {
+        studentBiz.stuHourConvert(request);
+        return Restful.SUCCESS().build();
     }
 
     @Operation(summary = "新增学生信息")

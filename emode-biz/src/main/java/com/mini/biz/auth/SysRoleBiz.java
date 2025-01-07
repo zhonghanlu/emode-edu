@@ -111,7 +111,7 @@ public class SysRoleBiz {
                 .map(s -> StrUtil.getPartAfterLastDelimiter(s, ":"))
                 .collect(Collectors.toList());
 
-        loginIdList.parallelStream().forEach(t -> {
+        loginIdList.forEach(t -> {
             if (StpUtil.hasRole(t, roleCode)) {
                 StpUtil.logoutByTokenValue(t);
             }

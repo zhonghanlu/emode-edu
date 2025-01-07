@@ -14,6 +14,7 @@ import com.mini.pojo.model.dto.org.BmPatriarchDTO;
 import com.mini.pojo.model.dto.org.BmStudentDTO;
 import com.mini.pojo.model.edit.org.BmStudentEdit;
 import com.mini.pojo.model.query.org.BmStudentQuery;
+import com.mini.pojo.model.request.org.BmStuHourConvertRequest;
 import com.mini.pojo.model.request.org.BmStudentRequest;
 import com.mini.pojo.model.vo.org.BmStuClassTypeHourVo;
 import com.mini.pojo.model.vo.org.BmStudentPatInfoVo;
@@ -127,5 +128,14 @@ public class BmStudentBiz {
      */
     public BmStuClassTypeHourVo stuClassTypeHour(Long id) {
         return bmStudentService.searchStuClassTypeHour(id);
+    }
+
+    /**
+     * 课时转换 全量转换
+     * 缓存中的比例 为： cpp：2 python：1.5 scratch：1
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void stuHourConvert(BmStuHourConvertRequest request) {
+
     }
 }
