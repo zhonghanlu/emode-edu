@@ -7,6 +7,7 @@
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="nickname" property="nickname"/>
+        <result column="avatarId" property="avatarId"/>
         <result column="avatarUrl" property="avatarUrl"/>
         <result column="phone" property="phone"/>
         <result column="user_type" property="userType"/>
@@ -67,6 +68,7 @@
                au.user_type,
                au.sex,
                au.phone,
+               sf.id       AS avatarId,
                sf.file_url AS avatarUrl,
                ar.id       AS roleId,
                ar.role_name,

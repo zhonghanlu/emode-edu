@@ -2,6 +2,7 @@ package com.mini.auth.model.dto;
 
 import com.mini.common.enums.str.Gender;
 import com.mini.common.enums.str.UserType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
@@ -30,6 +31,10 @@ public class AuthUserDetailDTO {
      * 性别
      */
     private Gender sex;
+    /**
+     * 头像Id
+     */
+    private Long avatarId;
     /**
      * 头像id
      */
