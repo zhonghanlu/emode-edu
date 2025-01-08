@@ -3,6 +3,7 @@ package com.mini.biz.manager.org;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.CourseType;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.service.BmPatStuRelationService;
@@ -136,6 +137,13 @@ public class BmStudentBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public void stuHourConvert(BmStuHourConvertRequest request) {
-
+        Long stuId = request.getStuId();
+        CourseType fromCourseType = request.getFromCourseType();
+        CourseType toCourseType = request.getToCourseType();
+        // 1.获取学生信息，判断学生信息是否存在
+        // 2.获取学生课程类型与课时信息 判断基础信息是否存在
+        // 3.获取课时比例信息
+        // 4.计算课时
+        // 5.更新学生课程类型与课时信息
     }
 }
