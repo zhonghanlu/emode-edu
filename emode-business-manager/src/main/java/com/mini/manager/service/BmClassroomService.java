@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mini.pojo.entity.org.BmClassroom;
 import com.mini.pojo.model.dto.org.BmClassroomDTO;
 import com.mini.pojo.model.query.org.BmClassroomQuery;
+import com.mini.pojo.model.vo.org.BmClassroomDetailVo;
 
 import java.util.List;
 import java.util.Map;
@@ -54,4 +55,9 @@ public interface BmClassroomService extends IService<BmClassroom> {
      * 根据教室集合获取以教室id为key的map集合
      */
     Map<Long, BmClassroom> selectByIdList(List<Long> classroomIdList);
+
+    /**
+     * 根据教室 id 查询教室意向详情时间
+     */
+    BmClassroomDetailVo selectClassroomIntentionById(Long id);
 }

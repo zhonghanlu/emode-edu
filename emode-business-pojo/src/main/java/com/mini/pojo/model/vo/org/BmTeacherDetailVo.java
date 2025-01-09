@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 /**
  * <p>
  * 老师表
@@ -16,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "教师展示")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class BmTeacherVo {
+public class BmTeacherDetailVo {
 
     @Schema(title = "主键id")
     private Long id;
@@ -44,4 +46,7 @@ public class BmTeacherVo {
 
     @Schema(title = "归属机构名称")
     private String teaOrgName;
+
+    @Schema(title = "意向时间列表")
+    private List<BmTeacherIntentionVo> bmTeacherIntentionVoList;
 }

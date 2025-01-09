@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mini.pojo.entity.org.BmTeacher;
 import com.mini.pojo.model.dto.org.BmTeacherDTO;
 import com.mini.pojo.model.query.org.BmTeacherQuery;
+import com.mini.pojo.model.vo.org.BmTeacherDetailVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,4 +23,6 @@ import org.apache.ibatis.annotations.Param;
 public interface BmTeacherMapper extends BaseMapper<BmTeacher> {
 
     IPage<BmTeacherDTO> page(@Param("query") BmTeacherQuery query, Page<BmTeacherDTO> build);
+
+    BmTeacherDetailVo selectTeaIntentionDetailById(@Param("teaId") Long id);
 }

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mini.pojo.entity.org.BmTeacher;
 import com.mini.pojo.model.dto.org.BmTeacherDTO;
 import com.mini.pojo.model.query.org.BmTeacherQuery;
+import com.mini.pojo.model.vo.org.BmTeacherDetailVo;
 
 import java.util.List;
 
@@ -53,4 +54,9 @@ public interface BmTeacherService extends IService<BmTeacher> {
      * 获取机构下所有教师数量
      */
     List<BmTeacherDTO> getAllTeacherByOrgId(Long orgId);
+
+    /**
+     * 根据教师 id 查询教师的意向详情
+     */
+    BmTeacherDetailVo selectTeaIntentionDetailById(Long id);
 }

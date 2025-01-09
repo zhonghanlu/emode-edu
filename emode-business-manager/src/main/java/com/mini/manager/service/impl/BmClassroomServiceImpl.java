@@ -16,6 +16,7 @@ import com.mini.pojo.entity.org.BmClassroom;
 import com.mini.pojo.mapper.org.BmClassroomStructMapper;
 import com.mini.pojo.model.dto.org.BmClassroomDTO;
 import com.mini.pojo.model.query.org.BmClassroomQuery;
+import com.mini.pojo.model.vo.org.BmClassroomDetailVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -133,5 +134,10 @@ public class BmClassroomServiceImpl extends ServiceImpl<BmClassroomMapper, BmCla
                     .collect(Collectors.toMap(BmClassroom::getId, Function.identity()));
         }
         return Collections.emptyMap();
+    }
+
+    @Override
+    public BmClassroomDetailVo selectClassroomIntentionById(Long id) {
+        return bmClassroomMapper.selectClassroomIntentionById(id);
     }
 }

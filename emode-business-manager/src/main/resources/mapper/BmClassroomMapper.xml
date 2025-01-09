@@ -8,16 +8,36 @@
         <result column="room_name" property="roomName"/>
         <result column="room_status" property="roomStatus"/>
         <result column="room_size" property="roomSize"/>
+        <collection property="bmCourseForClassroomVoList" ofType="com.mini.pojo.model.vo.org.BmCourseForClassroomVo">
+            <id column="bc_id" property="id"/>
+            <result column="course_type" property="courseType"/>
+            <result column="course_name" property="courseName"/>
+            <result column="course_start_time" property="courseStartTime"/>
+            <result column="course_end_time" property="courseEndTime"/>
+            <result column="tea_name" property="teaName"/>
+            <result column="class_grade_name" property="classGradeName"/>
+            <result column="course_status" property="courseStatus"/>
+        </collection>
     </resultMap>
 
     <select id="page" resultMap="BaseResultMap">
-        SELECT id,
-        room_name,
-        room_status,
-        room_size
-        FROM bm_classroom
+        SELECT br.id,
+        br.room_name,
+        br.room_status,
+        br.room_size,
+
+        bc.id bc_id,
+        bc.course_type,
+        bc.course_name,
+        bc.course_start_time,
+        bc.course_end_time,
+        bc.tea_name,
+        bc.class_grade_name,
+        bc.course_status
+        FROM bm_classroom br
+        LEFT JOIN bm_course bc ON br.id = bc.class_room_id AND bc.del_flag = 1 AND bc.course_start_time = NOW()
         <where>
-            del_flag = 1
+            br.del_flag = 1
             <if test="query.roomName != null and query.roomName != '' ">
                 AND room_name LIKE CONCAT('%',#{query.roomName},'%')
             </if>
@@ -28,6 +48,33 @@
                 AND room_size &gt;= #{query.roomSize}
             </if>
         </where>
+    </select>
+
+    <resultMap id="classroomIntentionResultMap" type="com.mini.pojo.model.vo.org.BmClassroomDetailVo">
+        <id column="id" property="id"/>
+        <result column="room_name" property="roomName"/>
+        <result column="room_status" property="roomStatus"/>
+        <result column="room_size" property="roomSize"/>
+        <collection property="bmClassroomIntentionVoList" ofType="com.mini.pojo.model.vo.org.BmClassroomIntentionVo">
+            <id column="bci_id" property="id"/>
+            <result column="intention_cur_time" property="intentionCurTime"/>
+            <result column="class_grade_id" property="classGradeId"/>
+            <result column="class_grade_name" property="classGradeName"/>
+        </collection>
+    </resultMap>
+    <select id="selectClassroomIntentionById" resultMap="classroomIntentionResultMap">
+        SELECT bc.id,
+               bc.room_name,
+               bc.room_status,
+               bc.room_size,
+               bci.id AS bci_id,
+               bci.intention_cur_time,
+               bci.class_grade_id,
+               bci.class_grade_name
+        FROM bm_classroom bc
+                 LEFT JOIN bm_classroom_intention bci ON bc.id = bci.classroom_id AND bci.del_flag = 1
+        WHERE bc.del_flag = 1
+          AND bc.id = #{classroomId}
     </select>
 
 </mapper>

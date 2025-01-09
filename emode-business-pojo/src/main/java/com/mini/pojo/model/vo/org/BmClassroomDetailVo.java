@@ -18,7 +18,7 @@ import java.util.List;
 @Schema(description = "教室展示")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class BmClassroomVo {
+public class BmClassroomDetailVo {
 
     @Schema(title = "主键id")
     private Long id;
@@ -32,7 +32,7 @@ public class BmClassroomVo {
     @Schema(title = "教室空间（最大容纳人数）")
     private Integer roomSize;
 
-    @Schema(title = "教室当前的课程数据")
-    private List<BmCourseForClassroomVo> bmCourseForClassroomVoList;
+    @Schema(title = "教室意向时间列表")
+    private List<BmClassroomIntentionVo> bmClassroomIntentionVoList;
 
 }

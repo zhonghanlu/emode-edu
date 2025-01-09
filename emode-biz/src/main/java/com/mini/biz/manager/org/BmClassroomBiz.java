@@ -15,6 +15,7 @@ import com.mini.pojo.model.dto.org.BmClassroomDTO;
 import com.mini.pojo.model.edit.org.BmClassroomEdit;
 import com.mini.pojo.model.query.org.BmClassroomQuery;
 import com.mini.pojo.model.request.org.BmClassroomRequest;
+import com.mini.pojo.model.vo.org.BmClassroomDetailVo;
 import com.mini.pojo.model.vo.org.BmClassroomVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,19 +47,14 @@ public class BmClassroomBiz {
      */
     public IPage<BmClassroomVo> page(BmClassroomQuery query) {
         IPage<BmClassroomDTO> page = bmClassroomService.page(query);
-        // 关联课程信息，按照时间区间展示 TODO
         return page.convert(BmClassroomStructMapper.INSTANCE::dto2Vo);
     }
 
     /**
      * 获取当条教室详情
      */
-    public BmClassroomVo getEntityById(Long id) {
-        BmClassroomDTO bmClassroomDTO = bmClassroomService.selectById(id);
-
-        BmClassroomVo bmClassroomVo = BmClassroomStructMapper.INSTANCE.dto2Vo(bmClassroomDTO);
-        // 教室关联意向时间 以及班级统一展示 TODO
-        return bmClassroomVo;
+    public BmClassroomDetailVo getEntityById(Long id) {
+        return bmClassroomService.selectClassroomIntentionById(id);
     }
 
     /**

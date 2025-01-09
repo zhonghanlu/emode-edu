@@ -6,6 +6,7 @@ import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.org.BmClassroomEdit;
 import com.mini.pojo.model.query.org.BmClassroomQuery;
 import com.mini.pojo.model.request.org.BmClassroomRequest;
+import com.mini.pojo.model.vo.org.BmClassroomDetailVo;
 import com.mini.pojo.model.vo.org.BmClassroomVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,7 +44,7 @@ public class BmClassroomController {
 
     @Operation(summary = "教室详情")
     @GetMapping("/detail/{roomId}")
-    public Restful<BmClassroomVo> getDetailById(@PathVariable("roomId") Long id) {
+    public Restful<BmClassroomDetailVo> getDetailById(@PathVariable("roomId") Long id) {
         return Restful.OBJECT(classroomBiz.getEntityById(id)).build();
     }
 

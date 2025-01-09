@@ -13,7 +13,6 @@ import com.mini.common.enums.str.UserType;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.SmCryptoUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
-import com.mini.file.model.dto.SysFileDTO;
 import com.mini.file.service.ISysFileService;
 import com.mini.manager.service.BmTeacherIntentionService;
 import com.mini.manager.service.BmTeacherService;
@@ -26,6 +25,7 @@ import com.mini.pojo.model.dto.org.BmTeacherDTO;
 import com.mini.pojo.model.edit.org.BmTeacherEdit;
 import com.mini.pojo.model.query.org.BmTeacherQuery;
 import com.mini.pojo.model.request.org.BmTeacherRequest;
+import com.mini.pojo.model.vo.org.BmTeacherDetailVo;
 import com.mini.pojo.model.vo.org.BmTeacherVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,8 +49,6 @@ public class BmTeacherBiz {
 
     private final BmTeacherService bmTeacherService;
 
-    private final ISysFileService sysFileService;
-
     private final BmUserTeacherService bmUserTeacherService;
 
     private final IAuthUserService authUserService;
@@ -70,24 +68,8 @@ public class BmTeacherBiz {
     /**
      * 获取当条教师详情
      */
-    public BmTeacherVo getEntityById(Long id) {
-        BmTeacherDTO bmTeacherDTO = bmTeacherService.selectById(id);
-
-        if (Objects.isNull(bmTeacherDTO)) {
-            return null;
-        }
-
-        SysFileDTO sysFileDTO = sysFileService.getById(bmTeacherDTO.getTeaAvatarId());
-
-        if (Objects.nonNull(sysFileDTO)) {
-            bmTeacherDTO.setTeaAvatarUrl(sysFileDTO.getFileUrl());
-        }
-
-        BmTeacherVo bmTeacherVo = BmTeacherStructMapper.INSTANCE.dto2Vo(bmTeacherDTO);
-
-        // TODO 意向时间关联班级信息统一展示
-
-        return bmTeacherVo;
+    public BmTeacherDetailVo getEntityById(Long id) {
+        return bmTeacherService.selectTeaIntentionDetailById(id);
     }
 
     /**

@@ -21,6 +21,7 @@ import com.mini.pojo.entity.org.BmUserTeacher;
 import com.mini.pojo.mapper.org.BmTeacherStructMapper;
 import com.mini.pojo.model.dto.org.BmTeacherDTO;
 import com.mini.pojo.model.query.org.BmTeacherQuery;
+import com.mini.pojo.model.vo.org.BmTeacherDetailVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -142,5 +143,10 @@ public class BmTeacherServiceImpl extends ServiceImpl<BmTeacherMapper, BmTeacher
                 .eq(BmTeacher::getDelFlag, Delete.NO);
         List<BmTeacher> bmTeacherList = bmTeacherMapper.selectList(wrapper1);
         return BmTeacherStructMapper.INSTANCE.entityList2DtoList(bmTeacherList);
+    }
+
+    @Override
+    public BmTeacherDetailVo selectTeaIntentionDetailById(Long id) {
+        return bmTeacherMapper.selectTeaIntentionDetailById(id);
     }
 }

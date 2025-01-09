@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mini.pojo.entity.org.BmClassroom;
 import com.mini.pojo.model.dto.org.BmClassroomDTO;
 import com.mini.pojo.model.query.org.BmClassroomQuery;
+import com.mini.pojo.model.vo.org.BmClassroomDetailVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,4 +23,6 @@ import org.apache.ibatis.annotations.Param;
 public interface BmClassroomMapper extends BaseMapper<BmClassroom> {
 
     IPage<BmClassroomDTO> page(@Param("query") BmClassroomQuery query, Page<BmClassroomDTO> build);
+
+    BmClassroomDetailVo selectClassroomIntentionById(@Param("classroomId") Long id);
 }

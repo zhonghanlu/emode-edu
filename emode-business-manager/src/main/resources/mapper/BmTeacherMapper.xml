@@ -38,4 +38,43 @@
         </where>
     </select>
 
+    <resultMap id="teaIntentionResultMap" type="com.mini.pojo.model.vo.org.BmTeacherDetailVo">
+        <id column="id" property="id"/>
+        <result column="tea_avatar_id" property="teaAvatarId"/>
+        <result column="teaAvatarUrl" property="teaAvatarUrl"/>
+        <result column="tea_name" property="teaName"/>
+        <result column="tea_phone" property="teaPhone"/>
+        <result column="sex" property="sex"/>
+        <result column="tea_email" property="teaEmail"/>
+        <result column="tea_org_id" property="teaOrgId"/>
+        <result column="tea_org_name" property="teaOrgName"/>
+        <collection property="bmTeacherIntentionVoList" ofType="com.mini.pojo.model.vo.org.BmTeacherIntentionVo">
+            <id column="teaIntentionId" property="id"/>
+            <result column="intention_cur_time" property="intentionCurTime"/>
+            <result column="class_grade_id" property="classGradeId"/>
+            <result column="class_grade_name" property="classGradeName"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectTeaIntentionDetailById" resultMap="teaIntentionResultMap">
+        SELECT bt.id,
+               bt.tea_avatar_id,
+               sf.file_url AS teaAvatarUrl,
+               bt.tea_name,
+               bt.tea_phone,
+               bt.sex,
+               bt.tea_email,
+               bt.tea_org_id,
+               bt.tea_org_name,
+               bti.id      AS teaIntentionId,
+               bti.intention_cur_time,
+               bti.class_grade_id,
+               bti.class_grade_name
+        FROM bm_teacher bt
+                 LEFT JOIN sys_file sf ON bt.tea_avatar_id = sf.id AND sf.del_flag = 1
+                 LEFT JOIN bm_teacher_intention bti ON bt.id = bti.teacher_id AND bti.del_flag = 1
+        WHERE bt.del_flag = 1
+          AND bt.id = #{teaId}
+    </select>
+
 </mapper>

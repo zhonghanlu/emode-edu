@@ -1,9 +1,12 @@
 package com.mini.pojo.model.dto.org;
 
 import com.mini.common.enums.str.RoomStatus;
+import com.mini.pojo.model.vo.org.BmCourseForClassroomVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * <p>
@@ -28,5 +31,8 @@ public class BmClassroomDTO {
 
     @Schema(name = "教室空间（最大容纳人数）")
     private Integer roomSize;
+
+    @Schema(title = "教室当前的课程数据")
+    private List<BmCourseForClassroomVo> bmCourseForClassroomVoList;
 
 }
