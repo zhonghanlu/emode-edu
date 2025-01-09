@@ -46,6 +46,7 @@ public class BmClassroomBiz {
      */
     public IPage<BmClassroomVo> page(BmClassroomQuery query) {
         IPage<BmClassroomDTO> page = bmClassroomService.page(query);
+        // 关联课程信息，按照时间区间展示 TODO
         return page.convert(BmClassroomStructMapper.INSTANCE::dto2Vo);
     }
 
@@ -54,7 +55,10 @@ public class BmClassroomBiz {
      */
     public BmClassroomVo getEntityById(Long id) {
         BmClassroomDTO bmClassroomDTO = bmClassroomService.selectById(id);
-        return BmClassroomStructMapper.INSTANCE.dto2Vo(bmClassroomDTO);
+
+        BmClassroomVo bmClassroomVo = BmClassroomStructMapper.INSTANCE.dto2Vo(bmClassroomDTO);
+        // 教室关联意向时间 以及班级统一展示 TODO
+        return bmClassroomVo;
     }
 
     /**

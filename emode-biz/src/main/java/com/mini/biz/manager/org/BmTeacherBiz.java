@@ -83,8 +83,11 @@ public class BmTeacherBiz {
             bmTeacherDTO.setTeaAvatarUrl(sysFileDTO.getFileUrl());
         }
 
+        BmTeacherVo bmTeacherVo = BmTeacherStructMapper.INSTANCE.dto2Vo(bmTeacherDTO);
 
-        return BmTeacherStructMapper.INSTANCE.dto2Vo(bmTeacherDTO);
+        // TODO 意向时间关联班级信息统一展示
+
+        return bmTeacherVo;
     }
 
     /**
