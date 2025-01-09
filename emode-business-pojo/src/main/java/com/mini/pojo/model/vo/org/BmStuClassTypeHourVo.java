@@ -1,5 +1,6 @@
 package com.mini.pojo.model.vo.org;
 
+import com.mini.pojo.entity.org.BmClassHourConvert;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,4 +28,7 @@ public class BmStuClassTypeHourVo {
 
     @Schema(title = "学生对应课时信息")
     private List<BmStuClassHourVo> bmStuClassHourVoList;
+
+    @Schema(title = "学生转换课时记录")
+    private List<BmClassHourConvertVo> bmClassHourConvertVoList;
 }

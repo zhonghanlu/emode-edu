@@ -2,12 +2,14 @@ package com.mini.pojo.model.vo.org;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mini.common.enums.str.Gender;
+import com.mini.pojo.model.dto.org.BmStuClassHourDataDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -47,5 +49,8 @@ public class BmStudentVo {
 
     @Schema(title = "学生当前年级")
     private String stuCurGrade;
+
+    @Schema(title = "学生课时相关数据")
+    private List<BmStuClassHourDataVo> bmStuClassHourDataVoList;
 
 }

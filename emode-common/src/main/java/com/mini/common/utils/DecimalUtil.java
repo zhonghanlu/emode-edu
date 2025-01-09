@@ -118,12 +118,28 @@ public class DecimalUtil {
     /**
      * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到
      * 小数点以后2位，以后的数字四舍五入。
+     * <p>
+     * 默认进入的是万单位，先进行除10000 获取结果再乘10000返回
      *
      * @param v1 被除数
      * @param v2 除数
      * @return 两个参数的商
      */
     public static double div2(long v1, long v2) {
+        return div(v1, v2, DEF_DIV_SCALE_TWO);
+    }
+
+    /**
+     * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到
+     * 小数点以后2位，以后的数字四舍五入。
+     * <p>
+     * 默认进入的是万单位，先进行除10000 获取结果再乘10000返回
+     *
+     * @param v1 被除数
+     * @param v2 除数
+     * @return 两个参数的商
+     */
+    public static double div2(double v1, double v2) {
         return div(v1, v2, DEF_DIV_SCALE_TWO);
     }
 

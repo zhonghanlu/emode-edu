@@ -30,5 +30,5 @@ public interface BmStuClassHourService extends IService<BmStuClassHour> {
     /**
      * 根据学生 id 和课时类型 进行增加课时，没有此类型，进行新增操作
      */
-    void handlerStuClassHour(long stuId, CourseType courseType, Integer optType, long classHour, String phone);
+    Long handlerStuClassHour(long stuId, CourseType courseType, Integer optType, long classHour, String phone);
 }

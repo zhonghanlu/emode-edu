@@ -4,24 +4,38 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.org.BmStudentDTO">
-        <id column="id" property="id"/>
+        <id column="stuId" property="id"/>
         <result column="stu_name" property="stuName"/>
         <result column="stu_sex" property="stuSex"/>
         <result column="stu_birth" property="stuBirth"/>
         <result column="stu_cur_school" property="stuCurSchool"/>
-        <result column="stu_cur_schoolId" property="stuCurSchoolId"/>
+        <result column="stu_cur_school_id" property="stuCurSchoolId"/>
         <result column="stu_cur_grade" property="stuCurGrade"/>
-        <result column="stu_cur_gradeId" property="stuCurGradeId"/>
+        <result column="stu_cur_grade_id" property="stuCurGradeId"/>
+        <collection property="bmStuClassHourDataDTOList"
+                    ofType="com.mini.pojo.model.dto.org.BmStuClassHourDataDTO">
+            <id column="classHourId" property="id"/>
+            <result column="class_hour_type" property="classHourType"/>
+            <result column="class_hour" property="classHour"/>
+        </collection>
     </resultMap>
 
     <select id="page" resultMap="BaseResultMap">
-        SELECT id,
-        stu_name,
-        stu_sex,
-        stu_birth,
-        stu_cur_school,
-        stu_cur_grade
-        FROM bm_student
+        SELECT
+        bs.id AS stuId,
+        bs.stu_name,
+        bs.stu_sex,
+        bs.stu_birth,
+        bs.stu_cur_school_id,
+        bs.stu_cur_school,
+        bs.stu_cur_grade_id,
+        bs.stu_cur_grade,
+        bsch.id AS classHourId,
+        bsch.class_hour_type,
+        bsch.class_hour
+        FROM
+        bm_student bs
+        LEFT JOIN bm_stu_class_hour bsch ON bs.id = bsch.stu_id
         <where>
             del_flag = 1
             <if test="query.stuName != null and query.stuName != '' ">

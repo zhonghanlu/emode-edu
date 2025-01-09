@@ -1,11 +1,15 @@
 package com.mini.pojo.model.dto.org;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.mini.common.enums.str.CourseType;
 import com.mini.common.enums.str.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -43,5 +47,9 @@ public class BmStudentDTO {
 
     @Schema(title = "学生当前年级")
     private String stuCurGrade;
+
+    @Schema(title = "学生课时相关数据")
+    private List<BmStuClassHourDataDTO> bmStuClassHourDataDTOList;
+
 
 }

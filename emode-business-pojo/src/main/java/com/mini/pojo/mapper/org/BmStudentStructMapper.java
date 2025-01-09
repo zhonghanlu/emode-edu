@@ -6,6 +6,7 @@ import com.mini.pojo.model.edit.org.BmStudentEdit;
 import com.mini.pojo.model.request.org.BmStudentRequest;
 import com.mini.pojo.model.vo.org.BmStudentVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -30,6 +31,7 @@ public interface BmStudentStructMapper {
     /**
      * dto2vo
      */
+    @Mapping(source = "bmStuClassHourDataDTOList", target = "bmStuClassHourDataVoList")
     BmStudentVo dto2Vo(BmStudentDTO dto);
 
     /**

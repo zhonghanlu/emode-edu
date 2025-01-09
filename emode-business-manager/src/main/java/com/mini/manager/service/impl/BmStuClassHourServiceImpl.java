@@ -66,7 +66,7 @@ public class BmStuClassHourServiceImpl extends ServiceImpl<BmStuClassHourMapper,
      * @param phone      通知家长课时信息
      */
     @Override
-    public void handlerStuClassHour(long stuId, CourseType courseType, Integer optType, long classHour, String phone) {
+    public Long handlerStuClassHour(long stuId, CourseType courseType, Integer optType, long classHour, String phone) {
         BmStuClassHour typeClassHour = getTypeClassHour(stuId, courseType);
         if (Objects.isNull(typeClassHour)) {
             // 当前课时类型不存在不允许进行减少操作
@@ -87,7 +87,7 @@ public class BmStuClassHourServiceImpl extends ServiceImpl<BmStuClassHourMapper,
             if (b <= 0) {
                 throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "新增课时失败");
             }
-            return;
+            return bmStuClassHour.getId();
         }
 
         // 修改操作
@@ -98,7 +98,7 @@ public class BmStuClassHourServiceImpl extends ServiceImpl<BmStuClassHourMapper,
             // 减少之后小于最大承受负课时，进行抛异常
             if (targetClassHour < StuClassHourConstant.LOSE_CLASS_HOUR) {
                 // TODO: 发送短信通知
-                throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, typeClassHour.getStuName() + "课时不足");
+                log.warn("学生：" + typeClassHour.getStuName() + " 课时不足");
             }
 
             if (targetClassHour < StuClassHourConstant.WARNING_CLASS_HOUR) {
@@ -112,5 +112,6 @@ public class BmStuClassHourServiceImpl extends ServiceImpl<BmStuClassHourMapper,
         }
         typeClassHour.setClassHour(targetClassHour);
         bmStuClassHourMapper.updateById(typeClassHour);
+        return typeClassHour.getId();
     }
 }
