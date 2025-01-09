@@ -44,7 +44,7 @@ public class BmClassroomServiceImpl extends ServiceImpl<BmClassroomMapper, BmCla
     private final BmClassroomMapper bmClassroomMapper;
 
     @Override
-    public void add(BmClassroomDTO dto) {
+    public BmClassroomDTO add(BmClassroomDTO dto) {
         BmClassroom bmClassroom = BmClassroomStructMapper.INSTANCE.dto2Entity(dto);
 
         bmClassroom.setId(IDGenerator.next());
@@ -63,6 +63,7 @@ public class BmClassroomServiceImpl extends ServiceImpl<BmClassroomMapper, BmCla
         if (b <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "新增失败");
         }
+        return BmClassroomStructMapper.INSTANCE.entity2Dto(bmClassroom);
     }
 
     @Override

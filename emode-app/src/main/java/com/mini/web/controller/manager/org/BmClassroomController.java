@@ -68,4 +68,11 @@ public class BmClassroomController {
         return Restful.SUCCESS().build();
     }
 
+    @Operation(summary = "同步教室意向时间数据")
+    @PostMapping("/sync-classroom")
+    public Restful<Void> syncClassroom() {
+        classroomBiz.syncClassroom();
+        return Restful.SUCCESS().build();
+    }
+
 }

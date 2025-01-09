@@ -23,7 +23,7 @@ public interface BmClassroomService extends IService<BmClassroom> {
     /**
      * 增
      */
-    void add(BmClassroomDTO dto);
+    BmClassroomDTO add(BmClassroomDTO dto);
 
     /**
      * 删
