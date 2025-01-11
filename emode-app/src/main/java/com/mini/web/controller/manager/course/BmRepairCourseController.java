@@ -6,7 +6,9 @@ import com.mini.biz.manager.course.BmRepairCourseBiz;
 import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.course.BmRepairCourseEdit;
 import com.mini.pojo.model.query.course.BmRepairCourseQuery;
+import com.mini.pojo.model.request.course.BmRepairCourseFinishRequest;
 import com.mini.pojo.model.request.course.BmRepairCourseRequest;
+import com.mini.pojo.model.request.course.BmRepairCourseUploadFileRequest;
 import com.mini.pojo.model.vo.course.BmRepairCourseVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,7 +50,7 @@ public class BmRepairCourseController {
         return Restful.OBJECT(bmRepairCourseBiz.getEntityById(id)).build();
     }
 
-    @Operation(summary = "新增补课信息")
+    @Operation(summary = "新增补课信息-仅支持从补课数据获取")
     @PostMapping("/add")
     public Restful<Void> insert(@RequestBody @Valid BmRepairCourseRequest request) {
         bmRepairCourseBiz.insert(request);
@@ -66,6 +68,20 @@ public class BmRepairCourseController {
     @PostMapping("/update")
     public Restful<Void> update(@RequestBody @Valid BmRepairCourseEdit edit) {
         bmRepairCourseBiz.update(edit);
+        return Restful.SUCCESS().build();
+    }
+
+    @Operation(summary = "上传补课讲义与作业")
+    @PostMapping("/upload-file")
+    public Restful<Void> uploadFile(@RequestBody @Valid BmRepairCourseUploadFileRequest request) {
+        bmRepairCourseBiz.uploadFile(request);
+        return Restful.SUCCESS().build();
+    }
+
+    @Operation(summary = "补课结束")
+    @PostMapping("/finish")
+    public Restful<Void> finish(@RequestBody @Valid BmRepairCourseFinishRequest request) {
+        bmRepairCourseBiz.finish(request);
         return Restful.SUCCESS().build();
     }
 }

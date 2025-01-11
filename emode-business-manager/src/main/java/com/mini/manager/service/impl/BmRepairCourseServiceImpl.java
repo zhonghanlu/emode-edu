@@ -35,7 +35,7 @@ public class BmRepairCourseServiceImpl extends ServiceImpl<BmRepairCourseMapper,
     private final BmRepairCourseMapper bmRepairCourseMapper;
 
     @Override
-    public void add(BmRepairCourseDTO dto) {
+    public BmRepairCourse add(BmRepairCourseDTO dto) {
         BmRepairCourse bmRepairCourse = BmRepairCourseStructMapper.INSTANCE.dto2Entity(dto);
 
         // 校验时间
@@ -51,6 +51,7 @@ public class BmRepairCourseServiceImpl extends ServiceImpl<BmRepairCourseMapper,
         if (b <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "新增失败");
         }
+        return bmRepairCourse;
     }
 
     @Override

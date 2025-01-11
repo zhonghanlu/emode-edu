@@ -1,9 +1,12 @@
 package com.mini.manager.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.YesOrNo;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.mybatis.CommonMybatisUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
@@ -23,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -122,6 +126,17 @@ public class BmLackCourseServiceImpl extends ServiceImpl<BmLackCourseMapper, BmL
     @Override
     public IPage<BmLackCourseDTO> page(BmLackCourseQuery query) {
         return bmLackCourseMapper.page(query, query.build());
+    }
+
+    @Override
+    public List<BmLackCourseDTO> selectByIdList(List<Long> lackCourseIdList) {
+        LambdaQueryWrapper<BmLackCourse> wrapper = Wrappers.lambdaQuery(BmLackCourse.class);
+
+        wrapper.in(BmLackCourse::getId, lackCourseIdList)
+                .eq(BmLackCourse::getLackStatus, YesOrNo.NO)
+                .eq(BmLackCourse::getDelFlag, Delete.NO);
+
+        return BmLackCourseStructMapper.INSTANCE.entityList2DtoList(bmLackCourseMapper.selectList(wrapper));
     }
 
 

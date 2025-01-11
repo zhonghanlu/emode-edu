@@ -19,7 +19,7 @@ public interface BmRepairCourseService extends IService<BmRepairCourse> {
     /**
      * 增
      */
-    void add(BmRepairCourseDTO dto);
+    BmRepairCourse add(BmRepairCourseDTO dto);
 
     /**
      * 删

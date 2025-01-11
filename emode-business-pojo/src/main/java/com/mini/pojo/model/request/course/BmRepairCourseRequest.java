@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -35,4 +36,8 @@ public class BmRepairCourseRequest {
 
     @Schema(title = "补课结束时间")
     private LocalDateTime repairEndTime;
+
+    @NotNull(message = "缺课idList不可为空")
+    @Schema(title = "缺课 id list")
+    private List<Long> lackCourseIdList;
 }
