@@ -16,5 +16,18 @@ import java.util.Map;
  */
 public interface BmStuClassGradeService extends IService<BmStuClassGrade> {
 
+    /**
+     * 根据班级id  查询  key 为 班级id  value 为 学生集合
+     */
     Map<Long, List<BmStuClassGrade>> mapForClassGradeIdList(List<Long> classGradeIdList);
+
+    /**
+     * 根据学生 id 与班级 id 查询唯一数据
+     */
+    BmStuClassGrade selectByStuIdAndClassGradeId(Long stuId, Long fromClassGradeId);
+
+    /**
+     * 根据学生 id   查询 班级数据 以及 课程类型数据为空的数据 取一条
+     */
+    BmStuClassGrade selectByStuIdOutOne(Long stuId);
 }

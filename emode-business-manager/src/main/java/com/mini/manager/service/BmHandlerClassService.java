@@ -59,4 +59,9 @@ public interface BmHandlerClassService extends IService<BmHandlerClass> {
      * 确认此批分班数据
      */
     void confirmedHandlerClass(List<Long> handlerIdList);
+
+    /**
+     * 根据学生 id  课程类型 课程长短期 找到唯一的待分班数据
+     */
+    BmHandlerClassDTO selectByStuIdAndCurTypeAndType(Long stuId, CourseType curType, ProductType classGradeType);
 }

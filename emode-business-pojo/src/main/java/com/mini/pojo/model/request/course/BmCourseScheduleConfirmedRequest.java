@@ -21,13 +21,13 @@ public class BmCourseScheduleConfirmedRequest {
     @Schema(title = "课表名称")
     private String curScheduleName;
 
-    @NotNull(message = "课程开始时间不能为空")
+    @NotNull(message = "课表开始时间不能为空")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = "课表开始时间")
     private LocalDateTime curScheduleStarTime;
 
-    @NotNull(message = "课程结束时间不能为空")
+    @NotNull(message = "课表结束时间不能为空")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = "课表结束时间")

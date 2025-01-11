@@ -1,5 +1,6 @@
 package com.mini.manager.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -24,13 +25,17 @@ import com.mini.pojo.entity.org.BmTeacher;
 import com.mini.pojo.mapper.course.BmClassGradeStructMapper;
 import com.mini.pojo.model.dto.course.BmClassGradeDTO;
 import com.mini.pojo.model.query.course.BmClassGradeQuery;
+import com.mini.pojo.model.vo.course.BmClassGradeStuVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -164,6 +169,24 @@ public class BmClassGradeServiceImpl extends ServiceImpl<BmClassGradeMapper, BmC
         return bmStuClassGradeList.stream()
                 .collect(Collectors.groupingBy(BmStuClassGrade::getClassGradeId,
                         Collectors.mapping(BmStuClassGrade::getStuId, Collectors.toList())));
+    }
+
+    @Override
+    public List<BmClassGradeStuVo> selectDetailForStuById(Long id) {
+        return bmClassGradeMapper.selectDetailForStuById(id);
+    }
+
+    @Override
+    public Map<Long, BmClassGrade> selectInfoByIdListForMap(List<Long> idList) {
+        if (CollectionUtils.isNotEmpty(idList)) {
+            LambdaQueryWrapper<BmClassGrade> wrapper = Wrappers.lambdaQuery(BmClassGrade.class);
+            wrapper.in(BmClassGrade::getId, idList)
+                    .eq(BmClassGrade::getDelFlag, Delete.NO);
+            List<BmClassGrade> bmClassGradeList = bmClassGradeMapper.selectList(wrapper);
+            return bmClassGradeList.stream()
+                    .collect(Collectors.toMap(BmClassGrade::getId, Function.identity()));
+        }
+        return Collections.emptyMap();
     }
 
 

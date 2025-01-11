@@ -42,4 +42,16 @@
         </where>
     </select>
 
+    <select id="selectDetailForStuById" resultType="com.mini.pojo.model.vo.course.BmClassGradeStuVo">
+        SELECT bscg.stu_id AS id,
+               bscg.stu_name,
+               bsch.class_hour_type,
+               bsch.class_hour
+        FROM bm_stu_class_grade bscg
+                 LEFT JOIN bm_stu_class_hour bsch ON bscg.stu_id = bsch.stu_id
+            AND bscg.course_type = bsch.class_hour_type
+        WHERE bscg.del_flag = 1
+          AND bscg.class_grade_id = #{classGradeId}
+    </select>
+
 </mapper>

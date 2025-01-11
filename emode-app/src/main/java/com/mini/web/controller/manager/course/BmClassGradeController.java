@@ -6,7 +6,11 @@ import com.mini.biz.manager.course.BmClassGradeBiz;
 import com.mini.common.utils.webmvc.Restful;
 import com.mini.pojo.model.edit.course.BmClassGradeEdit;
 import com.mini.pojo.model.query.course.BmClassGradeQuery;
+import com.mini.pojo.model.request.course.BmClassGradeAddStuRequest;
+import com.mini.pojo.model.request.course.BmClassGradeMoveOutRequest;
+import com.mini.pojo.model.request.course.BmClassGradeMoveStuRequest;
 import com.mini.pojo.model.request.course.BmClassGradeRequest;
+import com.mini.pojo.model.vo.course.BmClassGradeStuVo;
 import com.mini.pojo.model.vo.course.BmClassGradeVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * <p>
@@ -42,10 +47,31 @@ public class BmClassGradeController {
         return Restful.OBJECT(bmClassGradeBiz.page(query)).build();
     }
 
-    @Operation(summary = "班级详情")
-    @GetMapping("/detail/{gradeId}")
-    public Restful<BmClassGradeVo> getDetailById(@PathVariable("gradeId") Long id) {
-        return Restful.OBJECT(bmClassGradeBiz.getEntityById(id)).build();
+    @Operation(summary = "班级内学生信息详情")
+    @GetMapping("/detail-stu/{gradeId}")
+    public Restful<List<BmClassGradeStuVo>> getDetailForStuById(@PathVariable("gradeId") Long id) {
+        return Restful.OBJECT(bmClassGradeBiz.getDetailForStuById(id)).build();
+    }
+
+    @Operation(summary = "相同类型移动学生数据")
+    @PostMapping("/move-stu")
+    public Restful<Void> moveStu(@RequestBody @Valid BmClassGradeMoveStuRequest request) {
+        bmClassGradeBiz.moveStu(request);
+        return Restful.SUCCESS().build();
+    }
+
+    @Operation(summary = "将学生移除班级")
+    @PostMapping("/move-out")
+    public Restful<Void> moveOut(@RequestBody @Valid BmClassGradeMoveOutRequest request) {
+        bmClassGradeBiz.moveOut(request);
+        return Restful.SUCCESS().build();
+    }
+
+    @Operation(summary = "班级新增人员数据")
+    @PostMapping("/classGrade-add-stu")
+    public Restful<Void> classGradeAddStu(@RequestBody @Valid BmClassGradeAddStuRequest request) {
+        bmClassGradeBiz.classGradeAddStu(request);
+        return Restful.SUCCESS().build();
     }
 
     @Operation(summary = "新增班级信息")

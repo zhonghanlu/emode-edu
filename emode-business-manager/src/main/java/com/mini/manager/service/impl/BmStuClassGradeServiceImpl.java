@@ -3,6 +3,7 @@ package com.mini.manager.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mini.common.constant.LastSql;
 import com.mini.common.enums.number.Delete;
 import com.mini.manager.mapper.BmStuClassGradeMapper;
 import com.mini.manager.service.BmStuClassGradeService;
@@ -35,5 +36,26 @@ public class BmStuClassGradeServiceImpl extends ServiceImpl<BmStuClassGradeMappe
                 .eq(BmStuClassGrade::getDelFlag, Delete.NO);
         List<BmStuClassGrade> bmStuClassGradeList = bmStuClassGradeMapper.selectList(wrapper);
         return bmStuClassGradeList.stream().collect(Collectors.groupingBy(BmStuClassGrade::getClassGradeId));
+    }
+
+    @Override
+    public BmStuClassGrade selectByStuIdAndClassGradeId(Long stuId, Long fromClassGradeId) {
+        LambdaQueryWrapper<BmStuClassGrade> wrapper = Wrappers.lambdaQuery(BmStuClassGrade.class);
+        wrapper.eq(BmStuClassGrade::getClassGradeId, fromClassGradeId)
+                .eq(BmStuClassGrade::getStuId, stuId)
+                .eq(BmStuClassGrade::getDelFlag, Delete.NO)
+                .last(LastSql.LIMIT_ONE);
+        return bmStuClassGradeMapper.selectOne(wrapper);
+    }
+
+    @Override
+    public BmStuClassGrade selectByStuIdOutOne(Long stuId) {
+        LambdaQueryWrapper<BmStuClassGrade> wrapper = Wrappers.lambdaQuery(BmStuClassGrade.class);
+        wrapper.eq(BmStuClassGrade::getStuId, stuId)
+                .isNull(BmStuClassGrade::getCourseType)
+                .isNull(BmStuClassGrade::getClassGradeId)
+                .eq(BmStuClassGrade::getDelFlag, Delete.NO)
+                .last(LastSql.LIMIT_ONE);
+        return bmStuClassGradeMapper.selectOne(wrapper);
     }
 }

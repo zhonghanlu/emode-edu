@@ -6,6 +6,7 @@ import com.mini.common.enums.str.IntentionCurTime;
 import com.mini.pojo.entity.course.BmClassGrade;
 import com.mini.pojo.model.dto.course.BmClassGradeDTO;
 import com.mini.pojo.model.query.course.BmClassGradeQuery;
+import com.mini.pojo.model.vo.course.BmClassGradeStuVo;
 
 import java.util.List;
 import java.util.Map;
@@ -59,4 +60,14 @@ public interface BmClassGradeService extends IService<BmClassGrade> {
      * 根据班级id获取以班级为key 学生id为value的map
      */
     Map<Long, List<Long>> selectByIdListForMap(List<Long> classGradeIdList);
+
+    /**
+     * 根据班级 id 查询班级下学生的信息
+     */
+    List<BmClassGradeStuVo> selectDetailForStuById(Long id);
+
+    /**
+     * 根据班级 id 获取数据 key 为班级 id value  为班级数据
+     */
+    Map<Long, BmClassGrade> selectInfoByIdListForMap(List<Long> idList);
 }

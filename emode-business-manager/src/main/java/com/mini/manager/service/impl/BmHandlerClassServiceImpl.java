@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.ErrorCodeConstant;
+import com.mini.common.constant.LastSql;
 import com.mini.common.enums.number.Delete;
 import com.mini.common.enums.str.CourseType;
 import com.mini.common.enums.str.HandlerClassStatus;
@@ -140,5 +141,18 @@ public class BmHandlerClassServiceImpl extends ServiceImpl<BmHandlerClassMapper,
         if (b <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "更新待分班数据失败");
         }
+    }
+
+    @Override
+    public BmHandlerClassDTO selectByStuIdAndCurTypeAndType(Long stuId, CourseType curType, ProductType classGradeType) {
+        LambdaQueryWrapper<BmHandlerClass> wrapper = Wrappers.lambdaQuery(BmHandlerClass.class);
+
+        wrapper.eq(BmHandlerClass::getStuId, stuId)
+                .eq(BmHandlerClass::getCurType, curType)
+                .eq(BmHandlerClass::getProductType, classGradeType)
+                .eq(BmHandlerClass::getHandlerClassStatus, HandlerClassStatus.TO_HANDLER_CLASS)
+                .eq(BmHandlerClass::getDelFlag, Delete.NO)
+                .last(LastSql.LIMIT_ONE);
+        return BmHandlerClassStructMapper.INSTANCE.entity2Dto(bmHandlerClassMapper.selectOne(wrapper));
     }
 }
