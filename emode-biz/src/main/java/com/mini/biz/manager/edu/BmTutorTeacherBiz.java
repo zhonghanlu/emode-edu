@@ -1,9 +1,13 @@
 package com.mini.biz.manager.edu;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.mini.common.constant.ErrorCodeConstant;
+import com.mini.common.exception.service.EModeServiceException;
+import com.mini.manager.service.BmTeacherService;
 import com.mini.manager.service.BmTutorTeacherService;
 import com.mini.pojo.mapper.edu.BmTutorTeacherStructMapper;
 import com.mini.pojo.model.dto.edu.BmTutorTeacherDTO;
+import com.mini.pojo.model.dto.org.BmTeacherDTO;
 import com.mini.pojo.model.edit.edu.BmTutorTeacherEdit;
 import com.mini.pojo.model.query.edu.BmTutorTeacherQuery;
 import com.mini.pojo.model.request.edu.BmTutorTeacherRequest;
@@ -12,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 /**
  * @author zhl
@@ -23,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class BmTutorTeacherBiz {
 
     private final BmTutorTeacherService bmTutorTeacherService;
+
+    private final BmTeacherService bmTeacherService;
 
     /**
      * 分页
@@ -45,6 +53,15 @@ public class BmTutorTeacherBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public void insert(BmTutorTeacherRequest request) {
+
+        Long teaId = request.getTeaId();
+
+        BmTeacherDTO bmTeacherDTO = bmTeacherService.selectById(teaId);
+
+        if (Objects.isNull(bmTeacherDTO)) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "申请教室信息不存在");
+        }
+
         bmTutorTeacherService.add(BmTutorTeacherStructMapper.INSTANCE.req2Dto(request));
     }
 

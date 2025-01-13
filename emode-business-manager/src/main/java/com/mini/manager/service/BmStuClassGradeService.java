@@ -1,6 +1,7 @@
 package com.mini.manager.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mini.common.enums.str.CourseType;
 import com.mini.pojo.entity.course.BmStuClassGrade;
 
 import java.util.List;
@@ -30,4 +31,9 @@ public interface BmStuClassGradeService extends IService<BmStuClassGrade> {
      * 根据学生 id   查询 班级数据 以及 课程类型数据为空的数据 取一条
      */
     BmStuClassGrade selectByStuIdOutOne(Long stuId);
+
+    /**
+     * 根据学生id以及课程类型查询对应班级
+     */
+    BmStuClassGrade selectByStuId(Long id, CourseType courseType);
 }

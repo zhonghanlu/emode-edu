@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.LastSql;
 import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.CourseType;
 import com.mini.manager.mapper.BmStuClassGradeMapper;
 import com.mini.manager.service.BmStuClassGradeService;
 import com.mini.pojo.entity.course.BmStuClassGrade;
@@ -57,5 +58,18 @@ public class BmStuClassGradeServiceImpl extends ServiceImpl<BmStuClassGradeMappe
                 .eq(BmStuClassGrade::getDelFlag, Delete.NO)
                 .last(LastSql.LIMIT_ONE);
         return bmStuClassGradeMapper.selectOne(wrapper);
+    }
+
+    @Override
+    public BmStuClassGrade selectByStuId(Long id, CourseType courseType) {
+        if (courseType != null) {
+            LambdaQueryWrapper<BmStuClassGrade> wrapper = Wrappers.lambdaQuery(BmStuClassGrade.class);
+            wrapper.eq(BmStuClassGrade::getStuId, id)
+                    .eq(BmStuClassGrade::getCourseType, courseType)
+                    .eq(BmStuClassGrade::getDelFlag, Delete.NO)
+                    .last(LastSql.LIMIT_ONE);
+            return bmStuClassGradeMapper.selectOne(wrapper);
+        }
+        return null;
     }
 }

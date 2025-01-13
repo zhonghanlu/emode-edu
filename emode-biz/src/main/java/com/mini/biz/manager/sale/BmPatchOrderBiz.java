@@ -1,4 +1,5 @@
 package com.mini.biz.manager.sale;
+
 import com.mini.common.enums.str.OrderType;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -18,6 +19,7 @@ import com.mini.common.utils.LoginUtils;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.service.*;
 import com.mini.pojo.entity.course.BmHandlerClassOrderRelation;
+import com.mini.pojo.entity.course.BmStuClassGrade;
 import com.mini.pojo.entity.org.BmPatStuRelation;
 import com.mini.pojo.mapper.sale.BmPatchOrderStructMapper;
 import com.mini.pojo.model.dto.course.BmHandlerClassDTO;
@@ -54,6 +56,8 @@ public class BmPatchOrderBiz {
     private final BmPatriarchService bmPatriarchService;
 
     private final BmStudentService bmStudentService;
+
+    private final BmStuClassGradeService bmStuClassGradeService;
 
     private final BmStuClassHourService bmStuClassHourService;
 
@@ -117,7 +121,17 @@ public class BmPatchOrderBiz {
         bmStuClassHourService.handlerStuClassHour(bmStudentDTO.getId(), bmProductDTO.getCourseType(),
                 StuClassHourConstant.ADD, bmProductDTO.getProductHour(), bmPatriarchDTO.getPatPhone());
 
-        // TODO 此学生是否有同类型课程的班级，无进行新增待分班数据，有直接结束
+        // 有对应的班级，直接进行新增此学生的课时信息
+        BmStuClassGrade bmStuClassGrade = bmStuClassGradeService.selectByStuId(bmStudentDTO.getId(), bmProductDTO.getCourseType());
+        if (Objects.nonNull(bmStuClassGrade)) {
+            return;
+        }
+
+        // 查询是否有同类型的待分班数据，有进行累加
+        BmHandlerClassDTO bmHandlerClassDTO1 = bmHandlerClassService.selectByStuId(bmStudentDTO.getId(), bmProductDTO.getCourseType());
+        if (Objects.nonNull(bmHandlerClassDTO1)) {
+            return;
+        }
 
         // 4.新增待分班数据
         BmHandlerClassDTO bmHandlerClassDTO = new BmHandlerClassDTO();

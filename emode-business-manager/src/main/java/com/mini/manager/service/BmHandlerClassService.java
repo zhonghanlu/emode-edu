@@ -64,4 +64,9 @@ public interface BmHandlerClassService extends IService<BmHandlerClass> {
      * 根据学生 id  课程类型 课程长短期 找到唯一的待分班数据
      */
     BmHandlerClassDTO selectByStuIdAndCurTypeAndType(Long stuId, CourseType curType, ProductType classGradeType);
+
+    /**
+     * 根据学生 id  课程类型 找到唯一的待分班数据
+     */
+    BmHandlerClassDTO selectByStuId(Long id, CourseType courseType);
 }

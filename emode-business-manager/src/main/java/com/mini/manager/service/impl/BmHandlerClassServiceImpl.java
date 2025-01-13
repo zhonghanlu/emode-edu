@@ -155,4 +155,17 @@ public class BmHandlerClassServiceImpl extends ServiceImpl<BmHandlerClassMapper,
                 .last(LastSql.LIMIT_ONE);
         return BmHandlerClassStructMapper.INSTANCE.entity2Dto(bmHandlerClassMapper.selectOne(wrapper));
     }
+
+    @Override
+    public BmHandlerClassDTO selectByStuId(Long id, CourseType courseType) {
+        if (courseType != null) {
+            LambdaQueryWrapper<BmHandlerClass> wrapper = Wrappers.lambdaQuery(BmHandlerClass.class);
+            wrapper.eq(BmHandlerClass::getStuId, id)
+                    .eq(BmHandlerClass::getCurType, courseType)
+                    .eq(BmHandlerClass::getDelFlag, Delete.NO)
+                    .last(LastSql.LIMIT_ONE);
+            return BmHandlerClassStructMapper.INSTANCE.entity2Dto(bmHandlerClassMapper.selectOne(wrapper));
+        }
+        return null;
+    }
 }

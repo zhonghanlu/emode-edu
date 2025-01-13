@@ -18,9 +18,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class BmProductRequest {
 
-    @Schema(title = "课程首页展示图片")
-    private String productUrl;
-
     @Schema(title = "课程首页展示图片id")
     private Long productUrlId;
 
