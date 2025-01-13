@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对话界面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .chat-container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 1200px;
+            height: 900px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            font-size: 16px;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #dcf8c6;
+            align-self: flex-end;
+        }
+
+        .bot-message {
+            background-color: #f1f0f0;
+            align-self: flex-start;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+            padding: 20px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .chat-input button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+
+        .loading {
+            color: #888;
+            font-size: 16px;
+        }
+
+        .message pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+
+        .message code {
+            background-color: #f9f9f9;
+            padding: 2px 4px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<div class="chat-container">
+    <div class="chat-header">
+        <h2>对话</h2>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+        <!-- 对话消息将在这里显示 -->
+    </div>
+    <div class="chat-input">
+        <input type="text" id="user-input" placeholder="输入你的消息...">
+        <button onclick="sendMessage()">发送</button>
+    </div>
+</div>
+
+<!-- 引入 marked 和 highlight.js -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+
+<script>
+    // 设置marked的解析选项
+    marked.setOptions({
+        breaks: true, // 允许解析换行符
+        highlight: function(code, lang) {
+            // 使用highlight.js进行代码高亮
+            return hljs.highlight(lang, code).value;
+        }
+    });
+
+    function displayUserMessage(message) {
+        const chatMessages = document.getElementById('chat-messages');
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', 'user-message');
+        messageElement.innerHTML = marked.parse(message);
+        chatMessages.appendChild(messageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function displayLoading() {
+        const chatMessages = document.getElementById('chat-messages');
+        const loadingElement = document.createElement('div');
+        loadingElement.classList.add('message', 'loading');
+        loadingElement.textContent = '正在处理...';
+        chatMessages.appendChild(loadingElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const userInput = document.getElementById('user-input');
+        const message = userInput.value.trim();
+        if (message === '') return;
+
+        displayUserMessage(message);
+        userInput.value = '';
+        displayLoading();
+
+        try {
+            const response = await fetch('http://127.0.0.1:18099/bm-ai/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message })
+            });
+
+            if (!response.ok) {
+                throw new Error('网络响应不正常');
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder('utf-8');
+            let botMessageElement = createBotMessage();
+            document.getElementById('chat-messages').appendChild(botMessageElement);
+
+            let chunks = '';
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                const chunk = decoder.decode(value);
+                chunks += chunk;
+                botMessageElement.innerHTML = marked.parse(chunks);
+                // 高亮代码块
+                hljs.highlightAll();
+            }
+        } catch (error) {
+            console.error('发送消息时出错:', error);
+            displayBotMessage('发送消息时出错，请重试。');
+        }
+    }
+
+    function createBotMessage() {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', 'bot-message');
+        return messageElement;
+    }
+
+    function displayBotMessage(message) {
+        const chatMessages = document.getElementById('chat-messages');
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', 'bot-message');
+        messageElement.innerHTML = marked.parse(message);
+        chatMessages.appendChild(messageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+</script>
+</body>
+</html>

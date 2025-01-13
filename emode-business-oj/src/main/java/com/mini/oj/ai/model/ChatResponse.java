@@ -67,6 +67,16 @@ public class ChatResponse {
          * 模型停止生成 token 的原因。
          */
         private String finish_reason;
+
+        private Delta delta;
+    }
+
+    /**
+     * 流返回数据
+     */
+    @Data
+    public static class Delta {
+        private String content;
     }
 
     /**

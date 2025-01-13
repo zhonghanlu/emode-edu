@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         scanBasePackages = {
                 "com.mini.web.config",
                 "com.mini.web.controller.*",
+                "com.mini.oj.*",
                 "com.mini.web.runner",
                 "com.mini.biz.*",
                 "com.mini.common.*",

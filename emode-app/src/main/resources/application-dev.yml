@@ -48,12 +48,12 @@ spring:
   redis:
     # 地址
     host: 127.0.0.1
-#    host: 8.153.97.212
+    #    host: 8.153.97.212
     # 端口，默认为6379
     port: 6379
     # 数据库索引
     database: 0
-#    password: qzbm123456
+    #    password: qzbm123456
     # 密码
     #    password: Aa123456
     # 连接超时时间
@@ -196,6 +196,8 @@ token-renew:
 security:
   # 排除路径
   excludes:
+    # ai对话 暂且放行测试 TODO
+    - /bm-ai/chat
     # 验证码
     - /sys-captcha/captcha-image
     - /sys-auth/captcha-enable
@@ -242,6 +244,13 @@ xss:
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
 
+# ai对话配置 deepseek
+qzbm-ai:
+  deepseek:
+    url: https://api.deepseek.com/chat/completions
+    # QZBM_AI_CHAT
+    apiKey: sk-e4e1789998b442b6ab88ab4a6216c79a
+
 # spring-doc-openapi项目配置
 spring-doc:
   swagger-ui:
@@ -275,6 +284,10 @@ spring-doc:
       paths-to-match: '/**'
       packages-to-scan:
         - com.mini.web.controller.manager.operate
+    - group: 'AI'
+      paths-to-match: '/**'
+      packages-to-scan:
+        - com.mini.web.controller.oj.ai
 
 # knife4j configuration   http://127.0.0.1:18099/doc.html  OpenAPI3 语法
 knife4j:
