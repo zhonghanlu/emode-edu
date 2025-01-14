@@ -6,8 +6,8 @@
     <title>对话界面</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,46 +18,56 @@
         .chat-container {
             background-color: #fff;
             border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            width: 1200px;
-            height: 900px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1200px;
+            height: 80vh;
+            max-height: 900px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
         .chat-header {
-            background-color: #007bff;
+            background-color: #2196f3;
             color: #fff;
-            padding: 10px;
+            padding: 8px 16px;
             border-top-left-radius: 12px;
             border-top-right-radius: 12px;
             text-align: center;
-            font-size: 18px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .chat-header:hover {
+            background-color: #1e88e5;
         }
 
         .chat-messages {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
-            font-size: 16px;
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
         }
 
         .message {
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 8px;
+            margin: 10px 20px;
+            padding: 15px;
+            border-radius: 15px;
             max-width: 70%;
             word-wrap: break-word;
+            transition: opacity 0.3s ease;
         }
 
-        .user-message {
-            background-color: #dcf8c6;
+        .message.user-message {
+            background-color: #e0f7fa;
             align-self: flex-end;
         }
 
-        .bot-message {
-            background-color: #f1f0f0;
+        .message.bot-message {
+            background-color: #e6e6e6;
             align-self: flex-start;
         }
 
@@ -70,47 +80,66 @@
         .chat-input input {
             flex: 1;
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
             margin-right: 10px;
             font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input input:focus {
+            border-color: #2196f3;
+            box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
+            outline: none;
         }
 
         .chat-input button {
-            padding: 10px 20px;
+            padding: 12px 20px;
             border: none;
-            background-color: #007bff;
+            background-image: linear-gradient(to right, #2196f3, #1976d2);
             color: #fff;
             border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
+            transition: background-image 0.3s;
         }
 
         .chat-input button:hover {
-            background-color: #0056b3;
+            background-image: linear-gradient(to right, #1e88e5, #1565c0);
         }
 
-        .loading {
-            color: #888;
+        .loading-indicator {
+            text-align: center;
             font-size: 16px;
+            color: #888;
+            margin: 20px 0;
         }
 
-        .message pre {
-            margin: 0;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            overflow-x: auto;
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
         }
 
-        .message code {
-            background-color: #f9f9f9;
-            padding: 2px 4px;
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #888;
             border-radius: 4px;
-            border: 1px solid #ddd;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        @media (max-width: 600px) {
+            .chat-container {
+                width: 95%;
+            }
+
+            .chat-messages {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -123,7 +152,7 @@
         <!-- 对话消息将在这里显示 -->
     </div>
     <div class="chat-input">
-        <input type="text" id="user-input" placeholder="输入你的消息...">
+        <input type="text" id="user-input" placeholder="输入你的消息..." onKeyDown="handleKeyPress(event)">
         <button onclick="sendMessage()">发送</button>
     </div>
 </div>
@@ -137,7 +166,7 @@
     // 设置marked的解析选项
     marked.setOptions({
         breaks: true, // 允许解析换行符
-        highlight: function(code, lang) {
+        highlight: function (code, lang) {
             // 使用highlight.js进行代码高亮
             return hljs.highlight(lang, code).value;
         }
@@ -176,7 +205,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ message })
+                body: JSON.stringify({message})
             });
 
             if (!response.ok) {
@@ -190,7 +219,7 @@
 
             let chunks = '';
             while (true) {
-                const { done, value } = await reader.read();
+                const {done, value} = await reader.read();
                 if (done) break;
                 const chunk = decoder.decode(value);
                 chunks += chunk;
@@ -198,6 +227,10 @@
                 // 高亮代码块
                 hljs.highlightAll();
             }
+
+            // 移除加载状态的消息
+            const loadingElements = document.querySelectorAll('.message.loading');
+            loadingElements.forEach(element => element.remove());
         } catch (error) {
             console.error('发送消息时出错:', error);
             displayBotMessage('发送消息时出错，请重试。');
@@ -217,6 +250,12 @@
         messageElement.innerHTML = marked.parse(message);
         chatMessages.appendChild(messageElement);
         chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
     }
 </script>
 </body>
