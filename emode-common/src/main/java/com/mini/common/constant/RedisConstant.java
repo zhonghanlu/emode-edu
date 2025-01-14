@@ -55,4 +55,11 @@ public final class RedisConstant {
      * 课程比例缓存前缀
      */
     public static final String COURSE_TYPE_RATIO = "course_type_ratio";
+
+    ////////////////////////////////////////业务-OJ-AI//////////////////////////////////////////////
+
+    /**
+     * 多轮对话缓存MAP前缀
+     */
+    public static final String AI_CHAT_HISTORY = "ai_chat_history:";
 }

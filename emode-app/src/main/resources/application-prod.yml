@@ -194,6 +194,8 @@ token-renew:
 security:
   # 排除路径
   excludes:
+    # ai对话 暂且放行测试 TODO
+    - /bm-ai/chat
     # 验证码
     - /sys-captcha/captcha-image
     - /sys-auth/captcha-enable
@@ -239,6 +241,13 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+# ai对话配置 deepseek
+qzbm-ai:
+  deepseek:
+    url: https://api.deepseek.com/chat/completions
+    # QZBM_AI_CHAT
+    apiKey: sk-e4e1789998b442b6ab88ab4a6216c79a
 
 # spring-doc-openapi项目配置
 spring-doc:

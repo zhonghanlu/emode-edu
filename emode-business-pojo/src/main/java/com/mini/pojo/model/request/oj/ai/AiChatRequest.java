@@ -12,8 +12,4 @@ public class AiChatRequest {
 
     @Schema(title = "消息体")
     private String message;
-
-    @Schema(title = "多轮对话开启标识")
-    private Boolean multiwheel;
-
 }

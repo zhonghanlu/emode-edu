@@ -30,7 +30,7 @@ public class AiController {
     @Operation(summary = "聊天")
     @PostMapping("/chat")
     public StreamingResponseBody chat(@RequestBody() AiChatRequest request) {
-        return deepseekUtil.streamChat(request.getMessage(), false);
+        return deepseekUtil.streamChat(request.getMessage());
     }
 
 }

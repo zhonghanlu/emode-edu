@@ -146,7 +146,7 @@
 <body>
 <div class="chat-container">
     <div class="chat-header">
-        <h2>对话</h2>
+        <h2>Deepseek V3 API 对话</h2>避免过度浪费，超过5轮对话，会重新开始
     </div>
     <div class="chat-messages" id="chat-messages">
         <!-- 对话消息将在这里显示 -->
@@ -200,6 +200,7 @@
         displayLoading();
 
         try {
+            // const response = await fetch('http://8.153.97.212:18099/bm-ai/chat', {
             const response = await fetch('http://127.0.0.1:18099/bm-ai/chat', {
                 method: 'POST',
                 headers: {
