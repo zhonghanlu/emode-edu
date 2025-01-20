@@ -1,6 +1,6 @@
 package com.mini.web.controller.oj.ai;
 
-import com.mini.oj.ai.DeepseekUtil;
+import com.mini.oj.ai.DeepseekServer;
 import com.mini.pojo.model.request.oj.ai.AiChatRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,12 +25,12 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 @RequiredArgsConstructor
 public class AiController {
 
-    private final DeepseekUtil deepseekUtil;
+    private final DeepseekServer deepseekServer;
 
     @Operation(summary = "聊天")
     @PostMapping("/chat")
     public StreamingResponseBody chat(@RequestBody() AiChatRequest request) {
-        return deepseekUtil.streamChat(request.getMessage());
+        return deepseekServer.streamChat(request.getMessage());
     }
 
 }

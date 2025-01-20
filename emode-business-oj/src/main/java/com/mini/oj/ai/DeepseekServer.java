@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DeepseekUtil {
+public class DeepseekServer {
 
     // client连接池
     private static final OkHttpClient client = new OkHttpClient().newBuilder()
