@@ -62,4 +62,9 @@ public final class RedisConstant {
      * 多轮对话缓存MAP前缀
      */
     public static final String AI_CHAT_HISTORY = "ai_chat_history:";
+
+    /**
+     * 多轮对话缓存轮数前缀
+     */
+    public static final String AI_CHAT_ROUND_HISTORY = "ai_chat_round_history:";
 }

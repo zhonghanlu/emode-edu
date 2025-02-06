@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mini.common.constant.AiChatConstant;
 import com.mini.common.constant.RedisConstant;
 import com.mini.common.utils.JsonUtils;
-import com.mini.common.utils.http.IPUtils;
+import com.mini.common.utils.http.ServletUtil;
 import com.mini.common.utils.redis.RedisUtils;
 import com.mini.oj.ai.model.ChatRequest;
 import com.mini.oj.ai.model.ChatRequest.Response_format;
@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -106,22 +107,28 @@ public class DeepseekServer {
      * 多轮会话前置处理
      */
     private List<ChatRequest.Messages> beforeHandlerChat(String message) {
-        String chatHistoryKey = RedisConstant.AI_CHAT_HISTORY;
-        String key = chatHistoryKey + IPUtils.getIp();
+        String roundKey = RedisConstant.AI_CHAT_ROUND_HISTORY + ServletUtil.getClientIP(Objects.requireNonNull(ServletUtil.getRequest()));
+        String chatHistoryKey = RedisConstant.AI_CHAT_HISTORY + ServletUtil.getClientIP(Objects.requireNonNull(ServletUtil.getRequest()));
 
         // map 实际key
-        String mapKey = key + ":" + RedisUtils.getAtomicValue(key);
-        List<ChatRequest.Messages> messagesList = RedisUtils.getCacheMapValue(chatHistoryKey, mapKey);
+        long atomicValue = RedisUtils.getAtomicValue(roundKey);
+        if (atomicValue == 0) {
+            RedisUtils.incrAtomicValue(roundKey);
+        }
+        String mapKey = chatHistoryKey + ":" + RedisUtils.getAtomicValue(roundKey);
+        List<ChatRequest.Messages> messagesList = RedisUtils.getCacheMapValue(RedisConstant.AI_CHAT_HISTORY, mapKey);
+
         // 如果为空赋值一个空的数据
         if (CollectionUtils.isEmpty(messagesList)) {
             messagesList = new ArrayList<>();
         }
+
         // 判断此时聊天轮数，超过5轮重置
         int size = messagesList.size();
         if (size >= 10) {
             messagesList = new ArrayList<>();
             // 总轮数+1
-            RedisUtils.incrAtomicValue(key);
+            RedisUtils.incrAtomicValue(roundKey);
         }
 
         // 不超过5轮塞入信息
@@ -130,8 +137,10 @@ public class DeepseekServer {
         assistantMsg.setContent(message);
         messagesList.add(assistantMsg);
         // 键入缓存 获取map 实际key
-        mapKey = key + ":" + RedisUtils.getAtomicValue(key);
+        mapKey = chatHistoryKey + ":" + RedisUtils.getAtomicValue(roundKey);
         RedisUtils.setCacheMapValue(chatHistoryKey, mapKey, messagesList);
+        // 设置全部消息记录过期 七天
+        RedisUtils.expire(chatHistoryKey, Duration.ofDays(7));
         return messagesList;
     }
 
@@ -139,13 +148,13 @@ public class DeepseekServer {
      * 多轮会话后置处理
      */
     private void afterHandlerChat(StringBuilder assistantReply) {
-        String chatHistoryKey = RedisConstant.AI_CHAT_HISTORY;
-        String key = chatHistoryKey + IPUtils.getIp();
+        String roundKey = RedisConstant.AI_CHAT_ROUND_HISTORY + ServletUtil.getClientIP(Objects.requireNonNull(ServletUtil.getRequest()));
+        String chatHistoryKey = RedisConstant.AI_CHAT_HISTORY + ServletUtil.getClientIP(Objects.requireNonNull(ServletUtil.getRequest()));
         ChatRequest.Messages assistantMsg = new ChatRequest.Messages();
         assistantMsg.setRole(AiChatConstant.ASSISTANT);
         assistantMsg.setContent(assistantReply.toString());
         // 塞入缓存 获取Map实际key
-        String mapKey = key + ":" + RedisUtils.getAtomicValue(key);
+        String mapKey = chatHistoryKey + ":" + RedisUtils.getAtomicValue(roundKey);
         List<ChatRequest.Messages> cacheList = RedisUtils.getCacheMapValue(chatHistoryKey, mapKey);
         cacheList.add(assistantMsg);
         RedisUtils.setCacheMapValue(chatHistoryKey, mapKey, cacheList);
