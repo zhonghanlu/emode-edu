@@ -24,8 +24,10 @@ import java.io.OutputStream;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author zhl
@@ -116,7 +118,7 @@ public class DeepseekServer {
             RedisUtils.incrAtomicValue(roundKey);
         }
         String mapKey = chatHistoryKey + ":" + RedisUtils.getAtomicValue(roundKey);
-        List<ChatRequest.Messages> messagesList = RedisUtils.getCacheMapValue(RedisConstant.AI_CHAT_HISTORY, mapKey);
+        List<ChatRequest.Messages> messagesList = RedisUtils.getCacheMapValue(chatHistoryKey, mapKey);
 
         // 如果为空赋值一个空的数据
         if (CollectionUtils.isEmpty(messagesList)) {
@@ -125,7 +127,10 @@ public class DeepseekServer {
 
         // 判断此时聊天轮数，超过5轮重置
         int size = messagesList.size();
-        if (size >= 10) {
+        Map<String, List<ChatRequest.Messages>> roleMap = messagesList.stream().collect(Collectors.groupingBy(ChatRequest.Messages::getRole));
+        int assistantSize = roleMap.get(AiChatConstant.ASSISTANT).size();
+        int userSize = roleMap.get(AiChatConstant.USER).size();
+        if (size >= 10 && (assistantSize >= 5 && userSize >= 5)) {
             messagesList = new ArrayList<>();
             // 总轮数+1
             RedisUtils.incrAtomicValue(roundKey);
