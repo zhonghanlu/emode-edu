@@ -44,14 +44,11 @@
             <if test="query.stuSex != null">
                 AND stu_sex = #{query.stuSex}
             </if>
-            <if test="query.stuBirth != null">
-                AND stu_birth &gt;= #{query.stuBirth}
+            <if test="query.stuCurSchoolId != null and query.stuCurSchoolId != '' ">
+                AND stu_cur_school_id = #{query.stuCurSchoolId}
             </if>
-            <if test="query.stuCurSchool != null and query.stuCurSchool != '' ">
-                AND stu_cur_school = #{query.stuCurSchool}
-            </if>
-            <if test="query.stuCurGrade != null and query.stuCurGrade != '' ">
-                AND stu_cur_grade = #{query.stuCurGrade}
+            <if test="query.stuCurGradeId != null and query.stuCurGradeId != '' ">
+                AND stu_cur_grade_id = #{query.stuCurGradeId}
             </if>
         </where>
     </select>

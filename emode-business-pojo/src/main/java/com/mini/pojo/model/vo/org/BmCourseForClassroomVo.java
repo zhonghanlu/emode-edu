@@ -42,6 +42,6 @@ public class BmCourseForClassroomVo {
     @Schema(title = "班级名称")
     private String classGradeName;
 
-    @Schema(name = "课程状态 待上课 已上课 已结束 已过期")
+    @Schema(title = "课程状态 待上课 已上课 已结束 已过期")
     private CourseStatus courseStatus;
 }

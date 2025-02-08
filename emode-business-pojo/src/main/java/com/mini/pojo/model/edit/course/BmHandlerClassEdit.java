@@ -43,9 +43,9 @@ public class BmHandlerClassEdit {
     @Schema(title = "课程类型")
     private CourseType curType;
 
-    @Schema(name = "课程归属类型 长期 短期")
+    @Schema(title = "课程归属类型 长期 短期")
     private ProductType productType;
 
-    @Schema(name = "分班状态：待分班、已分班")
+    @Schema(title = "分班状态：待分班、已分班")
     private HandlerClassStatus handlerClassStatus;
 }
