@@ -16,22 +16,22 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class BmTutorTeacherVo {
 
-    @Schema(name = "主键 id")
+    @Schema(title = "主键 id")
     private Long id;
 
-    @Schema(name = "教师 id")
+    @Schema(title = "教师 id")
     private Long teaId;
 
-    @Schema(name = "家教老师名称")
+    @Schema(title = "家教老师名称")
     private String teaName;
 
-    @Schema(name = "授课范围 python 、 c++等")
+    @Schema(title = "授课范围 python 、 c++等")
     private String giveClassType;
 
-    @Schema(name = "空闲时间")
+    @Schema(title = "空闲时间")
     private String leisureTime;
 
-    @Schema(name = "教师详细介绍")
+    @Schema(title = "教师详细介绍")
     private String tutorDetail;
 
 }

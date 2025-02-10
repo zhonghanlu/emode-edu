@@ -42,10 +42,10 @@ public class BmClassGradeEdit {
     @Schema(title = "教室名")
     private String classroomName;
 
-    @Schema(name = "课程类型")
+    @Schema(title = "课程类型")
     private CourseType curType;
 
-    @Schema(name = "课程归属类型 长期 短期")
+    @Schema(title = "课程归属类型 长期 短期")
     private ProductType classGradeType;
 
     @Schema(title = "意向上课时间")
