@@ -3,11 +3,15 @@ package com.mini.biz.manager.org;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.mini.common.constant.ErrorCodeConstant;
+import com.mini.common.exception.service.EModeServiceException;
 import com.mini.file.model.dto.SysFileDTO;
 import com.mini.file.service.ISysFileService;
+import com.mini.manager.service.BmPatStuRelationService;
 import com.mini.manager.service.BmPatriarchService;
 import com.mini.pojo.entity.org.BmPatriarch;
 import com.mini.pojo.mapper.org.BmPatriarchStructMapper;
+import com.mini.pojo.model.dto.org.BmPatStuRelationDTO;
 import com.mini.pojo.model.dto.org.BmPatriarchDTO;
 import com.mini.pojo.model.edit.org.BmPatriarchEdit;
 import com.mini.pojo.model.query.org.BmPatriarchQuery;
@@ -17,6 +21,7 @@ import com.mini.pojo.model.vo.org.BmPatriarchPullVo;
 import com.mini.pojo.model.vo.org.BmPatriarchVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +39,8 @@ import java.util.Objects;
 public class BmPatriarchBiz {
 
     private final BmPatriarchService bmPatriarchService;
+
+    private final BmPatStuRelationService bmPatStuRelationService;
 
     private final ISysFileService sysFileService;
 
@@ -81,6 +88,10 @@ public class BmPatriarchBiz {
     @Transactional(rollbackFor = Exception.class)
     public void del(long id) {
         // 1.校验是否与学生进行关联，有关联不允许删除
+        List<BmPatStuRelationDTO> bmPatStuRelationDTOList = bmPatStuRelationService.getInfoByPatId(id);
+        if (CollectionUtils.isNotEmpty(bmPatStuRelationDTOList)) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "此家长与孩子关联，不允许删除");
+        }
         bmPatriarchService.del(id);
     }
 
@@ -100,6 +111,19 @@ public class BmPatriarchBiz {
         wrapper.like(StringUtils.isNotBlank(patName), BmPatriarch::getPatName, patName)
                 .last(LIMIT_FIVE);
         List<BmPatriarch> patriarchList = bmPatriarchService.list(wrapper);
+
+        List<BmPatriarchDTO> bmPatriarchDTOList = BmPatriarchStructMapper.INSTANCE.entityList2DtoList(patriarchList);
+
+        if (CollectionUtils.isNotEmpty(bmPatriarchDTOList)) {
+            bmPatriarchDTOList.forEach(item -> {
+                if (Objects.nonNull(item.getPatAvatarId())) {
+                    SysFileDTO fileDTO = sysFileService.getById(item.getPatAvatarId());
+                    if (Objects.nonNull(fileDTO)) {
+                        item.setPatAvatarUrl(fileDTO.getFileUrl());
+                    }
+                }
+            });
+        }
         return BmPatriarchStructMapper.INSTANCE.voList2PullVoList(patriarchList);
     }
 

@@ -52,7 +52,6 @@
         LEFT JOIN bm_stu_class_hour bsch ON bpsr.student_id = bsch.stu_id
         <where>
             bpsr.del_flag = 1
-            AND bscg.del_flag = 1
             AND bpsr.student_id IN
             <foreach collection="stuIdList" item="stuId" open="(" separator="," close=")">
                 #{stuId}

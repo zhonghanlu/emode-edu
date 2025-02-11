@@ -49,4 +49,9 @@ public interface BmPatriarchStructMapper {
      * voList2pullVoList
      */
     List<BmPatriarchPullVo> voList2PullVoList(List<BmPatriarch> patriarchList);
+
+    /**
+     * entityList2DtoList
+     */
+    List<BmPatriarchDTO> entityList2DtoList(List<BmPatriarch> patriarchList);
 }

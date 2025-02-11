@@ -18,4 +18,14 @@ import java.util.Map;
 public interface BmPatStuRelationService extends IService<BmPatStuRelation> {
 
     Map<Long, BmPatStuRelationDTO> selectByStuIdListForMap(List<Long> stuIdList);
+
+    /**
+     * 根据学生id 删除所有与家长关联信息
+     */
+    void delByStuId(long stuId);
+
+    /**
+     * 根据家长id 查询所有关联信息
+     */
+    List<BmPatStuRelationDTO> getInfoByPatId(long id);
 }

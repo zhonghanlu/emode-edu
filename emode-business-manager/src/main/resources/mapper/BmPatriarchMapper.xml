@@ -16,11 +16,11 @@
     <select id="page" resultMap="BaseResultMap">
         SELECT bp.id,
         bp.pat_avatar_id,
+        sf.file_url AS patAvatarUrl,
         bp.pat_name,
         bp.pat_phone,
         bp.pat_wx,
-        bp.pat_address,
-        sf.file_url AS patAvatarUrl
+        bp.pat_address
         FROM bm_patriarch bp
         LEFT JOIN sys_file sf ON bp.pat_avatar_id = sf.id AND sf.del_flag = 1
         <where>

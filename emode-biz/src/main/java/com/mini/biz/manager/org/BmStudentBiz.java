@@ -145,6 +145,7 @@ public class BmStudentBiz {
             });
         }
         bmStudentService.del(id);
+        bmPatStuRelationService.delByStuId(id);
     }
 
     /**
