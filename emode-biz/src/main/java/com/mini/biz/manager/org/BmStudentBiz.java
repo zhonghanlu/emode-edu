@@ -15,6 +15,8 @@ import com.mini.common.utils.DecimalUtil;
 import com.mini.common.utils.LoginUtils;
 import com.mini.common.utils.redis.RedisUtils;
 import com.mini.common.utils.webmvc.IDGenerator;
+import com.mini.file.model.dto.SysFileDTO;
+import com.mini.file.service.ISysFileService;
 import com.mini.manager.service.*;
 import com.mini.pojo.entity.org.BmClassHourConvert;
 import com.mini.pojo.entity.org.BmPatStuRelation;
@@ -32,6 +34,7 @@ import com.mini.pojo.model.vo.org.BmStudentPatInfoVo;
 import com.mini.pojo.model.vo.org.BmStudentVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,6 +63,8 @@ public class BmStudentBiz {
 
     private final BmClassHourConvertService bmClassHourConvertService;
 
+    private final ISysFileService sysFileService;
+
     /**
      * 分页
      */
@@ -73,6 +78,13 @@ public class BmStudentBiz {
      */
     public BmStudentVo getEntityById(Long id) {
         BmStudentDTO bmStudentDTO = bmStudentService.selectById(id);
+        if (Objects.nonNull(bmStudentDTO) && Objects.nonNull(bmStudentDTO.getStuAvatarId())) {
+            SysFileDTO fileDTO = sysFileService.getById(bmStudentDTO.getStuAvatarId());
+
+            if (Objects.nonNull(fileDTO)) {
+                bmStudentDTO.setStuAvatarUrl(fileDTO.getFileUrl());
+            }
+        }
         return BmStudentStructMapper.INSTANCE.dto2Vo(bmStudentDTO);
     }
 
@@ -124,6 +136,14 @@ public class BmStudentBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public void del(long id) {
+        BmStuClassTypeHourVo bmStuClassTypeHourVo = bmStudentService.searchStuClassTypeHour(id);
+        if (Objects.nonNull(bmStuClassTypeHourVo) && CollectionUtils.isNotEmpty(bmStuClassTypeHourVo.getBmStuClassHourVoList())) {
+            bmStuClassTypeHourVo.getBmStuClassHourVoList().forEach(item -> {
+                if (item.getClassHour() > 0) {
+                    throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "当前学生存在剩余课时信息，请先清空");
+                }
+            });
+        }
         bmStudentService.del(id);
     }
 

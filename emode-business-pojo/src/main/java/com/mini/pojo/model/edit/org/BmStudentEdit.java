@@ -27,6 +27,9 @@ public class BmStudentEdit {
     @Schema(title = "主键id")
     private Long id;
 
+    @Schema(title = "学生头像id")
+    private Long stuAvatarId;
+
     @Schema(title = "学生姓名")
     private String stuName;
 

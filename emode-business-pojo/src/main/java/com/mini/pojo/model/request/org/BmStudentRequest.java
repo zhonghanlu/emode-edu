@@ -24,6 +24,9 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 public class BmStudentRequest {
 
+    @Schema(title = "学生头像id")
+    private Long stuAvatarId;
+
     @NotBlank(message = "姓名不可为空")
     @Schema(title = "学生姓名")
     private String stuName;

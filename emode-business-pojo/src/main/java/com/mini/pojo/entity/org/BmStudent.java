@@ -34,6 +34,9 @@ public class BmStudent extends CommonEntity {
     @TableId
     private Long id;
 
+    @Schema(name = "学生头像id")
+    private Long stuAvatarId;
+
     @Schema(name = "学生姓名")
     private String stuName;
 

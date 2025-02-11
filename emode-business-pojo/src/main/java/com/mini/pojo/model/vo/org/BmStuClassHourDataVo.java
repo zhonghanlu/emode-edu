@@ -7,11 +7,12 @@ import lombok.Data;
 @Data
 public class BmStuClassHourDataVo {
 
+    @Schema(title = "课时id")
     private Long id;
 
     @Schema(title = "课时类型")
     private CourseType classHourType;
 
-    @Schema(title = "课时默认乘 100 计算逻辑")
+    @Schema(title = "课时默认乘 10000 计算逻辑")
     private Long classHour;
 }

@@ -2,7 +2,6 @@ package com.mini.pojo.model.vo.org;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mini.common.enums.str.Gender;
-import com.mini.pojo.model.dto.org.BmStuClassHourDataDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +25,12 @@ public class BmStudentVo {
 
     @Schema(title = "主键id")
     private Long id;
+
+    @Schema(title = "学生头像id")
+    private Long stuAvatarId;
+
+    @Schema(title = "学生头像id")
+    private String stuAvatarUrl;
 
     @Schema(title = "学生姓名")
     private String stuName;

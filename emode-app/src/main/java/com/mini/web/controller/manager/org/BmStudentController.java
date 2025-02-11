@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.mini.biz.manager.org.BmStudentBiz;
+import com.mini.common.annotation.RateLimiter;
 import com.mini.common.constant.RedisConstant;
+import com.mini.common.enums.LimitType;
 import com.mini.common.utils.redis.RedisUtils;
 import com.mini.common.utils.webmvc.Restful;
 import com.mini.manager.service.BmStudentConstantService;
@@ -82,6 +84,7 @@ public class BmStudentController {
         return Restful.SUCCESS().build();
     }
 
+    @RateLimiter(time = 1, count = 1, limitType = LimitType.IP)
     @Operation(summary = "新增学生信息")
     @PostMapping("/add")
     public Restful<Void> insert(@RequestBody @Valid BmStudentRequest request) {

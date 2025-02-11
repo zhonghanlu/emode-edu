@@ -1,13 +1,10 @@
 package com.mini.pojo.model.dto.org;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.mini.common.enums.str.CourseType;
 import com.mini.common.enums.str.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,6 +23,12 @@ public class BmStudentDTO {
 
     @Schema(name = "主键id")
     private Long id;
+
+    @Schema(name = "学生头像id")
+    private Long stuAvatarId;
+
+    @Schema(title = "学生头像id")
+    private String stuAvatarUrl;
 
     @Schema(name = "学生姓名")
     private String stuName;
