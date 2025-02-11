@@ -124,7 +124,7 @@ public class BmPatriarchBiz {
                 }
             });
         }
-        return BmPatriarchStructMapper.INSTANCE.voList2PullVoList(patriarchList);
+        return BmPatriarchStructMapper.INSTANCE.dtoList2PullVoList(bmPatriarchDTOList);
     }
 
     /**
