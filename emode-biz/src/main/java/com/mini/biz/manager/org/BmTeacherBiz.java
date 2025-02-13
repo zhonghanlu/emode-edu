@@ -153,7 +153,7 @@ public class BmTeacherBiz {
         long count = bmTeacherIntentionService.count(wrapper);
 
         if (count > 0) {
-            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "教师意向时间有班级关联，不允许删除");
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "教师意向时间有班级关联，不允许删除");
         }
 
         // 删除

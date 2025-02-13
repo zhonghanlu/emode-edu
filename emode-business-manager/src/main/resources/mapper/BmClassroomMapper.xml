@@ -25,7 +25,6 @@
         br.room_name,
         br.room_status,
         br.room_size,
-
         bc.id bc_id,
         bc.course_type,
         bc.course_name,

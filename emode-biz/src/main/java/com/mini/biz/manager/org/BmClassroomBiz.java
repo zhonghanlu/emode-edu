@@ -3,8 +3,10 @@ package com.mini.biz.manager.org;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
 import com.mini.common.enums.str.IntentionCurTime;
+import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.service.BmClassroomIntentionService;
 import com.mini.manager.service.BmClassroomService;
@@ -103,6 +105,17 @@ public class BmClassroomBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public void del(long id) {
+        // 判断当前教室意向时间有无班级数据
+        LambdaQueryWrapper<BmClassroomIntention> wrapper = Wrappers.lambdaQuery(BmClassroomIntention.class);
+        wrapper.eq(BmClassroomIntention::getClassroomId, id)
+                .isNotNull(BmClassroomIntention::getClassGradeId)
+                .isNotNull(BmClassroomIntention::getClassGradeName)
+                .eq(BmClassroomIntention::getDelFlag, Delete.NO);
+        long count = bmClassroomIntentionService.count(wrapper);
+        if (count > 0) {
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "教室意向时间有班级关联，不允许删除");
+        }
+        // 删除
         bmClassroomService.del(id);
     }
 
