@@ -55,6 +55,7 @@ public class BmStuClassGradeServiceImpl extends ServiceImpl<BmStuClassGradeMappe
         wrapper.eq(BmStuClassGrade::getStuId, stuId)
                 .isNull(BmStuClassGrade::getCourseType)
                 .isNull(BmStuClassGrade::getClassGradeId)
+                .isNull(BmStuClassGrade::getClassGradeName)
                 .eq(BmStuClassGrade::getDelFlag, Delete.NO)
                 .last(LastSql.LIMIT_ONE);
         return bmStuClassGradeMapper.selectOne(wrapper);

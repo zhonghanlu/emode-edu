@@ -39,6 +39,9 @@
             <if test="query.classroomName != null and query.classroomName != ''">
                 AND bcg.classroom_name LIKE CONCAT("%",#{query.classroomName},"%")
             </if>
+            <if test="query.intentionCurTime != null">
+                AND bcg.intention_cur_time = #{query.intentionCurTime}
+            </if>
         </where>
     </select>
 

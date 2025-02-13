@@ -60,14 +60,14 @@ public class BmHandlerClassController {
 //        return Restful.SUCCESS().build();
 //    }
 
-    @Operation(summary = "删除待分班信息")
+    @Operation(summary = "删除待分班信息", hidden = true)
     @PostMapping("/del")
     public Restful<Void> del(Long id) {
         bmHandlerClassBiz.del(id);
         return Restful.SUCCESS().build();
     }
 
-    @Operation(summary = "修改待分班信息")
+    @Operation(summary = "修改待分班信息", hidden = true)
     @PostMapping("/update")
     public Restful<Void> update(@RequestBody @Valid BmHandlerClassEdit edit) {
         bmHandlerClassBiz.update(edit);

@@ -27,7 +27,7 @@ public class AiController {
 
     private final DeepseekServer deepseekServer;
 
-    @Operation(summary = "聊天")
+    @Operation(summary = "聊天",description = "使用的是deepseek模型，暂不支持多模态；等热度过了再使用，现在太卡了")
     @PostMapping("/chat")
     public StreamingResponseBody chat(@RequestBody() AiChatRequest request) {
         return deepseekServer.streamChat(request.getMessage());

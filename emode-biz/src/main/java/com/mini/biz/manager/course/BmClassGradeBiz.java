@@ -1,6 +1,8 @@
 package com.mini.biz.manager.course;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
 import com.mini.common.exception.service.EModeServiceException;
@@ -23,6 +25,7 @@ import com.mini.pojo.model.vo.course.BmClassGradeStuVo;
 import com.mini.pojo.model.vo.course.BmClassGradeVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,6 +79,16 @@ public class BmClassGradeBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public void del(long id) {
+        // 班级内学生课时数据不为0不允许删除
+        List<BmClassGradeStuVo> bmClassGradeStuVoList = getDetailForStuById(id);
+        if (CollectionUtils.isNotEmpty(bmClassGradeStuVoList)) {
+            for (BmClassGradeStuVo bmClassGradeStuVo : bmClassGradeStuVoList) {
+                if (bmClassGradeStuVo.getClassHour() > 0) {
+                    throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "班级内学生课时数据不为0不允许删除");
+                }
+            }
+        }
+        // 删除数据
         bmClassGradeService.del(id);
     }
 
@@ -84,6 +97,7 @@ public class BmClassGradeBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public void update(BmClassGradeEdit edit) {
+        // TODO 更改教师与教室 更新意向时间表
         bmClassGradeService.update(BmClassGradeStructMapper.INSTANCE.edit2Dto(edit));
     }
 
@@ -151,11 +165,17 @@ public class BmClassGradeBiz {
         BmStuClassGrade bmStuClassGrade = bmStuClassGradeService.selectByStuIdAndClassGradeId(request.getStuId(), classGradeId);
         bmStuClassGrade.setCourseType(null);
         bmStuClassGrade.setClassGradeId(null);
-        bmStuClassGrade.setClassGradeName("");
+        bmStuClassGrade.setClassGradeName(null);
         // 数据库更新
-        boolean b = bmStuClassGradeService.updateById(bmStuClassGrade);
+//        LambdaUpdateWrapper<BmStuClassGrade> wrapper = Wrappers.lambdaUpdate(BmStuClassGrade.class);
+//        wrapper.eq(BmStuClassGrade::getId, bmStuClassGrade)
+//                .eq(BmStuClassGrade::getDelFlag, Delete.NO)
+//                .set(BmStuClassGrade::getCourseType, null)
+//                .set(BmStuClassGrade::getClassGradeId, null)
+//                .set(BmStuClassGrade::getClassGradeName, null);
+        int i = bmStuClassGradeService.getBaseMapper().updateById(bmStuClassGrade);
 
-        if (!b) {
+        if (i <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "移出失败");
         }
     }
@@ -264,6 +284,11 @@ public class BmClassGradeBiz {
         BmClassGradeDTO bmClassGradeDTO = bmClassGradeService.selectById(classGradeId);
         if (Objects.isNull(bmClassGradeDTO)) {
             throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "当前班级信息不存在");
+        }
+
+        BmStuClassGrade bmStuClassGrade = bmStuClassGradeService.selectByStuIdAndClassGradeId(stuId, classGradeId);
+        if (Objects.isNull(bmStuClassGrade)) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "当前学生暂未加入班级");
         }
     }
 }

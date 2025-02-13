@@ -29,8 +29,17 @@
             <if test="query.stuName != null and query.stuName != ''">
                 AND bhc.stu_name LIKE CONCAT('%',#{query.stuName},'%')
             </if>
+            <if test="query.intentionCurTime != null">
+                AND bhc.intention_cur_time = #{query.intentionCurTime}
+            </if>
             <if test="query.curType != null">
                 AND bhc.cur_type = #{query.curType}
+            </if>
+            <if test="query.productType != null">
+                AND bhc.product_type = #{query.productType}
+            </if>
+            <if test="query.handlerClassStatus != null">
+                AND bhc.handler_class_status = #{query.handlerClassStatus}
             </if>
         </where>
     </select>
