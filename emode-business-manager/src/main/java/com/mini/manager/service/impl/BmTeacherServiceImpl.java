@@ -102,12 +102,15 @@ public class BmTeacherServiceImpl extends ServiceImpl<BmTeacherMapper, BmTeacher
 
         BmTeacher bmTeacher = BmTeacherStructMapper.INSTANCE.dto2Entity(dto);
 
-        BmOrg bmOrg = CommonMybatisUtil.getById(bmTeacher.getTeaOrgId(), bmOrgMapper);
+        // 机构信息
+        if (Objects.nonNull(bmTeacher.getTeaOrgId())) {
+            BmOrg bmOrg = CommonMybatisUtil.getById(bmTeacher.getTeaOrgId(), bmOrgMapper);
 
-        if (Objects.isNull(bmOrg)) {
-            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "机构不存在，id：" + bmTeacher.getTeaOrgId());
+            if (Objects.isNull(bmOrg)) {
+                throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "机构不存在，id：" + bmTeacher.getTeaOrgId());
+            }
+            bmTeacher.setTeaOrgName(bmOrg.getOrgName());
         }
-        bmTeacher.setTeaOrgName(bmOrg.getOrgName());
 
         int b1 = bmTeacherMapper.updateById(bmTeacher);
 

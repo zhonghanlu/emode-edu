@@ -25,9 +25,9 @@ public class BmSimpleClassGradeVo {
     @Schema(title = "班级名称")
     private String classGradeName;
 
-    @Schema(name = "课程类型")
+    @Schema(title = "课程类型")
     private CourseType curType;
 
-    @Schema(name = "课程归属类型 长期 短期")
+    @Schema(title = "课程归属类型 长期 短期")
     private ProductType classGradeType;
 }

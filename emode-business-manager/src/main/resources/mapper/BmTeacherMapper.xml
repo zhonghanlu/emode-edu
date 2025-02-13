@@ -30,10 +30,10 @@
         <where>
             bt.del_flag = 1
             <if test="query.teaName != null and query.teaName != '' ">
-                AND tea_name LIKE CONCAT('%',#{query.teaName},'%')
+                AND bt.tea_name LIKE CONCAT('%',#{query.teaName},'%')
             </if>
-            <if test="query.teaIphone != null and query.teaIphone != '' ">
-                AND tea_iphone LIKE CONCAT('%',#{query.teaIphone})
+            <if test="query.teaPhone != null and query.teaPhone != '' ">
+                AND bt.tea_phone LIKE CONCAT('%',#{query.teaPhone},"%")
             </if>
         </where>
     </select>

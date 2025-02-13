@@ -13,7 +13,6 @@ import com.mini.common.enums.str.UserType;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.SmCryptoUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
-import com.mini.file.service.ISysFileService;
 import com.mini.manager.service.BmTeacherIntentionService;
 import com.mini.manager.service.BmTeacherService;
 import com.mini.manager.service.BmUserTeacherService;
@@ -33,7 +32,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.mini.common.constant.RedisConstant.SYS_CONFIG_INIT_PASSWORD;
@@ -142,6 +144,19 @@ public class BmTeacherBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public void del(long id) {
+        // 教师意向时间有班级关联，不允许删除
+        LambdaQueryWrapper<BmTeacherIntention> wrapper = Wrappers.lambdaQuery(BmTeacherIntention.class);
+        wrapper.eq(BmTeacherIntention::getTeacherId, id)
+                .isNotNull(BmTeacherIntention::getClassGradeId)
+                .isNotNull(BmTeacherIntention::getClassGradeName)
+                .eq(BmTeacherIntention::getDelFlag, Delete.NO);
+        long count = bmTeacherIntentionService.count(wrapper);
+
+        if (count > 0) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "教师意向时间有班级关联，不允许删除");
+        }
+
+        // 删除
         bmTeacherService.del(id);
     }
 

@@ -23,6 +23,6 @@ public class BmTeacherQuery extends PageQuery {
     private String teaName;
 
     @Parameter(description = "教师手机号")
-    private String teaIphone;
+    private String teaPhone;
 
 }
