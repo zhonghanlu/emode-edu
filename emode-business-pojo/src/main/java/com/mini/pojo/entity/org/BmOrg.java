@@ -73,5 +73,5 @@ public class BmOrg extends CommonEntity {
      * 机构营业执照
      */
     @Schema(name = "机构营业执照")
-    private Long orgBusinessLicense;
+    private Long orgBusinessLicenseId;
 }

@@ -66,6 +66,6 @@ public class BmOrgEdit {
      * 机构营业执照
      */
     @Schema(title = "机构营业执照")
-    private Long orgBusinessLicense;
+    private Long orgBusinessLicenseId;
 
 }

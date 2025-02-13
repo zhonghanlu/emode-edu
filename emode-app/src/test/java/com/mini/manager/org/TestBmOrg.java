@@ -35,7 +35,7 @@ class TestBmOrg {
         request.setOrgStatus(YesOrNo.YES);
         request.setOrgHeadA("仲寒露");
         request.setOrgHeadB("王斯亮");
-        request.setOrgBusinessLicense(1L);
+        request.setOrgBusinessLicenseId(1L);
         bmOrgBiz.insert(request);
     }
 
@@ -49,7 +49,7 @@ class TestBmOrg {
         BmOrgEdit edit = new BmOrgEdit();
         edit.setId(1645826375942176L);
         edit.setOrgStatus(YesOrNo.YES);
-        edit.setOrgBusinessLicense(2L);
+        edit.setOrgBusinessLicenseId(2L);
         bmOrgBiz.update(edit);
     }
 

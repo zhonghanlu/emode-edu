@@ -12,7 +12,7 @@
         <result property="orgStatus" column="org_status"/>
         <result property="orgHeadA" column="org_head_a"/>
         <result property="orgHeadB" column="org_head_b"/>
-        <result property="orgBusinessLicense" column="org_business_license"/>
+        <result property="orgBusinessLicenseId" column="org_business_license_id"/>
         <result property="orgBusinessLicenseUrl" column="orgBusinessLicenseUrl"/>
     </resultMap>
 
@@ -26,10 +26,10 @@
         bm.org_status,
         bm.org_head_a,
         bm.org_head_b,
-        bm.org_business_license,
+        bm.org_business_license_id,
         sf.file_url AS orgBusinessLicenseUrl
         FROM bm_org bm
-        LEFT JOIN sys_file sf ON bm.org_business_license = sf.id AND sf.del_flag = 1
+        LEFT JOIN sys_file sf ON bm.org_business_license_id = sf.id AND sf.del_flag = 1
         <where>
             bm.del_flag = 1
             <if test="query.orgName != null and query.orgName != '' ">

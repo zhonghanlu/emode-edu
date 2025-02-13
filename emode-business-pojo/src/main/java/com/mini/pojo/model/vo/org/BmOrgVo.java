@@ -63,7 +63,7 @@ public class BmOrgVo {
      * 机构营业执照
      */
     @Schema(title = "机构营业执照")
-    private Long orgBusinessLicense;
+    private Long orgBusinessLicenseId;
     /**
      * 机构营业执照Url
      */

@@ -1,9 +1,16 @@
 package com.mini.biz.manager.org;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.mini.common.constant.ErrorCodeConstant;
+import com.mini.common.enums.number.Delete;
+import com.mini.common.exception.service.EModeServiceException;
 import com.mini.file.model.dto.SysFileDTO;
 import com.mini.file.service.ISysFileService;
 import com.mini.manager.service.BmOrgService;
+import com.mini.manager.service.BmTeacherService;
+import com.mini.pojo.entity.org.BmTeacher;
 import com.mini.pojo.mapper.org.BmOrgStructMapper;
 import com.mini.pojo.model.dto.org.BmOrgDTO;
 import com.mini.pojo.model.edit.org.BmOrgEdit;
@@ -30,6 +37,8 @@ public class BmOrgBiz {
 
     private final ISysFileService sysFileService;
 
+    private final BmTeacherService bmTeacherService;
+
     /**
      * 分页
      */
@@ -48,7 +57,7 @@ public class BmOrgBiz {
             return null;
         }
 
-        SysFileDTO sysFileDTO = sysFileService.getById(bmOrgDTO.getOrgBusinessLicense());
+        SysFileDTO sysFileDTO = sysFileService.getById(bmOrgDTO.getOrgBusinessLicenseId());
 
         if (Objects.nonNull(sysFileDTO)) {
             bmOrgDTO.setOrgBusinessLicenseUrl(sysFileDTO.getFileUrl());
@@ -70,6 +79,16 @@ public class BmOrgBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public void del(long id) {
+        // 判断当前校区下是否有教师数据
+        LambdaQueryWrapper<BmTeacher> wrapper = Wrappers.lambdaQuery(BmTeacher.class);
+        wrapper.eq(BmTeacher::getTeaOrgId, id)
+                .eq(BmTeacher::getDelFlag, Delete.NO);
+        long count = bmTeacherService.count(wrapper);
+        if (count > 0) {
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前校区下有教师数据，不允许删除");
+        }
+
+        // 删除数据
         bmOrgService.del(id);
     }
 
