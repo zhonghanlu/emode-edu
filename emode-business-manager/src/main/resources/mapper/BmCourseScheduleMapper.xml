@@ -4,10 +4,10 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.course.BmCourseScheduleDTO">
-        <id column="id" property="id" />
-        <result column="cur_schedule_name" property="curScheduleName" />
-        <result column="cur_schedule_star_time" property="curScheduleStarTime" />
-        <result column="cur_schedule_end_time" property="curScheduleEndTime" />
+        <id column="id" property="id"/>
+        <result column="cur_schedule_name" property="curScheduleName"/>
+        <result column="cur_schedule_star_time" property="curScheduleStarTime"/>
+        <result column="cur_schedule_end_time" property="curScheduleEndTime"/>
     </resultMap>
 
     <select id="page" resultMap="BaseResultMap">
@@ -28,6 +28,50 @@
                 AND bcs.cur_schedule_end_time &lt;= #{query.curScheduleEndTime}
             </if>
         </where>
+    </select>
+
+    <resultMap id="DetailMap" type="com.mini.pojo.model.dto.course.BmCourseScheduleDetailDTO">
+        <id column="id" property="id"/>
+        <result column="cur_schedule_name" property="curScheduleName"/>
+        <result column="cur_schedule_star_time" property="curScheduleStarTime"/>
+        <result column="cur_schedule_end_time" property="curScheduleEndTime"/>
+        <collection property="curScheduleList" ofType="com.mini.pojo.model.dto.course.BmCourseDetailDTO">
+            <id column="curId" property="courseId"/>
+            <result column="cur_name" property="courseName"/>
+            <result column="course_type" property="courseType"/>
+            <result column="range_start_time" property="courseStartTime"/>
+            <result column="range_end_time" property="courseEndTime"/>
+            <result column="class_grade_id" property="classGradeId"/>
+            <result column="class_grade_name" property="classGradeName"/>
+            <result column="class_room_id" property="classRoomId"/>
+            <result column="class_room_name" property="classRoomName"/>
+            <result column="tea_id" property="teaId"/>
+            <result column="tea_name" property="teaName"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectDetailById" resultMap="DetailMap">
+        SELECT bcs.id,
+               bcs.cur_schedule_name,
+               bcs.cur_schedule_star_time,
+               bcs.cur_schedule_end_time,
+               bcsi.id     AS bcsiId,
+               bcsi.cur_id AS curId,
+               bcsi.cur_name,
+               bc.course_type,
+               bcsi.range_start_time,
+               bcsi.range_end_time,
+               bc.class_grade_id,
+               bc.class_grade_name,
+               bc.class_room_id,
+               bc.class_room_name,
+               bc.tea_id,
+               bc.tea_name
+        FROM bm_course_schedule bcs
+                 LEFT JOIN bm_course_schedule_item bcsi ON bcs.id = bcsi.cur_schedule_id AND bcsi.del_flag = 1
+                 LEFT JOIN bm_course bc ON bcsi.cur_id = bc.id AND bc.del_flag = 1
+        WHERE bcs.del_flag = 1
+          AND bcs.id = #{id}
     </select>
 
 </mapper>

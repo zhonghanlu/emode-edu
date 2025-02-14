@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mini.pojo.entity.course.BmCourseSchedule;
 import com.mini.pojo.model.dto.course.BmCourseScheduleDTO;
+import com.mini.pojo.model.dto.course.BmCourseScheduleDetailDTO;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,4 +20,6 @@ import org.apache.ibatis.annotations.Param;
 public interface BmCourseScheduleMapper extends BaseMapper<BmCourseSchedule> {
 
     IPage<BmCourseScheduleDTO> page(@Param("query") BmCourseScheduleQuery query, Page<BmCourseScheduleDTO> build);
+
+    BmCourseScheduleDetailDTO selectDetailById(@Param("id") long id);
 }

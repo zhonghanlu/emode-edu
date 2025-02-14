@@ -13,4 +13,5 @@ import com.mini.pojo.entity.course.BmCourseScheduleItem;
  */
 public interface BmCourseScheduleItemService extends IService<BmCourseScheduleItem> {
 
+    int existsCourseScheduleItem(long id);
 }

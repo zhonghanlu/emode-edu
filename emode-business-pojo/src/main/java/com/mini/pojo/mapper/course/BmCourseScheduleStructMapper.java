@@ -2,8 +2,10 @@ package com.mini.pojo.mapper.course;
 
 import com.mini.pojo.entity.course.BmCourseSchedule;
 import com.mini.pojo.model.dto.course.BmCourseScheduleDTO;
+import com.mini.pojo.model.dto.course.BmCourseScheduleDetailDTO;
 import com.mini.pojo.model.edit.course.BmCourseScheduleEdit;
 import com.mini.pojo.model.request.course.BmCourseScheduleRequest;
+import com.mini.pojo.model.vo.course.BmCourseScheduleDetailVo;
 import com.mini.pojo.model.vo.course.BmCourseScheduleVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -41,4 +43,9 @@ public interface BmCourseScheduleStructMapper {
      * edit2dto
      */
     BmCourseScheduleDTO edit2Dto(BmCourseScheduleEdit edit);
+
+    /**
+     * detailDto2DetailVo
+     */
+    BmCourseScheduleDetailVo detailDto2DetailVo(BmCourseScheduleDetailDTO bmCourseScheduleDetailDTO);
 }

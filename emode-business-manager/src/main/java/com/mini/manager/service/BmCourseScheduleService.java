@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mini.pojo.entity.course.BmCourseSchedule;
 import com.mini.pojo.model.dto.course.BmCourseScheduleDTO;
+import com.mini.pojo.model.dto.course.BmCourseScheduleDetailDTO;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
 
 import java.time.LocalDateTime;
@@ -36,7 +37,7 @@ public interface BmCourseScheduleService extends IService<BmCourseSchedule> {
     /**
      * 查
      */
-    BmCourseScheduleDTO selectById(long id);
+    BmCourseScheduleDetailDTO selectById(long id);
 
     /**
      * 查分页

@@ -14,14 +14,14 @@ import com.mini.pojo.entity.course.BmCourseScheduleItem;
 import com.mini.pojo.entity.course.BmStuClassGrade;
 import com.mini.pojo.mapper.course.BmCourseScheduleStructMapper;
 import com.mini.pojo.mapper.course.BmCourseStructMapper;
-import com.mini.pojo.model.dto.course.BmClassGradeDTO;
-import com.mini.pojo.model.dto.course.BmCourseDTO;
-import com.mini.pojo.model.dto.course.BmCourseScheduleDTO;
+import com.mini.pojo.model.dto.course.*;
 import com.mini.pojo.model.edit.course.BmCourseScheduleEdit;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
 import com.mini.pojo.model.request.course.BmCourseRequest;
 import com.mini.pojo.model.request.course.BmCourseScheduleConfirmedRequest;
 import com.mini.pojo.model.request.course.BmCourseScheduleRequest;
+import com.mini.pojo.model.vo.course.BmCourseDetailVo;
+import com.mini.pojo.model.vo.course.BmCourseScheduleDetailVo;
 import com.mini.pojo.model.vo.course.BmCourseScheduleNewVo;
 import com.mini.pojo.model.vo.course.BmCourseScheduleVo;
 import lombok.RequiredArgsConstructor;
@@ -67,9 +67,32 @@ public class BmCourseScheduleBiz {
     /**
      * 获取当条课表详情
      */
-    public BmCourseScheduleVo getEntityById(Long id) {
-        BmCourseScheduleDTO bmCourseScheduleDTO = bmCourseScheduleService.selectById(id);
-        return BmCourseScheduleStructMapper.INSTANCE.dto2Vo(bmCourseScheduleDTO);
+    public BmCourseScheduleDetailVo getEntityById(Long id) {
+        BmCourseScheduleDetailDTO bmCourseScheduleDetailDTO = bmCourseScheduleService.selectById(id);
+        BmCourseScheduleDetailVo bmCourseScheduleDetailVo = BmCourseScheduleStructMapper.INSTANCE.detailDto2DetailVo(bmCourseScheduleDetailDTO);
+        List<BmCourseDetailDTO> curScheduleList = bmCourseScheduleDetailDTO.getCurScheduleList();
+        Map<LocalDate, List<BmCourseDetailVo>> curScheduleMap = new HashMap<>();
+
+        // 分组数据
+        Map<LocalDate, List<BmCourseDetailDTO>> timeListMap = curScheduleList
+                .stream()
+                .peek(item -> item.setCourseStartTimeLocalDate(item.getCourseStartTime().toLocalDate()))
+                .collect(Collectors.groupingBy(BmCourseDetailDTO::getCourseStartTimeLocalDate));
+        // 获取区间
+        List<LocalDate> datesBetween = DateUtil.getDatesBetween(bmCourseScheduleDetailDTO.getCurScheduleStarTime(), bmCourseScheduleDetailDTO.getCurScheduleEndTime());
+
+        // 封装数据
+        datesBetween.forEach(item -> {
+            List<BmCourseDetailVo> bmCourseDetailVoList = new ArrayList<>();
+            List<BmCourseDetailDTO> bmCourseDetailDTOList = timeListMap.get(item);
+            if (CollectionUtils.isNotEmpty(bmCourseDetailDTOList)) {
+                bmCourseDetailVoList = BmCourseStructMapper.INSTANCE.detailDTO2DetailVo(bmCourseDetailDTOList);
+            }
+            curScheduleMap.put(item, bmCourseDetailVoList);
+        });
+        bmCourseScheduleDetailVo.setCurScheduleMap(curScheduleMap);
+
+        return bmCourseScheduleDetailVo;
     }
 
     /**
@@ -194,6 +217,12 @@ public class BmCourseScheduleBiz {
      */
     @Transactional(rollbackFor = Exception.class)
     public void del(long id) {
+        // 查看此课表是否有未结束的课程
+        int count = bmCourseScheduleItemService.existsCourseScheduleItem(id);
+        if (count > 0) {
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "此课表有未结束的课程，不允许删除");
+        }
+        // 删除数据
         bmCourseScheduleService.del(id);
     }
 

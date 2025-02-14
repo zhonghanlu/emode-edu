@@ -14,6 +14,7 @@ import com.mini.manager.service.BmCourseScheduleService;
 import com.mini.pojo.entity.course.BmCourseSchedule;
 import com.mini.pojo.mapper.course.BmCourseScheduleStructMapper;
 import com.mini.pojo.model.dto.course.BmCourseScheduleDTO;
+import com.mini.pojo.model.dto.course.BmCourseScheduleDetailDTO;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -104,8 +105,8 @@ public class BmCourseScheduleServiceImpl extends ServiceImpl<BmCourseScheduleMap
     }
 
     @Override
-    public BmCourseScheduleDTO selectById(long id) {
-        return BmCourseScheduleStructMapper.INSTANCE.entity2Dto(CommonMybatisUtil.getById(id, bmCourseScheduleMapper));
+    public BmCourseScheduleDetailDTO selectById(long id) {
+        return bmCourseScheduleMapper.selectDetailById(id);
     }
 
     @Override

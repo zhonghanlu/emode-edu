@@ -2,8 +2,10 @@ package com.mini.pojo.mapper.course;
 
 import com.mini.pojo.entity.course.BmCourse;
 import com.mini.pojo.model.dto.course.BmCourseDTO;
+import com.mini.pojo.model.dto.course.BmCourseDetailDTO;
 import com.mini.pojo.model.edit.course.BmCourseEdit;
 import com.mini.pojo.model.request.course.BmCourseRequest;
+import com.mini.pojo.model.vo.course.BmCourseDetailVo;
 import com.mini.pojo.model.vo.course.BmCourseVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -53,4 +55,9 @@ public interface BmCourseStructMapper {
      * dtoList2entityList
      */
     List<BmCourse> dtoList2EntityList(List<BmCourseDTO> dtoList);
+
+    /**
+     * detailDto2detailVo
+     */
+    List<BmCourseDetailVo> detailDTO2DetailVo(List<BmCourseDetailDTO> bmCourseDetailDTOList);
 }

@@ -8,6 +8,7 @@ import com.mini.pojo.model.edit.course.BmCourseScheduleEdit;
 import com.mini.pojo.model.query.course.BmCourseScheduleQuery;
 import com.mini.pojo.model.request.course.BmCourseScheduleConfirmedRequest;
 import com.mini.pojo.model.request.course.BmCourseScheduleRequest;
+import com.mini.pojo.model.vo.course.BmCourseScheduleDetailVo;
 import com.mini.pojo.model.vo.course.BmCourseScheduleNewVo;
 import com.mini.pojo.model.vo.course.BmCourseScheduleVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,7 +47,7 @@ public class BmCourseScheduleController {
 
     @Operation(summary = "课程表详情")
     @GetMapping("/detail/{scheduleId}")
-    public Restful<BmCourseScheduleVo> getDetailById(@PathVariable("scheduleId") Long id) {
+    public Restful<BmCourseScheduleDetailVo> getDetailById(@PathVariable("scheduleId") Long id) {
         return Restful.OBJECT(bmCourseScheduleBiz.getEntityById(id)).build();
     }
 

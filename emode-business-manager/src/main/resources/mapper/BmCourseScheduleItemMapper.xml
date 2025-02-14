@@ -4,13 +4,23 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.course.BmCourseScheduleItemDTO">
-        <id column="id" property="id" />
-        <result column="range_start_time" property="rangeStartTime" />
-        <result column="range_end_time" property="rangeEndTime" />
-        <result column="cur_id" property="curId" />
-        <result column="cur_name" property="curName" />
-        <result column="cur_schedule_id" property="curScheduleId" />
-        <result column="sort" property="sort" />
+        <id column="id" property="id"/>
+        <result column="range_start_time" property="rangeStartTime"/>
+        <result column="range_end_time" property="rangeEndTime"/>
+        <result column="cur_id" property="curId"/>
+        <result column="cur_name" property="curName"/>
+        <result column="cur_schedule_id" property="curScheduleId"/>
+        <result column="sort" property="sort"/>
     </resultMap>
+
+    <select id="existsCourseScheduleItem" resultType="java.lang.Integer" parameterType="long">
+        SELECT COUNT(1)
+        FROM bm_course_schedule_item bcsi
+                 LEFT JOIN bm_course bc ON bcsi.cur_id = bc.id
+            AND bc.del_flag = 1
+        WHERE bcsi.del_flag = 1
+          AND bc.course_status = 'wait_for_class'
+          AND bcsi.cur_schedule_id = #{id}
+    </select>
 
 </mapper>

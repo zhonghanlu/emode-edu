@@ -2,6 +2,7 @@ package com.mini.manager.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mini.pojo.entity.course.BmCourseScheduleItem;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.mini.pojo.entity.course.BmCourseScheduleItem;
  */
 public interface BmCourseScheduleItemMapper extends BaseMapper<BmCourseScheduleItem> {
 
+    int existsCourseScheduleItem(@Param("id") long id);
 }
