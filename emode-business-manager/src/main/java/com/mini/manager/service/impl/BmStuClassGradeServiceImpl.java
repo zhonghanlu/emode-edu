@@ -73,4 +73,14 @@ public class BmStuClassGradeServiceImpl extends ServiceImpl<BmStuClassGradeMappe
         }
         return null;
     }
+
+    @Override
+    public List<BmStuClassGrade> selectAlreadyOutInfo() {
+        LambdaQueryWrapper<BmStuClassGrade> wrapper = Wrappers.lambdaQuery(BmStuClassGrade.class);
+        wrapper.isNull(BmStuClassGrade::getCourseType)
+                .isNull(BmStuClassGrade::getClassGradeId)
+                .isNull(BmStuClassGrade::getClassGradeName)
+                .eq(BmStuClassGrade::getDelFlag, Delete.NO);
+        return bmStuClassGradeMapper.selectList(wrapper);
+    }
 }

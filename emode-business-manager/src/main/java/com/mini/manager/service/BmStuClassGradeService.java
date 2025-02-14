@@ -36,4 +36,10 @@ public interface BmStuClassGradeService extends IService<BmStuClassGrade> {
      * 根据学生id以及课程类型查询对应班级
      */
     BmStuClassGrade selectByStuId(Long id, CourseType courseType);
+
+    /**
+     * 已分班但移出学生数据
+     */
+    List<BmStuClassGrade> selectAlreadyOutInfo();
+
 }

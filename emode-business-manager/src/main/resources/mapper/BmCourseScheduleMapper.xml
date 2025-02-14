@@ -24,6 +24,9 @@
             <if test="query.curScheduleStarTime != null">
                 AND bcs.cur_schedule_star_time &gt;= #{query.curScheduleStarTime}
             </if>
+            <if test="query.curScheduleEndTime != null">
+                AND bcs.cur_schedule_end_time &lt;= #{query.curScheduleEndTime}
+            </if>
         </where>
     </select>
 

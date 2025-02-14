@@ -1,8 +1,7 @@
 package com.mini.biz.manager.course;
 
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
 import com.mini.common.exception.service.EModeServiceException;
@@ -11,6 +10,7 @@ import com.mini.manager.service.*;
 import com.mini.pojo.entity.course.BmClassGrade;
 import com.mini.pojo.entity.course.BmStuClassGrade;
 import com.mini.pojo.mapper.course.BmClassGradeStructMapper;
+import com.mini.pojo.mapper.course.BmStuClassGradeStructMapper;
 import com.mini.pojo.model.dto.course.BmClassGradeDTO;
 import com.mini.pojo.model.dto.course.BmHandlerClassDTO;
 import com.mini.pojo.model.dto.org.BmClassroomDTO;
@@ -23,6 +23,7 @@ import com.mini.pojo.model.request.course.BmClassGradeMoveStuRequest;
 import com.mini.pojo.model.request.course.BmClassGradeRequest;
 import com.mini.pojo.model.vo.course.BmClassGradeStuVo;
 import com.mini.pojo.model.vo.course.BmClassGradeVo;
+import com.mini.pojo.model.vo.course.BmStuAlreadyVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -140,6 +141,9 @@ public class BmClassGradeBiz {
 
         // 移动，修改学生班级
         BmStuClassGrade bmStuClassGrade = bmStuClassGradeService.selectByStuIdAndClassGradeId(request.getStuId(), fromClassGradeId);
+        if (Objects.isNull(bmStuClassGrade)) {
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "原班级学生数据不存在，请检查入参重新请求");
+        }
         bmStuClassGrade.setClassGradeId(toClassGradeId);
         bmStuClassGrade.setClassGradeName(toClassGrade.getClassGradeName());
         // 数据库更新
@@ -163,17 +167,14 @@ public class BmClassGradeBiz {
         checkStuAndClassGradeInfo(stuId, classGradeId);
 
         BmStuClassGrade bmStuClassGrade = bmStuClassGradeService.selectByStuIdAndClassGradeId(request.getStuId(), classGradeId);
-        bmStuClassGrade.setCourseType(null);
-        bmStuClassGrade.setClassGradeId(null);
-        bmStuClassGrade.setClassGradeName(null);
         // 数据库更新
-//        LambdaUpdateWrapper<BmStuClassGrade> wrapper = Wrappers.lambdaUpdate(BmStuClassGrade.class);
-//        wrapper.eq(BmStuClassGrade::getId, bmStuClassGrade)
-//                .eq(BmStuClassGrade::getDelFlag, Delete.NO)
-//                .set(BmStuClassGrade::getCourseType, null)
-//                .set(BmStuClassGrade::getClassGradeId, null)
-//                .set(BmStuClassGrade::getClassGradeName, null);
-        int i = bmStuClassGradeService.getBaseMapper().updateById(bmStuClassGrade);
+        UpdateWrapper<BmStuClassGrade> wrapper = new UpdateWrapper<>();
+        wrapper.lambda().eq(BmStuClassGrade::getId, bmStuClassGrade.getId())
+                .eq(BmStuClassGrade::getDelFlag, Delete.NO)
+                .set(BmStuClassGrade::getCourseType, null)
+                .set(BmStuClassGrade::getClassGradeId, null)
+                .set(BmStuClassGrade::getClassGradeName, null);
+        int i = bmStuClassGradeService.getBaseMapper().update(wrapper);
 
         if (i <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "移出失败");
@@ -207,6 +208,9 @@ public class BmClassGradeBiz {
                 break;
             case ALREADY_OUT:
                 BmStuClassGrade bmStuClassGrade = bmStuClassGradeService.selectByStuIdOutOne(stuId);
+                if (Objects.isNull(bmStuClassGrade)) {
+                    throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "当前学生已分班级，请先移出班级");
+                }
                 bmStuClassGrade.setCourseType(bmClassGradeDTO.getCurType());
                 bmStuClassGrade.setClassGradeId(classGradeId);
                 bmStuClassGrade.setClassGradeName(bmClassGradeDTO.getClassGradeName());
@@ -232,7 +236,7 @@ public class BmClassGradeBiz {
         // 获取待分班数据
         BmHandlerClassDTO bmHandlerClassDTO = bmHandlerClassService.selectByStuIdAndCurTypeAndType(stuId, bmClassGrade.getCurType(), bmClassGrade.getClassGradeType());
         if (Objects.isNull(bmHandlerClassDTO)) {
-            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "当前学生信息不存在");
+            throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "待分班数据不实，请重新确认入参");
         }
 
         // 新增学生与班级关系数据
@@ -290,5 +294,13 @@ public class BmClassGradeBiz {
         if (Objects.isNull(bmStuClassGrade)) {
             throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "当前学生暂未加入班级");
         }
+    }
+
+    /**
+     * 已分班 移除的学生信息
+     */
+    public List<BmStuAlreadyVo> alreadyOut() {
+        List<BmStuClassGrade> bmStuClassGradeList = bmStuClassGradeService.selectAlreadyOutInfo();
+        return BmStuClassGradeStructMapper.INSTANCE.entityList2VoList(bmStuClassGradeList);
     }
 }

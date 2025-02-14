@@ -12,6 +12,7 @@ import com.mini.pojo.model.request.course.BmClassGradeMoveStuRequest;
 import com.mini.pojo.model.request.course.BmClassGradeRequest;
 import com.mini.pojo.model.vo.course.BmClassGradeStuVo;
 import com.mini.pojo.model.vo.course.BmClassGradeVo;
+import com.mini.pojo.model.vo.course.BmStuAlreadyVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -93,6 +94,12 @@ public class BmClassGradeController {
     public Restful<Void> update(@RequestBody @Valid BmClassGradeEdit edit) {
         bmClassGradeBiz.update(edit);
         return Restful.SUCCESS().build();
+    }
+
+    @Operation(summary = "已分班但移出学生数据")
+    @GetMapping("/already-out")
+    public Restful<List<BmStuAlreadyVo>> alreadyOut() {
+        return Restful.OBJECT(bmClassGradeBiz.alreadyOut()).build();
     }
 
 }
