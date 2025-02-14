@@ -2,11 +2,14 @@ package com.mini.pojo.model.vo.course;
 
 import com.mini.common.enums.str.CourseStatus;
 import com.mini.common.enums.str.CourseType;
+import com.mini.pojo.entity.course.BmCourseStuPic;
+import com.mini.pojo.entity.course.BmCourseStuSign;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -62,4 +65,10 @@ public class BmCourseVo {
 
     @Schema(title = "课程状态 待上课 已上课 已结束 已过期")
     private CourseStatus courseStatus;
+
+    @Schema(title = "学生签到信息")
+    private List<BmCourseStuSignVo> bmCourseStuSignVoList;
+
+    @Schema(title = "学生课中信息")
+    private List<BmCourseStuPicVo> bmCourseStuPicVoList;
 }

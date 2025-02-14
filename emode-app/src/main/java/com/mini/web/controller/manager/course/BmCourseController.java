@@ -8,6 +8,7 @@ import com.mini.pojo.model.edit.course.*;
 import com.mini.pojo.model.query.course.BmCourseQuery;
 import com.mini.pojo.model.request.course.BmCourseRequest;
 import com.mini.pojo.model.vo.course.BmCourseVo;
+import com.mini.pojo.model.vo.course.BmStuCourseVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * <p>
@@ -95,6 +97,13 @@ public class BmCourseController {
     public Restful<Void> finish(@RequestBody @Valid BmCourseFinishEdit edit) {
         bmCourseBiz.finish(edit);
         return Restful.SUCCESS().build();
+    }
+
+    @Operation(summary = "课程对应学生信息")
+    @GetMapping("/stu-info/{courseId}")
+    public Restful<List<BmStuCourseVo>> courseStuInfo(@PathVariable("courseId") Long courseId) {
+        List<BmStuCourseVo> bmStuCourseVoList = bmCourseBiz.courseStuInfo(courseId);
+        return Restful.OBJECT(bmStuCourseVoList).build();
     }
 
 

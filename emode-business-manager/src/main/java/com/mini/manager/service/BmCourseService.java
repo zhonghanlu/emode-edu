@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mini.pojo.entity.course.BmCourse;
 import com.mini.pojo.model.dto.course.BmCourseDTO;
 import com.mini.pojo.model.query.course.BmCourseQuery;
+import com.mini.pojo.model.vo.course.BmCourseVo;
+import com.mini.pojo.model.vo.course.BmStuCourseVo;
 
 import java.util.List;
 
@@ -47,4 +49,14 @@ public interface BmCourseService extends IService<BmCourse> {
      * 课程批量新增
      */
     void batchAdd(List<BmCourseDTO> bmCourseDTOList);
+
+    /**
+     * 根据课程id查询学生信息
+     */
+    List<BmStuCourseVo> courseStuInfo(Long courseId);
+
+    /**
+     * 课程详细信息
+     */
+    BmCourseVo selectDetailById(Long id);
 }

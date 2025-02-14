@@ -22,10 +22,13 @@ import com.mini.pojo.entity.org.BmTeacher;
 import com.mini.pojo.mapper.course.BmCourseStructMapper;
 import com.mini.pojo.model.dto.course.BmCourseDTO;
 import com.mini.pojo.model.query.course.BmCourseQuery;
+import com.mini.pojo.model.vo.course.BmCourseVo;
+import com.mini.pojo.model.vo.course.BmStuCourseVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -150,6 +153,16 @@ public class BmCourseServiceImpl extends ServiceImpl<BmCourseMapper, BmCourse> i
         if (!b) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "批量新增失败");
         }
+    }
+
+    @Override
+    public List<BmStuCourseVo> courseStuInfo(Long courseId) {
+        return bmCourseMapper.courseStuInfo(courseId);
+    }
+
+    @Override
+    public BmCourseVo selectDetailById(Long id) {
+        return bmCourseMapper.selectDetailById(id);
     }
 
 

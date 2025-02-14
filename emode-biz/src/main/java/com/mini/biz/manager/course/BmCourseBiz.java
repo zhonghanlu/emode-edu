@@ -22,6 +22,7 @@ import com.mini.pojo.model.edit.course.*;
 import com.mini.pojo.model.query.course.BmCourseQuery;
 import com.mini.pojo.model.request.course.BmCourseRequest;
 import com.mini.pojo.model.vo.course.BmCourseVo;
+import com.mini.pojo.model.vo.course.BmStuCourseVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -73,8 +74,7 @@ public class BmCourseBiz {
      * 获取当条课程详情
      */
     public BmCourseVo getEntityById(Long id) {
-        BmCourseDTO bmCourseDTO = bmCourseService.selectById(id);
-        return BmCourseStructMapper.INSTANCE.dto2Vo(bmCourseDTO);
+        return bmCourseService.selectDetailById(id);
     }
 
     /**
@@ -319,6 +319,13 @@ public class BmCourseBiz {
             throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "课程信息有误,请重新选择");
         }
         return bmCourseDTO;
+    }
+
+    /**
+     * 课程id对应的学生信息
+     */
+    public List<BmStuCourseVo> courseStuInfo(Long courseId) {
+        return bmCourseService.courseStuInfo(courseId);
     }
 }
 

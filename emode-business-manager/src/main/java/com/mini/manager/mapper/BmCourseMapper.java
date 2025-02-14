@@ -6,7 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mini.pojo.entity.course.BmCourse;
 import com.mini.pojo.model.dto.course.BmCourseDTO;
 import com.mini.pojo.model.query.course.BmCourseQuery;
+import com.mini.pojo.model.vo.course.BmCourseVo;
+import com.mini.pojo.model.vo.course.BmStuCourseVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -19,4 +23,8 @@ import org.apache.ibatis.annotations.Param;
 public interface BmCourseMapper extends BaseMapper<BmCourse> {
 
     IPage<BmCourseDTO> page(@Param("query") BmCourseQuery query, Page<BmCourseDTO> build);
+
+    List<BmStuCourseVo> courseStuInfo(@Param("courseId") Long courseId);
+
+    BmCourseVo selectDetailById(@Param("courseId") Long courseId);
 }

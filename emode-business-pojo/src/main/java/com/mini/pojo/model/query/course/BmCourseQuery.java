@@ -1,5 +1,6 @@
 package com.mini.pojo.model.query.course;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mini.common.enums.str.CourseStatus;
 import com.mini.common.enums.str.CourseType;
 import com.mini.common.utils.webmvc.PageQuery;
@@ -7,6 +8,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -32,9 +34,13 @@ public class BmCourseQuery extends PageQuery {
     @Parameter(description = "周几")
     private Integer weekOne;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Parameter(description = "课程开始时间")
     private LocalDateTime courseStartTime;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Parameter(description = "课程结束时间")
     private LocalDateTime courseEndTime;
 
