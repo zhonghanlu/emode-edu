@@ -83,18 +83,20 @@
 
     <resultMap id="CourseDetailMap" type="com.mini.pojo.model.vo.course.BmCourseVo">
         <id column="id" property="id"/>
-        <result column="" property="courseType"/>
-        <result column="" property="courseName"/>
-        <result column="" property="weekOne"/>
-        <result column="" property="courseStartTime"/>
-        <result column="" property="courseEndTime"/>
-        <result column="" property="classPersonSize"/>
-        <result column="" property="classRoomId"/>
-        <result column="" property="classRoomName"/>
-        <result column="" property="teaId"/>
-        <result column="" property="teaName"/>
-        <result column="" property="classGradeId"/>
-        <result column="" property="classGradeName"/>
+        <result column="course_type" property="courseType"/>
+        <result column="course_name" property="courseName"/>
+        <result column="week_one" property="weekOne"/>
+        <result column="course_start_time" property="courseStartTime"/>
+        <result column="course_end_time" property="courseEndTime"/>
+        <result column="class_person_size" property="classPersonSize"/>
+        <result column="class_room_id" property="classRoomId"/>
+        <result column="class_room_name" property="classRoomName"/>
+        <result column="tea_id" property="teaId"/>
+        <result column="tea_name" property="teaName"/>
+        <result column="class_grade_id" property="classGradeId"/>
+        <result column="class_grade_name" property="classGradeName"/>
+        <result column="course_status" property="courseStatus"/>
+
         <collection property="bmCourseStuSignVoList" ofType="com.mini.pojo.model.vo.course.BmCourseStuSignVo">
             <id column="signId" property="signId"/>
             <result column="stuId" property="stuId"/>
@@ -103,12 +105,16 @@
         </collection>
 
         <collection property="bmCourseStuPicVoList" ofType="com.mini.pojo.model.vo.course.BmCourseStuPicVo">
-            <id column="" property="picId"/>
-            <result column="stuId" property="stuId"/>
+            <id column="stuId" property="stuId"/>
+<!--            <result column="stuId" property="stuId"/>-->
             <result column="stu_name" property="stuName"/>
-            <collection property="picUrlList" javaType="String">
-<!--                <result column=""-->
+            <collection property="picUrlList" ofType="java.lang.String">
+                <result column="picUrl" property="picUrl"/>
             </collection>
+        </collection>
+
+        <collection property="bmCourseNotesVoList" ofType="com.mini.pojo.model.vo.course.BmCourseNotesVo">
+            <id column="id" property="id"/>
         </collection>
     </resultMap>
 
@@ -126,24 +132,33 @@
                bc.tea_name,
                bc.class_grade_id,
                bc.class_grade_name,
-               bs.id AS stuId,
+               bc.course_status,
+               bs.id       AS stuId,
                bs.stu_name,
-               bcss.id AS signId,
+               bcss.id     AS signId,
                bcss.sign_status,
-               bcsp.id AS picId,
+               bcsp.id     AS picId,
                bcsp.pic_id,
-               sf.file_url
+               sf.file_url AS picUrl
         FROM bm_course bc
-                 LEFT JOIN bm_course_stu_sign bcss ON bc.id = bcss.course_id
-            AND bcss.del_flag = 1
-                 LEFT JOIN bm_course_stu_pic bcsp ON bc.id = bcsp.course_id
-            AND bcsp.del_flag = 1
-                 LEFT JOIN bm_student bs ON bcss.stu_id = bs.id
-            AND bcsp.stu_id = bs.id
-            AND bs.del_flag = 1
+                 LEFT JOIN bm_stu_class_grade bscg ON bc.class_grade_id = bscg.class_grade_id AND bscg.del_flag = 1
+                 LEFT JOIN bm_student bs ON bscg.stu_id = bs.id AND bs.del_flag = 1
+                 LEFT JOIN bm_course_stu_sign bcss ON bc.id = bcss.course_id AND bcss.stu_id = bs.id AND bcss.del_flag = 1
+                 LEFT JOIN bm_course_stu_pic bcsp ON bc.id = bcsp.course_id AND bcsp.stu_id = bs.id AND bcsp.del_flag = 1
                  LEFT JOIN sys_file sf ON bcsp.pic_id = sf.id AND sf.del_flag = 1
         WHERE bc.del_flag = 1
-          AND bc.id = 1654909233529216
+          AND bc.id = #{courseId}
+    </select>
+
+    <select id="selectNotesByCourseId" resultType="com.mini.pojo.model.vo.course.BmCourseNotesVo">
+        SELECT bcn.id,
+               bcn.file_type,
+               sf.file_url
+        FROM bm_course bc
+                 LEFT JOIN bm_course_notes bcn ON bc.id = bcn.course_id AND bcn.del_flag = 1
+                 LEFT JOIN sys_file sf ON bcn.file_id = sf.id AND sf.del_flag = 1
+        WHERE bc.del_flag = 1
+          AND bc.id = #{courseId}
     </select>
 
 </mapper>

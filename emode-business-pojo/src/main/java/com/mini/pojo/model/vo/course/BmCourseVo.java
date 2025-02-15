@@ -2,8 +2,6 @@ package com.mini.pojo.model.vo.course;
 
 import com.mini.common.enums.str.CourseStatus;
 import com.mini.common.enums.str.CourseType;
-import com.mini.pojo.entity.course.BmCourseStuPic;
-import com.mini.pojo.entity.course.BmCourseStuSign;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -71,4 +69,7 @@ public class BmCourseVo {
 
     @Schema(title = "学生课中信息")
     private List<BmCourseStuPicVo> bmCourseStuPicVoList;
+
+    @Schema(title = "课堂作业与讲义")
+    private List<BmCourseNotesVo> bmCourseNotesVoList;
 }

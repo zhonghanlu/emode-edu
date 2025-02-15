@@ -1,15 +1,9 @@
 package com.mini.pojo.model.vo.course;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.mini.common.model.CommonEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -33,7 +27,6 @@ public class BmCourseStuPicVo {
     @Schema(title = "学生姓名")
     private String stuName;
 
-    @Schema(title = "课中信息 图集合")
+    @Schema(title = "课中信息")
     private List<String> picUrlList;
-
 }

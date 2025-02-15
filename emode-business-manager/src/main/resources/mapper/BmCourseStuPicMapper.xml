@@ -14,5 +14,8 @@
         <result column="update_time" property="updateTime"/>
         <result column="del_flag" property="delFlag"/>
     </resultMap>
+    <select id="selectByCourseId" resultType="com.mini.pojo.model.vo.course.BmCourseStuPicVo">
+
+    </select>
 
 </mapper>

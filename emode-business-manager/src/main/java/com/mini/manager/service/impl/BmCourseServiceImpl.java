@@ -7,13 +7,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.constant.LastSql;
 import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.SignStatus;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.mybatis.CommonMybatisUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
-import com.mini.manager.mapper.BmClassGradeMapper;
-import com.mini.manager.mapper.BmClassroomMapper;
-import com.mini.manager.mapper.BmCourseMapper;
-import com.mini.manager.mapper.BmTeacherMapper;
+import com.mini.manager.mapper.*;
 import com.mini.manager.service.BmCourseService;
 import com.mini.pojo.entity.course.BmClassGrade;
 import com.mini.pojo.entity.course.BmCourse;
@@ -22,13 +20,15 @@ import com.mini.pojo.entity.org.BmTeacher;
 import com.mini.pojo.mapper.course.BmCourseStructMapper;
 import com.mini.pojo.model.dto.course.BmCourseDTO;
 import com.mini.pojo.model.query.course.BmCourseQuery;
+import com.mini.pojo.model.vo.course.BmCourseNotesVo;
+import com.mini.pojo.model.vo.course.BmCourseStuSignVo;
 import com.mini.pojo.model.vo.course.BmCourseVo;
 import com.mini.pojo.model.vo.course.BmStuCourseVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -52,6 +52,8 @@ public class BmCourseServiceImpl extends ServiceImpl<BmCourseMapper, BmCourse> i
     private final BmTeacherMapper bmTeacherMapper;
 
     private final BmClassGradeMapper bmClassGradeMapper;
+
+    private final BmCourseStuPicMapper bmCourseStuPicMapper;
 
     @Override
     public void add(BmCourseDTO dto) {
@@ -106,9 +108,6 @@ public class BmCourseServiceImpl extends ServiceImpl<BmCourseMapper, BmCourse> i
 
         BmCourse bmCourse = BmCourseStructMapper.INSTANCE.dto2Entity(dto);
 
-        // 校验课程名，教室，教师，班级是否存在
-        checkExistParams(bmCourse);
-
         // 校验开始时间是否大于结束时间
         if (bmCourse.getCourseStartTime().isAfter(bmCourse.getCourseEndTime())) {
             throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "开始时间不能大于结束时间");
@@ -162,7 +161,23 @@ public class BmCourseServiceImpl extends ServiceImpl<BmCourseMapper, BmCourse> i
 
     @Override
     public BmCourseVo selectDetailById(Long id) {
-        return bmCourseMapper.selectDetailById(id);
+        BmCourseVo bmCourseVo = bmCourseMapper.selectDetailById(id);
+        // 处理默认签到状态
+        List<BmCourseStuSignVo> bmCourseStuSignVoList = bmCourseVo.getBmCourseStuSignVoList();
+        if (CollectionUtils.isNotEmpty(bmCourseStuSignVoList)) {
+            bmCourseStuSignVoList.forEach(item -> {
+                SignStatus signStatus = item.getSignStatus();
+                if (Objects.isNull(signStatus)) {
+                    item.setSignStatus(SignStatus.WAIT_ARRIVED);
+                }
+            });
+        }
+        // 课堂作业与讲义
+        List<BmCourseNotesVo> bmCourseNotesVoList = bmCourseMapper.selectNotesByCourseId(id);
+        if (CollectionUtils.isNotEmpty(bmCourseNotesVoList)) {
+            bmCourseVo.setBmCourseNotesVoList(bmCourseNotesVoList);
+        }
+        return bmCourseVo;
     }
 
 

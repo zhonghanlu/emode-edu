@@ -2,6 +2,10 @@ package com.mini.manager.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mini.pojo.entity.course.BmCourseStuPic;
+import com.mini.pojo.model.vo.course.BmCourseStuPicVo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.mini.pojo.entity.course.BmCourseStuPic;
  */
 public interface BmCourseStuPicMapper extends BaseMapper<BmCourseStuPic> {
 
+    List<BmCourseStuPicVo> selectByCourseId(@Param("courseId") Long courseId);
 }
