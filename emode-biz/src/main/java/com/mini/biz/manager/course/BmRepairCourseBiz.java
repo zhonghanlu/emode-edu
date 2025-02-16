@@ -22,6 +22,7 @@ import com.mini.pojo.model.request.course.BmRepairCourseUploadFileRequest;
 import com.mini.pojo.model.vo.course.BmRepairCourseVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,8 +48,6 @@ public class BmRepairCourseBiz {
     private final BmRepairRelationLackService bmRepairRelationLackService;
 
     private final BmRepairRelationFileService bmRepairRelationFileService;
-
-    private final BmStudentService bmStudentService;
 
     private final BmStuClassHourService bmStuClassHourService;
 
@@ -76,8 +75,18 @@ public class BmRepairCourseBiz {
         LocalDateTime repairStartTime = request.getRepairStartTime();
         LocalDateTime repairEndTime = request.getRepairEndTime();
         List<Long> lackCourseIdList = request.getLackCourseIdList();
+
+        if (CollectionUtils.isEmpty(lackCourseIdList)) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "缺课idList不能为空");
+        }
+
         // 补课课时类型，与 缺课学生的课时类型一直
         List<BmLackCourseDTO> bmLackCourseDTOList = bmLackCourseService.selectByIdList(lackCourseIdList);
+
+        if (CollectionUtils.isEmpty(bmLackCourseDTOList)) {
+            throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "缺课idList对应的缺课信息不存在");
+        }
+
         bmLackCourseDTOList.forEach(item -> {
             if (!item.getCurType().equals(request.getCurType())) {
                 throw new EModeServiceException(ErrorCodeConstant.BUSINESS_ERROR, "补课课时类型，与缺课学生的课时类型不一致");
@@ -95,6 +104,7 @@ public class BmRepairCourseBiz {
         List<BmRepairRelationLack> bmRepairRelationLackList = new ArrayList<>();
         bmLackCourseDTOList.forEach(item -> {
             BmRepairRelationLack bmRepairRelationLack = new BmRepairRelationLack();
+            bmRepairRelationLack.setId(IDGenerator.next());
             bmRepairRelationLack.setRepairId(bmRepairCourse.getId());
             bmRepairRelationLack.setLackId(item.getId());
             bmRepairRelationLackList.add(bmRepairRelationLack);
@@ -166,7 +176,9 @@ public class BmRepairCourseBiz {
             // 默认扣除两课时
             bmStuClassHourService.handlerStuClassHour(stuId, bmRepairCourseDTO.getCurType(), StuClassHourConstant.SUBTRACT, 20000, "");
         });
-        // 5.修改补课状态 TODO 补课缺少状态信息
+        // 5.修改补课状态
+        bmRepairCourseDTO.setRepairStatus(YesOrNo.YES);
+        bmRepairCourseService.update(bmRepairCourseDTO);
 
         // 6.修改缺课状态
         bmLackCourseList.forEach(item -> item.setLackStatus(YesOrNo.YES));

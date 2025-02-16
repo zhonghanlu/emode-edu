@@ -4,12 +4,13 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.mini.pojo.model.dto.course.BmRepairCourseDTO">
-        <id column="id" property="id" />
-        <result column="repair_name" property="repairName" />
-        <result column="cur_type" property="curType" />
-        <result column="week_one" property="weekOne" />
-        <result column="repair_start_time" property="repairStartTime" />
-        <result column="repair_end_time" property="repairEndTime" />
+        <id column="id" property="id"/>
+        <result column="repair_name" property="repairName"/>
+        <result column="cur_type" property="curType"/>
+        <result column="week_one" property="weekOne"/>
+        <result column="repair_start_time" property="repairStartTime"/>
+        <result column="repair_end_time" property="repairEndTime"/>
+        <result column="repair_status" property="repairStatus"/>
     </resultMap>
 
     <select id="page" resultMap="BaseResultMap">
@@ -19,7 +20,8 @@
         brc.cur_type,
         brc.week_one,
         brc.repair_start_time,
-        brc.repair_end_time
+        brc.repair_end_time,
+        brc.repair_status
         FROM bm_repair_course brc
         <where>
             brc.del_flag = 1
@@ -30,6 +32,36 @@
                 AND brc.cur_type LIKE concat('%',#{query.curType},'%')
             </if>
         </where>
+    </select>
+
+    <resultMap id="RepairDetailResultMap" type="com.mini.pojo.model.dto.course.BmRepairCourseDTO">
+        <id column="id" property="id"/>
+        <result column="repair_name" property="repairName"/>
+        <result column="cur_type" property="curType"/>
+        <result column="repair_start_time" property="repairStartTime"/>
+        <result column="repair_end_time" property="repairEndTime"/>
+        <result column="week_one" property="weekOne"/>
+        <result column="repair_status" property="repairStatus"/>
+        <collection property="bmRepairRelationFileVoList" ofType="com.mini.pojo.model.vo.course.BmRepairRelationFileVo">
+            <id column="brrfId" property="id"/>
+            <result column="file_url" property="fileUrl"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectDetailById" resultMap="RepairDetailResultMap">
+        SELECT brc.id,
+               brc.repair_name,
+               brc.cur_type,
+               brc.repair_start_time,
+               brc.repair_end_time,
+               brc.week_one,
+               brc.repair_status,
+               brrf.id AS brrfId,
+               sf.file_url
+        FROM bm_repair_course brc
+                 LEFT JOIN bm_repair_relation_file brrf ON brc.id = brrf.repair_id
+                 LEFT JOIN sys_file sf ON brrf.file_id = sf.id AND sf.del_flag = 1
+        WHERE brc.id = #{repairId}
     </select>
 
 </mapper>

@@ -19,4 +19,6 @@ import org.apache.ibatis.annotations.Param;
 public interface BmRepairCourseMapper extends BaseMapper<BmRepairCourse> {
 
     IPage<BmRepairCourseDTO> page(@Param("query") BmRepairCourseQuery query, Page<BmRepairCourseDTO> build);
+
+    BmRepairCourseDTO selectDetailById(@Param("repairId") long id);
 }

@@ -299,7 +299,7 @@ public class BmCourseBiz {
                 bmLackCourse.setStuId(item.getStuId());
                 BmStudent bmStudent = bmStudentMap.get(item.getStuId());
                 bmLackCourse.setStuName(Objects.nonNull(bmStudent) ? bmStudent.getStuName() : "学生不存在");
-                bmLackCourse.setLackStatus(YesOrNo.YES);
+                bmLackCourse.setLackStatus(YesOrNo.NO);
                 bmLackCourse.setDelFlag(Delete.NO);
                 bmLackCourseList.add(bmLackCourse);
             });

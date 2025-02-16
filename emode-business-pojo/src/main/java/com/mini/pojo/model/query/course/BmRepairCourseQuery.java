@@ -1,6 +1,7 @@
 package com.mini.pojo.model.query.course;
 
 import com.mini.common.enums.str.CourseType;
+import com.mini.common.enums.str.YesOrNo;
 import com.mini.common.utils.webmvc.PageQuery;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,4 +37,7 @@ public class BmRepairCourseQuery extends PageQuery {
 
     @Parameter(description = "补课结束时间")
     private LocalDateTime repairEndTime;
+
+    @Parameter(description = "补课状态")
+    private YesOrNo repairStatus;
 }

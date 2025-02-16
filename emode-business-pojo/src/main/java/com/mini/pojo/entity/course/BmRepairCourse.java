@@ -3,6 +3,7 @@ package com.mini.pojo.entity.course;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.mini.common.enums.str.CourseType;
+import com.mini.common.enums.str.YesOrNo;
 import com.mini.common.model.CommonEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -49,4 +50,7 @@ public class BmRepairCourse extends CommonEntity implements Serializable {
 
     @Schema(name = "补课结束时间")
     private LocalDateTime repairEndTime;
+
+    @Schema(name = "补课状态")
+    private YesOrNo repairStatus;
 }

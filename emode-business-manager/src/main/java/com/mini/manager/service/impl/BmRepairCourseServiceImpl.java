@@ -99,7 +99,7 @@ public class BmRepairCourseServiceImpl extends ServiceImpl<BmRepairCourseMapper,
 
     @Override
     public BmRepairCourseDTO selectById(long id) {
-        return BmRepairCourseStructMapper.INSTANCE.entity2Dto(CommonMybatisUtil.getById(id, bmRepairCourseMapper));
+        return bmRepairCourseMapper.selectDetailById(id);
     }
 
     @Override

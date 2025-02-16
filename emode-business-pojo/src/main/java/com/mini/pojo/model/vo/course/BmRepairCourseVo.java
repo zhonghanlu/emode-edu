@@ -1,11 +1,13 @@
 package com.mini.pojo.model.vo.course;
 
 import com.mini.common.enums.str.CourseType;
+import com.mini.common.enums.str.YesOrNo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -37,4 +39,10 @@ public class BmRepairCourseVo {
 
     @Schema(title = "补课结束时间")
     private LocalDateTime repairEndTime;
+
+    @Schema(title = "补课状态")
+    private YesOrNo repairStatus;
+
+    @Schema(title = "补课课堂作业与讲义")
+    private List<BmRepairRelationFileVo> bmRepairRelationFileVoList;
 }
