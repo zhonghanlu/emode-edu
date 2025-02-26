@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.app.mapper.BmWxMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mini.pojo.entity.app.BmWx">
+        <id column="id" property="id"/>
+        <result column="union_id" property="unionId"/>
+        <result column="open_id" property="openId"/>
+        <result column="wx_name" property="wxName"/>
+        <result column="avatar_id" property="avatarId"/>
+        <result column="avatar_url" property="avatarUrl"/>
+        <result column="phone_number" property="phoneNumber"/>
+        <result column="address" property="address"/>
+        <result column="create_time" property="createTime"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
+
+</mapper>
