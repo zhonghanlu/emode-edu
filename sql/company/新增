@@ -1,0 +1,28 @@
+CREATE TABLE `bm_wx_patriarch` (
+  `id` bigint NOT NULL COMMENT '主键id',
+  `wx_id` bigint DEFAULT NULL COMMENT '微信用户数据主键id',
+  `patriarch_id` bigint DEFAULT NULL COMMENT '家长数据id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='微信用户与家长信息绑定';
+
+
+CREATE TABLE `bm_wx` (
+  `id` bigint NOT NULL COMMENT '主键id',
+  `union_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '微信unionId',
+  `open_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '微信openId',
+  `wx_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '微信名称',
+  `avatar_id` bigint DEFAULT NULL COMMENT '头像id',
+  `avatar_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '头像本地地址',
+  `phone_number` bigint DEFAULT NULL COMMENT '手机号',
+  `address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '地址，国家省市区用‘，’隔开',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识1未删除 -1已删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='微信用户数据';
+
+CREATE TABLE `bm_user_patriarch` (
+  `id` bigint NOT NULL COMMENT '主键id',
+  `patriarch_id` bigint DEFAULT NULL COMMENT '家长主键id',
+  `user_id` bigint DEFAULT NULL COMMENT '系统用户id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='家长与系统用关联';

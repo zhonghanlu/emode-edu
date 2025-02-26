@@ -18,7 +18,7 @@ public final class WxConstant {
     public static final String WX_JS_CODE_URL = "https://api.weixin.qq.com/sns/jscode2session";
 
 
-    /// ///////////////////////////默认参数名与默认参数/////////////////////////////////////
+    ///////////////////////////////默认参数名与默认参数/////////////////////////////////////
 
     // 请求参数名 appid
     public static final String PARAMS_APP_ID = "appid";
