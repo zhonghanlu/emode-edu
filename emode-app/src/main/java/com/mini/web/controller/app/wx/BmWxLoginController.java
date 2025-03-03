@@ -7,6 +7,7 @@ import com.mini.pojo.model.request.wx.BmWxJsCodeRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
  */
 @Tag(name = "微信登录", description = "微信登录")
 @RestController
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/wx")
 public class BmWxLoginController {
