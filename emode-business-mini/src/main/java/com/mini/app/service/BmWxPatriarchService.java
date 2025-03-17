@@ -13,4 +13,11 @@ import com.mini.pojo.entity.app.BmWxPatriarch;
  */
 public interface BmWxPatriarchService extends IService<BmWxPatriarch> {
 
+    /**
+     * 新增微信用户与家长信心绑定
+     *
+     * @param patId
+     * @param wxId
+     */
+    void add(Long patId, Long wxId);
 }

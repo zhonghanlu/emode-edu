@@ -15,6 +15,9 @@ public final class LoginConstant {
     // 登录成功
     public static final String LOGIN_SUCCESS = "LOGIN_SUCCESS";
 
+    // 小程序登录成功
+    public static final String MINI_LOGIN_SUCCESS = "MINI_LOGIN_SUCCESS";
+
     // 登出成功
     public static final String LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 }

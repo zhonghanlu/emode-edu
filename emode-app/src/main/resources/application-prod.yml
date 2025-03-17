@@ -200,6 +200,7 @@ security:
     - /sys-captcha/captcha-image
     - /sys-auth/captcha-enable
     # 登录注册接口
+    - /wx/login
     - /sys-auth/login
     - /sys-auth/register
     # knife4j接口文档

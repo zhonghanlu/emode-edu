@@ -12,7 +12,6 @@ import com.mini.common.utils.mybatis.CommonMybatisUtil;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.mapper.BmPatStuRelationMapper;
 import com.mini.manager.mapper.BmPatriarchMapper;
-import com.mini.manager.mapper.BmStuClassGradeMapper;
 import com.mini.manager.service.BmPatriarchService;
 import com.mini.pojo.entity.org.BmPatStuRelation;
 import com.mini.pojo.entity.org.BmPatriarch;
@@ -48,7 +47,7 @@ public class BmPatriarchServiceImpl extends ServiceImpl<BmPatriarchMapper, BmPat
     private final BmPatStuRelationMapper bmPatStuRelationMapper;
 
     @Override
-    public void add(BmPatriarchDTO dto) {
+    public BmPatriarchDTO add(BmPatriarchDTO dto) {
         BmPatriarch bmPatriarch = BmPatriarchStructMapper.INSTANCE.dto2Entity(dto);
 
         // 校验手机号是否重复
@@ -70,6 +69,7 @@ public class BmPatriarchServiceImpl extends ServiceImpl<BmPatriarchMapper, BmPat
         if (b <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "新增失败");
         }
+        return BmPatriarchStructMapper.INSTANCE.entity2Dto(bmPatriarch);
     }
 
     @Override

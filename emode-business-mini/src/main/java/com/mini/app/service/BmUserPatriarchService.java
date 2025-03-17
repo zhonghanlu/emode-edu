@@ -13,4 +13,11 @@ import com.mini.pojo.entity.app.BmUserPatriarch;
  */
 public interface BmUserPatriarchService extends IService<BmUserPatriarch> {
 
+    /**
+     * 家长与用户关联
+     *
+     * @param patId  家长id
+     * @param userId 用户id
+     */
+    void add(Long patId, Long userId);
 }

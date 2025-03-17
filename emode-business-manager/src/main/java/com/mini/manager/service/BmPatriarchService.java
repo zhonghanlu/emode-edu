@@ -21,7 +21,7 @@ public interface BmPatriarchService extends IService<BmPatriarch> {
     /**
      * 增
      */
-    void add(BmPatriarchDTO dto);
+    BmPatriarchDTO add(BmPatriarchDTO dto);
 
     /**
      * 删
