@@ -3,7 +3,7 @@
 <mapper namespace="com.mini.app.mapper.BmUserPatriarchMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mini.pojo.entity.app.BmUserPatriarch">
+    <resultMap id="BaseResultMap" type="com.mini.pojo.entity.app.wx.BmUserPatriarch">
         <id column="id" property="id"/>
         <result column="patriarch_id" property="patriarchId"/>
         <result column="user_id" property="userId"/>

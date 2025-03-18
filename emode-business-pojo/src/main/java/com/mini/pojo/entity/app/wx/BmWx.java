@@ -1,4 +1,4 @@
-package com.mini.pojo.entity.app;
+package com.mini.pojo.entity.app.wx;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.mini.common.enums.number.Delete;

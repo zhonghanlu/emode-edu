@@ -22,7 +22,7 @@ import com.mini.common.utils.SmHutoolUtil;
 import com.mini.common.utils.http.HttpClientUtil;
 import com.mini.common.utils.http.ServletUtil;
 import com.mini.manager.service.BmPatriarchService;
-import com.mini.pojo.mapper.wx.BmWxStructMapper;
+import com.mini.pojo.mapper.app.wx.BmWxStructMapper;
 import com.mini.pojo.model.dto.org.BmPatriarchDTO;
 import com.mini.pojo.model.dto.wx.BmWxCode2SessionDTO;
 import com.mini.pojo.model.dto.wx.BmWxDTO;
@@ -32,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -97,6 +98,7 @@ public class BmWxLoginBiz {
     /**
      * 微信登录
      */
+    @Transactional(rollbackFor = Exception.class)
     public LoginModel login(BmWxLoginRequest request) {
         // 1.根据手机号查询微信用户数据
         BmWxDTO wxAccount = bmWxService.selectByPhoneNumber(request.getPhoneNumber());
@@ -150,7 +152,7 @@ public class BmWxLoginBiz {
         AuthUserDTO authUserDTO = new AuthUserDTO();
         authUserDTO.setUsername(phone);
         // 默认为自己的手机号
-        authUserDTO.setPassword(SmHutoolUtil.sm2DecryptStr(phone));
+        authUserDTO.setPassword(SmHutoolUtil.sm2EncryptBase64(phone));
         authUserDTO.setNickname(request.getWxName());
         authUserDTO.setSex(Gender.UNKNOWN);
         authUserDTO.setAvatarId(request.getAvatarId());

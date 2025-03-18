@@ -1,7 +1,7 @@
 package com.mini.app.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mini.pojo.entity.app.BmWx;
+import com.mini.pojo.entity.app.wx.BmWx;
 import com.mini.pojo.model.dto.wx.BmWxDTO;
 
 /**

@@ -1,7 +1,7 @@
 package com.mini.app.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mini.pojo.entity.app.BmWxPatriarch;
+import com.mini.pojo.entity.app.wx.BmWxPatriarch;
 
 /**
  * <p>

@@ -1,6 +1,6 @@
-package com.mini.pojo.mapper.wx;
+package com.mini.pojo.mapper.app.wx;
 
-import com.mini.pojo.entity.app.BmWx;
+import com.mini.pojo.entity.app.wx.BmWx;
 import com.mini.pojo.model.dto.org.BmPatriarchDTO;
 import com.mini.pojo.model.dto.wx.BmWxDTO;
 import com.mini.pojo.model.request.wx.BmWxLoginRequest;

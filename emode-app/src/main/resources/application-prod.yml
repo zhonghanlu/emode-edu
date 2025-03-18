@@ -287,7 +287,10 @@ spring-doc:
       paths-to-match: '/**'
       packages-to-scan:
         - com.mini.web.controller.oj.ai
-
+    - group: '小程序-微信登录'
+      paths-to-match: '/**'
+      packages-to-scan:
+        - com.mini.web.controller.app.wx
 # knife4j configuration   http://127.0.0.1:18099/doc.html  OpenAPI3 语法
 knife4j:
   enable: true

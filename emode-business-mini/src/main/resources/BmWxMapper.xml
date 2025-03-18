@@ -3,7 +3,7 @@
 <mapper namespace="com.mini.app.mapper.BmWxMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mini.pojo.entity.app.BmWx">
+    <resultMap id="BaseResultMap" type="com.mini.pojo.entity.app.wx.BmWx">
         <id column="id" property="id"/>
         <result column="union_id" property="unionId"/>
         <result column="open_id" property="openId"/>

@@ -6,7 +6,7 @@ import com.mini.app.service.BmUserPatriarchService;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.webmvc.IDGenerator;
-import com.mini.pojo.entity.app.BmUserPatriarch;
+import com.mini.pojo.entity.app.wx.BmUserPatriarch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
