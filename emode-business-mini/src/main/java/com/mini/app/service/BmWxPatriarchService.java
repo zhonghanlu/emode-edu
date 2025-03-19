@@ -20,4 +20,9 @@ public interface BmWxPatriarchService extends IService<BmWxPatriarch> {
      * @param wxId
      */
     void add(Long patId, Long wxId);
+
+    /**
+     * 根据微信用户id查询 家长关联信息
+     */
+    BmWxPatriarch selectByWxId(Long id);
 }

@@ -22,6 +22,7 @@ import com.mini.common.utils.SmHutoolUtil;
 import com.mini.common.utils.http.HttpClientUtil;
 import com.mini.common.utils.http.ServletUtil;
 import com.mini.manager.service.BmPatriarchService;
+import com.mini.pojo.entity.app.wx.BmWxPatriarch;
 import com.mini.pojo.mapper.app.wx.BmWxStructMapper;
 import com.mini.pojo.model.dto.org.BmPatriarchDTO;
 import com.mini.pojo.model.dto.wx.BmWxCode2SessionDTO;
@@ -109,8 +110,10 @@ public class BmWxLoginBiz {
             if (Objects.isNull(authUserDTO)) {
                 throw new EModeServiceException(ErrorCodeConstant.PARAM_ERROR, "当前微信用户数据异常，禁止登录");
             }
+
+            BmWxPatriarch bmWxPatriarch = bmWxPatriarchService.selectByWxId(wxAccount.getId());
             // 执行登录
-            return getLoginModel(authUserDTO);
+            return getLoginModel(authUserDTO, bmWxPatriarch.getPatriarchId());
         }
 
         // 3.如果不存在，进行注册操作
@@ -127,15 +130,16 @@ public class BmWxLoginBiz {
         bmWxPatriarchService.add(bmPatriarchDTO.getId(), bmWxDTO.getId());
 
         // 3.4.登录
-        return getLoginModel(userDTO);
+        return getLoginModel(userDTO, bmPatriarchDTO.getId());
     }
 
     /**
      * 执行登录 构建登录日志
      */
-    private LoginModel getLoginModel(AuthUserDTO userDTO) {
+    private LoginModel getLoginModel(AuthUserDTO userDTO, Long patriarchId) {
         LoginUser loginUser = new LoginUser();
         loginUser.setUserId(userDTO.getId());
+        loginUser.setPatriarchId(patriarchId);
         loginUser.setUsername(userDTO.getUsername());
         loginUser.setUserType(UserType.MINI);
         LoginUtils.loginByDevice(loginUser, UserType.MINI, Device.MINI_APP);

@@ -1,9 +1,12 @@
 package com.mini.app.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.app.mapper.BmWxPatriarchMapper;
 import com.mini.app.service.BmWxPatriarchService;
 import com.mini.common.constant.ErrorCodeConstant;
+import com.mini.common.constant.LastSql;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.pojo.entity.app.wx.BmWxPatriarch;
@@ -36,5 +39,13 @@ public class BmWxPatriarchServiceImpl extends ServiceImpl<BmWxPatriarchMapper, B
         if (b <= 0) {
             throw new EModeServiceException(ErrorCodeConstant.DB_ERROR, "新增失败");
         }
+    }
+
+    @Override
+    public BmWxPatriarch selectByWxId(Long id) {
+        LambdaQueryWrapper<BmWxPatriarch> wrapper = Wrappers.lambdaQuery(BmWxPatriarch.class);
+        wrapper.eq(BmWxPatriarch::getWxId, id)
+                .last(LastSql.LIMIT_ONE);
+        return bmWxPatriarchMapper.selectOne(wrapper);
     }
 }

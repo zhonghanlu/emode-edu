@@ -32,7 +32,47 @@
                 AND bp.pat_phone LIKE CONCAT('%',#{query.patPhone},'%')
             </if>
         </where>
+    </select>
 
+    <resultMap id="BmPatriarchStuInfoVoResultMap" type="com.mini.pojo.model.vo.business.BmPatriarchStuInfoVo">
+        <id column="stuId" property="stuId"/>
+        <result column="stuName" property="stuName"/>
+        <result column="stuAvatarId" property="stuAvatarId"/>
+        <result column="stuAvatarUrl" property="stuAvatarUrl"/>
+        <result column="classGradeName" property="classGradeName"/>
+        <collection property="classIngInfoList"
+                    ofType="com.mini.pojo.model.vo.business.ClassIngInfoVo">
+            <id column="coursePicId" property="coursePicId"/>
+            <result column="coursePicUrl" property="coursePicUrl"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectMyChildInfo" resultMap="BmPatriarchStuInfoVoResultMap">
+        SELECT bs.id              AS stuId,
+               bs.stu_name,
+               bs.stu_avatar_id,
+               sf_avatar.file_url AS stuAvatarUrl,
+               bscg.class_grade_name,
+               sf_course.id       AS coursePicId,
+               sf_course.file_url AS coursePicUrl
+        FROM bm_pat_stu_relation bpsr
+                 LEFT JOIN bm_student bs ON bpsr.student_id = bs.id
+            AND bs.del_flag = 1
+                 LEFT JOIN sys_file sf_avatar ON bs.stu_avatar_id = sf_avatar.id
+                 LEFT JOIN bm_stu_class_grade bscg ON bpsr.student_id = bscg.stu_id
+            AND bscg.del_flag = 1
+                 LEFT JOIN (SELECT id AS latest_course_id, class_grade_id, MAX(course_end_time)
+                            FROM bm_course
+                            WHERE del_flag = 1
+                              AND course_status = 'class_has_end'
+                            GROUP BY class_grade_id, latest_course_id) latest_course
+                           ON bscg.class_grade_id = latest_course.class_grade_id
+                 LEFT JOIN bm_course bc ON latest_course.latest_course_id = bc.id
+                 LEFT JOIN bm_course_stu_pic bcsp ON latest_course.latest_course_id = bcsp.course_id
+            AND bpsr.student_id = bcsp.stu_id
+            AND bcsp.del_flag = 1
+                 LEFT JOIN sys_file sf_course ON bcsp.pic_id = sf_course.id
+        WHERE bpsr.patriarch_id = #{patriarchId}
     </select>
 
 </mapper>

@@ -7,8 +7,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mini.pojo.entity.org.BmPatriarch;
 import com.mini.pojo.model.dto.org.BmPatriarchDTO;
 import com.mini.pojo.model.query.org.BmPatriarchQuery;
+import com.mini.pojo.model.vo.business.BmPatriarchStuInfoVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -22,4 +25,6 @@ import org.apache.ibatis.annotations.Param;
 public interface BmPatriarchMapper extends BaseMapper<BmPatriarch> {
 
     IPage<BmPatriarchDTO> page(@Param("query") BmPatriarchQuery query, Page<BmPatriarchDTO> build);
+
+    List<BmPatriarchStuInfoVo> selectMyChildInfo(Long patriarchId);
 }

@@ -3,6 +3,7 @@ package com.mini.pojo.mapper.org;
 import com.mini.pojo.entity.org.BmStudent;
 import com.mini.pojo.model.dto.org.BmStudentDTO;
 import com.mini.pojo.model.edit.org.BmStudentEdit;
+import com.mini.pojo.model.request.business.BmPatAddStuRequest;
 import com.mini.pojo.model.request.org.BmStudentRequest;
 import com.mini.pojo.model.vo.org.BmStudentVo;
 import org.mapstruct.Mapper;
@@ -43,4 +44,9 @@ public interface BmStudentStructMapper {
      * edit2dto
      */
     BmStudentDTO edit2Dto(BmStudentEdit edit);
+
+    /**
+     * 家长添加学生信息 转换为学生信息
+     */
+    BmStudentDTO reqRelation2Dto(BmPatAddStuRequest request);
 }

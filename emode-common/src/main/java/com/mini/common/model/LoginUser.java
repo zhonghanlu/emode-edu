@@ -17,6 +17,15 @@ public class LoginUser {
      */
     private Long userId;
 
+    /**
+     * 家长id
+     */
+    private Long patriarchId;
+
+    /**
+     * 学生id
+     */
+    private Long studentId;
 
     /**
      * 用户名
