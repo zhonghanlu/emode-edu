@@ -1,9 +1,13 @@
 package com.mini.manager.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mini.common.constant.ErrorCodeConstant;
+import com.mini.common.constant.LastSql;
 import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.PosterType;
 import com.mini.common.enums.str.YesOrNo;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.mybatis.CommonMybatisUtil;
@@ -12,12 +16,15 @@ import com.mini.manager.mapper.BmPosterMapper;
 import com.mini.manager.service.BmPosterService;
 import com.mini.pojo.entity.operate.BmPoster;
 import com.mini.pojo.mapper.operate.BmPosterStructMapper;
+import com.mini.pojo.mapper.sale.BmPatchOrderStructMapper;
 import com.mini.pojo.model.dto.operate.BmPosterDTO;
 import com.mini.pojo.model.query.operate.BmPosterQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -99,5 +106,16 @@ public class BmPosterServiceImpl extends ServiceImpl<BmPosterMapper, BmPoster> i
     @Override
     public IPage<BmPosterDTO> page(BmPosterQuery query) {
         return bmPosterMapper.page(query, query.build());
+    }
+
+    @Override
+    public List<BmPosterDTO> getDefaultPoster(PosterType posterType, Integer limit) {
+        LambdaQueryWrapper<BmPoster> wrapper = Wrappers.lambdaQuery(BmPoster.class);
+        wrapper.eq(BmPoster::getPosterType, posterType)
+                .last(LastSql.LIMIT + limit);
+
+        List<BmPoster> bmPosterList = bmPosterMapper.selectList(wrapper);
+
+        return BmPatchOrderStructMapper.INSTANCE.entityList2DtoList(bmPosterList);
     }
 }

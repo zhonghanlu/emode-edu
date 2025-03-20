@@ -12,4 +12,6 @@ public final class LastSql {
 
     public static final String LIMIT_ONE = "LIMIT 1";
 
+    public static final String LIMIT = "LIMIT ";
+
 }

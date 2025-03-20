@@ -1,12 +1,16 @@
 package com.mini.pojo.mapper.sale;
 
+import com.mini.pojo.entity.operate.BmPoster;
 import com.mini.pojo.entity.sale.BmPatchOrder;
+import com.mini.pojo.model.dto.operate.BmPosterDTO;
 import com.mini.pojo.model.dto.sale.BmPatchOrderDTO;
 import com.mini.pojo.model.edit.sale.BmPatchOrderEdit;
 import com.mini.pojo.model.request.sale.BmPatchOrderRequest;
 import com.mini.pojo.model.vo.sale.BmPatchOrderVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * @author zhl
@@ -41,4 +45,9 @@ public interface BmPatchOrderStructMapper {
      * edit2dto
      */
     BmPatchOrderDTO edit2Dto(BmPatchOrderEdit edit);
+
+    /**
+     * entityList2DtoList
+     */
+    List<BmPosterDTO> entityList2DtoList(List<BmPoster> bmPosterList);
 }

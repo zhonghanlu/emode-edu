@@ -1,19 +1,28 @@
 package com.mini.biz.app.business;
 
+import com.mini.base.mapperstruct.SysNoticeStructMapper;
+import com.mini.base.model.dto.SysNoticeDTO;
+import com.mini.base.model.vo.SysNoticeVo;
+import com.mini.base.service.ISysNoticeService;
 import com.mini.common.constant.ErrorCodeConstant;
 import com.mini.common.enums.number.Delete;
+import com.mini.common.enums.str.PosterType;
 import com.mini.common.exception.service.EModeServiceException;
 import com.mini.common.utils.LoginUtils;
 import com.mini.common.utils.webmvc.IDGenerator;
 import com.mini.manager.service.BmPatStuRelationService;
 import com.mini.manager.service.BmPatriarchService;
+import com.mini.manager.service.BmPosterService;
 import com.mini.manager.service.BmStudentService;
 import com.mini.pojo.entity.org.BmPatStuRelation;
+import com.mini.pojo.mapper.operate.BmPosterStructMapper;
 import com.mini.pojo.mapper.org.BmStudentStructMapper;
+import com.mini.pojo.model.dto.operate.BmPosterDTO;
 import com.mini.pojo.model.dto.org.BmPatriarchDTO;
 import com.mini.pojo.model.dto.org.BmStudentDTO;
 import com.mini.pojo.model.request.business.BmPatAddStuRequest;
 import com.mini.pojo.model.vo.business.BmPatriarchStuInfoVo;
+import com.mini.pojo.model.vo.operate.BmPosterVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +37,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppHomeBiz {
 
-    private final BmPatriarchService bmPatriarchService;
+    private final BmPosterService bmPosterService;
 
     private final BmStudentService bmStudentService;
+
+    private final ISysNoticeService sysNoticeService;
+
+    private final BmPatriarchService bmPatriarchService;
 
     private final BmPatStuRelationService bmPatStuRelationService;
 
@@ -38,10 +51,18 @@ public class AppHomeBiz {
     /**
      * 首页轮播
      */
+    public List<BmPosterVo> homePoster() {
+        List<BmPosterDTO> bmPosterDTOList = bmPosterService.getDefaultPoster(PosterType.MINI_HOME_PAGE, 4);
+        return BmPosterStructMapper.INSTANCE.dtoList2VoList(bmPosterDTOList);
+    }
 
     /**
      * 最近一条消息
      */
+    public SysNoticeVo homeNotice() {
+        SysNoticeDTO sysNoticeDTO = sysNoticeService.selectLastBroadcastNotice();
+        return SysNoticeStructMapper.INSTANCE.dto2vo(sysNoticeDTO);
+    }
 
     /**
      * 添加我的孩子

@@ -3,9 +3,12 @@ package com.mini.manager.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mini.common.enums.str.PosterType;
 import com.mini.pojo.entity.operate.BmPoster;
 import com.mini.pojo.model.dto.operate.BmPosterDTO;
 import com.mini.pojo.model.query.operate.BmPosterQuery;
+
+import java.util.List;
 
 /**
  * <p>
@@ -41,5 +44,10 @@ public interface BmPosterService extends IService<BmPoster> {
      * 查分页
      */
     IPage<BmPosterDTO> page(BmPosterQuery query);
+
+    /**
+     * 海报展示
+     */
+    List<BmPosterDTO> getDefaultPoster(PosterType posterType, Integer limit);
 
 }
