@@ -116,7 +116,7 @@ public class BmWxLoginBiz {
             return getLoginModel(authUserDTO, bmWxPatriarch.getPatriarchId());
         }
 
-        // 3.如果不存在，进行注册操作
+        // 3.如果不存在，进行注册操作 // TODO 查询当前家长信息是否存在，存在做关联
         BmWxDTO bmWxDTO = BmWxStructMapper.INSTANCE.req2Dto(request);
         // 3.1.新增微信用户数据
         bmWxDTO = bmWxService.insert(bmWxDTO);
