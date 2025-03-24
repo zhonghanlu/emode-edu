@@ -12,7 +12,9 @@ import com.mini.manager.mapper.BmProductMapper;
 import com.mini.manager.service.BmProductService;
 import com.mini.pojo.entity.sale.BmProduct;
 import com.mini.pojo.mapper.sale.BmProductStructMapper;
+import com.mini.pojo.model.dto.sale.BmProductAppDTO;
 import com.mini.pojo.model.dto.sale.BmProductDTO;
+import com.mini.pojo.model.query.sale.BmProductAppQuery;
 import com.mini.pojo.model.query.sale.BmProductQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -98,5 +100,10 @@ public class BmProductServiceImpl extends ServiceImpl<BmProductMapper, BmProduct
     @Override
     public IPage<BmProductDTO> page(BmProductQuery query) {
         return bmProductMapper.page(query, query.build());
+    }
+
+    @Override
+    public IPage<BmProductAppDTO> pageForApp(BmProductAppQuery query) {
+        return bmProductMapper.pageForApp(query, query.build());
     }
 }

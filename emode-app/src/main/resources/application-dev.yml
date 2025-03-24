@@ -293,6 +293,10 @@ spring-doc:
       paths-to-match: '/**'
       packages-to-scan:
         - com.mini.web.controller.app.wx
+    - group: '小程序-接口'
+      paths-to-match: '/**'
+      packages-to-scan:
+        - com.mini.web.controller.app.business
 
 # knife4j configuration   http://127.0.0.1:18099/doc.html  OpenAPI3 语法
 knife4j:

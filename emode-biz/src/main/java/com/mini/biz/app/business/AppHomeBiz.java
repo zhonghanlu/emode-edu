@@ -47,7 +47,6 @@ public class AppHomeBiz {
 
     private final BmPatStuRelationService bmPatStuRelationService;
 
-
     /**
      * 首页轮播
      */

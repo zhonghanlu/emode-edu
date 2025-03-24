@@ -3,7 +3,9 @@ package com.mini.manager.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mini.pojo.entity.sale.BmProduct;
+import com.mini.pojo.model.dto.sale.BmProductAppDTO;
 import com.mini.pojo.model.dto.sale.BmProductDTO;
+import com.mini.pojo.model.query.sale.BmProductAppQuery;
 import com.mini.pojo.model.query.sale.BmProductQuery;
 
 /**
@@ -40,4 +42,9 @@ public interface BmProductService extends IService<BmProduct> {
      * 查分页
      */
     IPage<BmProductDTO> page(BmProductQuery query);
+
+    /**
+     * 小程序课程页查分页
+     */
+    IPage<BmProductAppDTO> pageForApp(BmProductAppQuery query);
 }

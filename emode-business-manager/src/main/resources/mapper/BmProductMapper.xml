@@ -59,4 +59,27 @@
             </if>
         </where>
     </select>
+    <select id="pageForApp" resultType="com.mini.pojo.model.dto.sale.BmProductAppDTO">
+        SELECT
+        bp.id,
+        bp.product_url,
+        bp.product_name,
+        bp.product_hour,
+        bp.product_price,
+        bp.product_reduced_price,
+        bp.course_detail,
+        bp.product_type,
+        bp.class_time
+        FROM
+        bm_product bp
+        <where>
+            bp.del_flag = 1
+            <if test="query.productName != '' and query.productName != null">
+                AND bp.product_name LIKE CONCAT("%",#{query.productName},"%")
+            </if>
+            <if test="query.productType != null">
+                AND bp.product_type = #{query.productType}
+            </if>
+        </where>
+    </select>
 </mapper>

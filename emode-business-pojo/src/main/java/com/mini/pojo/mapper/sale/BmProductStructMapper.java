@@ -1,9 +1,12 @@
 package com.mini.pojo.mapper.sale;
 
 import com.mini.pojo.entity.sale.BmProduct;
+import com.mini.pojo.model.dto.sale.BmProductAppDTO;
 import com.mini.pojo.model.dto.sale.BmProductDTO;
 import com.mini.pojo.model.edit.sale.BmProductEdit;
 import com.mini.pojo.model.request.sale.BmProductRequest;
+import com.mini.pojo.model.vo.sale.BmProductAppDetailVo;
+import com.mini.pojo.model.vo.sale.BmProductAppVo;
 import com.mini.pojo.model.vo.sale.BmProductVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -41,4 +44,14 @@ public interface BmProductStructMapper {
      * edit2dto
      */
     BmProductDTO edit2Dto(BmProductEdit edit);
+
+    /**
+     * appDto2Vo
+     */
+    BmProductAppVo appDto2Vo(BmProductAppDTO bmProductAppDTO);
+
+    /**
+     * appDto2DetailVo
+     */
+    BmProductAppDetailVo appDto2DetailVo(BmProductDTO bmProductDTO);
 }

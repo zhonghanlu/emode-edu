@@ -1,4 +1,4 @@
-package com.mini.web.controller.app.home;
+package com.mini.web.controller.app.business;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author zhl
- * @create 2025/3/18 16:08
+ * @create 2025/3/18 16:05
  */
-@Tag(description = "家校一体", name = "家校一体")
+@Tag(description = "课程", name = "课程")
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/app/home-school")
+@RequestMapping("/app/course")
 @RequiredArgsConstructor
-public class AppHomeSchoolController {
+public class AppCourseController {
 }
