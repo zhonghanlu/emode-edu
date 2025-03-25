@@ -9,10 +9,10 @@ public final class WxConstant {
     }
 
     // 微信 appId
-    public static final String WX_APPID = "";
+    public static final String WX_APPID = "wxf669f04dc4f5c906";
 
     // 微信 appSecret
-    public static final String WX_SECRET = "";
+    public static final String WX_SECRET = "4fb130cb15dba42aa2cb56e633f65c08";
 
     // 微信登录 jsCode2Session
     public static final String WX_JS_CODE_URL = "https://api.weixin.qq.com/sns/jscode2session";

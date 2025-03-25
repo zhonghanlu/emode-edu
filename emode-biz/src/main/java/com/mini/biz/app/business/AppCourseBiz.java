@@ -10,6 +10,7 @@ import com.mini.pojo.model.dto.operate.BmPosterDTO;
 import com.mini.pojo.model.dto.sale.BmProductAppDTO;
 import com.mini.pojo.model.dto.sale.BmProductDTO;
 import com.mini.pojo.model.query.sale.BmProductAppQuery;
+import com.mini.pojo.model.request.wx.*;
 import com.mini.pojo.model.vo.operate.BmPosterVo;
 import com.mini.pojo.model.vo.sale.BmProductAppDetailVo;
 import com.mini.pojo.model.vo.sale.BmProductAppVo;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhl
@@ -56,5 +58,26 @@ public class AppCourseBiz {
 
     /**
      * 课程支付
+     * JSAPI/小程序 下单业务
+     *
+     * @return prepay_id 微信返回的prepay_id
      */
+    public BmWxPayResponse wxPay(BmWxPayRequest request) {
+        return null;
+    }
+
+    /**
+     * 课程支付
+     * JSAPI/小程序 回调业务
+     */
+    public void wxPayNotify(BmWxPatNotifyRequest request) {
+    }
+
+    /**
+     * 课程支付
+     * JSAPI/小程序 查单业务
+     */
+    public BmWxPayQueryResponse wxPayQuery(BmWxPayQueryRequest request) {
+        return null;
+    }
 }
