@@ -109,15 +109,17 @@ public class BmStudentController {
     @Operation(summary = "学校 OR 年级 列表")
     @GetMapping("/school-or-grade")
     public Restful<List<BmStudentConstantVo>> schoolOrGrade(@RequestParam("type") String type) {
+        String redisKey = RedisConstant.SCHOOL_OR_GRADE + type + RedisConstant.PLACEHOLDER;
         // 默认根据类型取缓存
-        List<BmStudentConstant> bmStudentConstantList = RedisUtils.getCacheList(RedisConstant.SCHOOL_OR_GRADE + type + RedisConstant.PLACEHOLDER);
+        List<BmStudentConstant> bmStudentConstantList = RedisUtils.getCacheList(redisKey);
 
         if (CollectionUtils.isEmpty(bmStudentConstantList)) {
             LambdaQueryWrapper<BmStudentConstant> wrapper = Wrappers.lambdaQuery(BmStudentConstant.class);
             wrapper.eq(BmStudentConstant::getType, type);
             bmStudentConstantList = bmStudentConstantService.list(wrapper);
             if (CollectionUtils.isNotEmpty(bmStudentConstantList)) {
-                RedisUtils.setCacheObject(RedisConstant.SCHOOL_OR_GRADE + type + RedisConstant.PLACEHOLDER, bmStudentConstantList, Duration.ofDays(7));
+                RedisUtils.setCacheList(redisKey, bmStudentConstantList);
+                RedisUtils.expire(redisKey, Duration.ofDays(7));
             }
         }
 
