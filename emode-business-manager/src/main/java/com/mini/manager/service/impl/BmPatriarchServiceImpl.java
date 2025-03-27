@@ -18,7 +18,9 @@ import com.mini.pojo.entity.org.BmPatriarch;
 import com.mini.pojo.mapper.org.BmPatriarchStructMapper;
 import com.mini.pojo.model.dto.org.BmPatriarchDTO;
 import com.mini.pojo.model.query.org.BmPatriarchQuery;
+import com.mini.pojo.model.vo.business.BmPatriarchStuBaseInfo;
 import com.mini.pojo.model.vo.business.BmPatriarchStuInfoVo;
+import com.mini.pojo.model.vo.business.BmPatriarchStuProfileInfo;
 import com.mini.pojo.model.vo.org.BmPatRelationStuInfo;
 import com.mini.pojo.model.vo.org.BmPatRelationStuVo;
 import lombok.RequiredArgsConstructor;
@@ -154,5 +156,15 @@ public class BmPatriarchServiceImpl extends ServiceImpl<BmPatriarchMapper, BmPat
     @Override
     public List<BmPatriarchStuInfoVo> selectMyChildInfo(Long patriarchId) {
         return bmPatriarchMapper.selectMyChildInfo(patriarchId);
+    }
+
+    @Override
+    public List<BmPatriarchStuBaseInfo> patStuInfo(Long patriarchId) {
+        return bmPatriarchMapper.patStuInfo(patriarchId);
+    }
+
+    @Override
+    public List<BmPatriarchStuProfileInfo> patProfileStuInfo(Long patriarchId) {
+        return bmPatriarchMapper.patProfileStuInfo(patriarchId);
     }
 }

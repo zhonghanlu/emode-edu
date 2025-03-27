@@ -102,7 +102,7 @@ public class AppHomeBiz {
      */
 
     /**
-     * 只是图片详细
+     * 知识图谱详细
      */
 
 }

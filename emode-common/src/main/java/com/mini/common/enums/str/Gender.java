@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 /**
  * @author zhl
- * 行别枚举
+ * 性别枚举
  */
 public enum Gender implements StringEnum {
 

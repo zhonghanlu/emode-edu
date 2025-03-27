@@ -74,5 +74,34 @@
                  LEFT JOIN sys_file sf_course ON bcsp.pic_id = sf_course.id
         WHERE bpsr.patriarch_id = #{patriarchId}
     </select>
+    <select id="patStuInfo" resultType="com.mini.pojo.model.vo.business.BmPatriarchStuBaseInfo"
+            parameterType="java.lang.Long">
+        SELECT bs.id       AS stuId,
+               bs.stu_name AS stuName,
+               sf.file_url AS stuAvatarUrl
+        FROM bm_pat_stu_relation bpsr
+                 LEFT JOIN bm_student bs ON bpsr.student_id = bs.id AND bs.del_flag = 1
+                 LEFT JOIN sys_file sf ON bs.stu_avatar_id = sf.id
+        WHERE bpsr.patriarch_id = #{patriarchId}
+          AND bpsr.del_flag = 1
+    </select>
+    <select id="patProfileStuInfo" resultType="com.mini.pojo.model.vo.business.BmPatriarchStuProfileInfo"
+            parameterType="java.lang.Long">
+        SELECT bs.id                AS stuId,
+               bs.stu_name          AS stuName,
+               bs.stu_sex           AS stuSex,
+               bs.stu_birth         AS stuBirth,
+               bs.stu_cur_school_id AS stuCurSchoolId,
+               bs.stu_cur_school    AS stuCurSchool,
+               bs.stu_cur_grade_id  AS stuCurGradeId,
+               bs.stu_cur_grade     AS stuCurGrade,
+               bs.stu_avatar_id     AS stuAvatarId,
+               sf.file_url          AS stuAvatarUrl
+        FROM bm_pat_stu_relation bpsr
+                 LEFT JOIN bm_student bs ON bpsr.student_id = bs.id AND bs.del_flag = 1
+                 LEFT JOIN sys_file sf ON bs.stu_avatar_id = sf.id
+        WHERE bpsr.patriarch_id = #{patriarchId}
+          AND bpsr.del_flag = 1
+    </select>
 
 </mapper>

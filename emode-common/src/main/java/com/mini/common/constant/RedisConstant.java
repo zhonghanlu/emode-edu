@@ -56,6 +56,11 @@ public final class RedisConstant {
      */
     public static final String COURSE_TYPE_RATIO = "course_type_ratio";
 
+    /**
+     * 预约课程比例缓存前缀
+     */
+    public static final String COURSE_TYPE_TUTOR_RATIO = "course_type_tutor_ratio";
+
     ////////////////////////////////////////业务-OJ-AI//////////////////////////////////////////////
 
     /**

@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author zhl
@@ -36,7 +35,7 @@ public class AppCourseBiz {
      * 课程页轮播图 与主页轮播图 汇成一个通用接口
      */
     public List<BmPosterVo> coursePoster() {
-        List<BmPosterDTO> bmPosterDTOList = bmPosterService.getDefaultPoster(PosterType.MINI_HOME_PAGE, 4);
+        List<BmPosterDTO> bmPosterDTOList = bmPosterService.getDefaultPoster(PosterType.MINI_COURSE_PAGE, 4);
         return BmPosterStructMapper.INSTANCE.dtoList2VoList(bmPosterDTOList);
     }
 

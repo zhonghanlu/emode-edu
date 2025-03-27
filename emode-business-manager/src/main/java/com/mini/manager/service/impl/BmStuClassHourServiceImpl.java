@@ -48,7 +48,9 @@ public class BmStuClassHourServiceImpl extends ServiceImpl<BmStuClassHourMapper,
 
         List<BmStuClassHour> bmStuClassHourList = bmStuClassHourMapper.selectList(wrapper);
 
-        return bmStuClassHourList.stream().collect(Collectors.groupingBy(BmStuClassHour::getClassHourType, Collectors.summingLong(BmStuClassHour::getClassHour)));
+        return bmStuClassHourList.stream()
+                .collect(Collectors.groupingBy(BmStuClassHour::getClassHourType,
+                        Collectors.summingLong(BmStuClassHour::getClassHour)));
     }
 
     @Override

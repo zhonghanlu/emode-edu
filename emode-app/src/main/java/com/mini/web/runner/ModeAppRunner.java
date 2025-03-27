@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.mini.biz.base.SysConfigBiz;
 import com.mini.common.constant.RedisConstant;
+import com.mini.common.enums.str.CurTutorType;
 import com.mini.common.utils.http.IPUtils;
 import com.mini.common.utils.redis.RedisUtils;
 import com.mini.manager.service.BmCourseRationService;
@@ -86,6 +87,12 @@ public class ModeAppRunner implements ApplicationRunner {
                     RedisUtils.setCacheObject(RedisConstant.COURSE_TYPE_RATIO + ":" + bmCourseRation.getCurType().getStringValue(),
                             Double.valueOf(bmCourseRation.getRatio())));
         }
+
+        // 预约课程比例缓存
+        CurTutorType[] curTutorTypes = CurTutorType.values();
+        Arrays.stream(curTutorTypes).forEach(curTutorType ->
+                RedisUtils.setCacheObject(RedisConstant.COURSE_TYPE_RATIO + ":" + curTutorType.getStringValue(),
+                        curTutorType.getSort()));
 
     }
 }
